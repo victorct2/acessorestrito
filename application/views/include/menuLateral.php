@@ -29,7 +29,18 @@
             <i class="fa fa-user-circle text-yellow"></i> <span>Perfil</span>
           </a>
         </li>
-       
+        <li <?php echo (isset($mainNav) && $mainNav == 'usuarios')?'class="active treeview"':'class="treeview"' ?>>
+          <a href="#">
+            <i class="fa fa-user"></i> <span>Usuários</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroUsuario')? 'class="active"':'' ?>><a href="<?php echo base_url('UsuariosController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaUsuarios')? 'class="active"':'' ?>><a href="<?php echo base_url('UsuariosController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+          </ul>
+        </li>
        
       
         <li <?php echo (isset($mainNav) && $mainNav == 'grupos')?'class="active treeview"':'class="treeview"' ?>>
@@ -47,7 +58,7 @@
 
          <li <?php echo (isset($mainNav) && $mainNav == 'restrito')?'class="active treeview"':'class="treeview"' ?>>
           <a href="#">
-            <i class="fa fa-circle-o text-aqua"></i> <span>Acesso Restrito</span>
+            <i class="fa fa-lock "></i> <span>Acesso Restrito</span>
            <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -57,9 +68,35 @@
             <li <?php echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php echo base_url('RestritoController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
              
           </ul>
+
+          <ul class="treeview-menu">
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroGrupo')? 'class="active"':'' ?>><a href="<?php echo base_url('GruposController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaGrupos')? 'class="active"':'' ?>><a href="<?php echo base_url('GruposController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+          </ul>
+
+  
         </li>
 
-         <li><a href="http://coopas.tv.br/" target="_blank"><i class="fa fa-circle-o text-aqua"></i><span>Site COOPAS</span></a></li>
+         <li <?php echo (isset($mainNav) && $mainNav == 'noticias')?'class="active treeview"':'class="treeview"' ?>>
+          <a href="#">
+            <i class="fa fa-newspaper-o"></i> <span>Notícias</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroNoticia')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaNoticias')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+          </ul>
+        </li>
+        <br>
+        <a href="http://coopas.tv.br/" target="_blank">&nbsp&nbsp&nbsp&nbsp<img  class="whatsapp" src="http://localhost/acessorestrito/assets/img/logo-verde-claro.png" width="30px"></i><span>Site COOPAS</span></a>
+
+     
+
+        
+
+
        
        
 

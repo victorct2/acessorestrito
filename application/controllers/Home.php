@@ -14,6 +14,7 @@ class Home extends CI_Controller {
 		$this->load->model('avisosDao_model');
 		$this->load->model('relatoriosDao_model');
 		$this->load->model('usuariosDao_model');
+		$this->load->model('noticiasDao_model');
 	}
 
 	
@@ -21,11 +22,9 @@ class Home extends CI_Controller {
 
 		$this->load->view('include/openDoc');
 
-		$limite = 10;
-
-		$data['listaAvisos'] = $this->avisosDao_model->selectAvisos($limite, $offset);
-		//$data['totalAcessosOnDemand'] = $this->relatoriosDao_model->totalAcessos();
-		//$data['totalDownloadsOnDemand'] = $this->relatoriosDao_model->totalDownloads();
+		$limite = 8;				
+		
+		$data['listNoticias'] = $this->noticiasDao_model->selectAllNoticias('',$limite,$offset);
 
 		/*
 		** Paginação
@@ -33,44 +32,35 @@ class Home extends CI_Controller {
 		$this->load->library('pagination');
 		
 		$config['base_url'] = base_url().'Home/index/';
-		$config['total_rows'] =$this->db->get('tbl_avisos')->num_rows();
+		$config['total_rows'] = $this->noticiasDao_model->countAllNoticias('',$limite,$offset);		
 		$config['per_page'] = $limite;
 		$config['uri_segment'] = 3;
 		$config['num_links'] = 5;
 
-		$config['first_link'] = 'Primeiro';
-
-		$config['cur_tag_open'] = '<li class="active"><a href="#">';
-		$config['cur_tag_close'] = '</a></li>';
-
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] ="</ul>";
 		$config['num_tag_open'] = '<li>';
 		$config['num_tag_close'] = '</li>';
-
-		$config['prev_link'] = '« anterior';
-		$config['prev_tag_open'] = '<li>';
-		$config['prev_tag_close'] = '</li>';
-
-		$config['last_tag_open'] = '<li>';
-		$config['last_tag_close'] = '</li>';
-
-		$config['next_tag_open'] = '<li>';
-		$config['next_tag_close'] = '</li>';
-
-		$config['next_link'] = 'próximo »';
-
-		$config['last_link'] = 'último';
-
+		$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+		$config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+		$config['next_tag_open'] = "<li>";
+		$config['next_tagl_close'] = "</li>";
+		$config['prev_tag_open'] = "<li>";
+		$config['prev_tagl_close'] = "</li>";
+		$config['first_tag_open'] = "<li>";
+		$config['first_tagl_close'] = "</li>";
+		$config['last_tag_open'] = "<li>";
+		$config['last_tagl_close'] = "</li>";
+		$config['prev_link'] = '« Anterior';		
+		$config['next_link'] = 'Próximo »';			
+		$config['last_link'] = 'Último'; 
+		$config['first_link'] = 'Primeiro';
 
 		$this->pagination->initialize($config);
-		$data['paginacao'] = $this->pagination->create_links();
+		$data['paginacao'] = $this->pagination->create_links();	
+		$data['logos'] = $this->noticiasDao_model->listarLogos();
 
-		$data['mainNav'] = 'home';
-		$data['subMainNav'] = '';
-		$this->load->view('index',$data);	
-
-		$footer['assetsJsBower'] = 'ckeditor/ckeditor.js';
-		$footer['assetsJs'] = 'home.js';
-		$this->load->view('include/footer',$footer);
+		$this->load->view('index',$data);
 	}
 
 	public function carregarTotalAcessosOnDemand(){
@@ -82,7 +72,11 @@ class Home extends CI_Controller {
 	}
 
 
-	//$data['totalAcessosOnDemand'] = $this->relatoriosDao_model->totalAcessos();
-		//$data['totalDownloadsOnDemand'] = $this->relatoriosDao_model->totalDownloads();
+	public function noticiaAberta($friendly_url){		
+		$data['noticia'] = $this->noticiasDao_model->selectNoticiaByFriendly_url($friendly_url);		
+		$data['titulo'] = $data['noticia'][0]->descricao;	
+		$data['logos'] = $this->noticiasDao_model->listarLogos();	
+		$this->load->view('paginas/noticias/noticia-aberta',$data);
+	}
 
 }

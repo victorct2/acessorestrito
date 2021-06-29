@@ -277,6 +277,51 @@ Class NoticiasDao_model extends CI_Model {
 		}
 	}
 
+		function selectAllNoticias($dadosBusca,$limite,$offset){        
+        if($dadosBusca != ''){
+            $this->db->like('descricao',$dadosBusca);
+            $this->db->or_like('sinopse',$dadosBusca);
+            $this->db->or_like('descricao_completa',$dadosBusca);
+        }        
+        //$this->db->where('ativa','S');
+        $this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
+        $this->db->where('(releaseNoticia = "N" OR releaseNoticia = "NR")',NULL,FALSE);
+        $this->db->order_by('id','desc');
+        $this->db->group_by('id');
+        $this->db->limit($limite,$offset);
+        $this->db->select('descricao,sinopse,subtitulo,descricao_completa,link,friendly_url,imagem,dia,codigoEmbed,releaseNoticia,ativa,id,GROUP_CONCAT(tb_imagem_noticia.nomeImagem) as imagens,legendaImagem');	
+        $this->db->from('novidades');
+		$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        return $this->db->get()->result();
+    }
+
+     function countAllNoticias($dadosBusca){
+        if($dadosBusca !=''){
+            $this->db->like('descricao',$dadosBusca);
+            $this->db->or_like('sinopse',$dadosBusca);
+            $this->db->or_like('descricao_completa',$dadosBusca);
+        }
+        //$this->db->where('ativa','S');
+        $this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
+        $this->db->where('releaseNoticia = "N" OR releaseNoticia = "NR"',NULL,FALSE);
+        return $this->db->count_all_results('novidades');
+    }
+
+
+     function listarLogos(){
+		$this->db->order_by('id','asc');
+		$this->db->where('status','S');
+		return $this->db->get('tbl_logos')->result();
+	}
+
+	 function selectNoticiaByFriendly_url($friendly_url){
+        $this->db->where('friendly_url',$friendly_url);
+        $this->db->select('descricao,subtitulo,sinopse,descricao_completa,link,friendly_url,linkVideo,legendaVideo,imagem,dia,codigoEmbed,releaseNoticia, ativa,id,GROUP_CONCAT(tb_imagem_noticia.nomeImagem) as imagens,GROUP_CONCAT(tb_imagem_noticia.legendaImagem) as legendasImagem');	
+        $this->db->from('novidades');
+        $this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        return $this->db->get()->result();
+    }
+
 }
 
 ?>
