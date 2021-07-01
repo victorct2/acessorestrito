@@ -20,10 +20,10 @@
     <br>
 
        <?php
-    //if($noticia[0]->imagens == '' && $noticia[0]->linkVideo == '' && $noticia[0]->codigoEmbed == ''){
+    
 
   
-    $estiloColuna_2 = "style='width:80%; text-align: justify; float:none !important; margin:0 auto'";
+    $estiloColuna_2 = "style='width:70%; text-align: justify; float:none !important; margin:0 auto'";
 
     //}
     ?>

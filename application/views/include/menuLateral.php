@@ -72,16 +72,16 @@
 
         
 
-         <li <?php echo (isset($mainNav) && $mainNav == 'noticias')?'class="active treeview"':'class="treeview"' ?>>
+         <li <?php echo (isset($mainNav) && $mainNav == 'avisos')?'class="active treeview"':'class="treeview"' ?>>
           <a href="#">
-            <i class="fa fa-newspaper-o"></i> <span>Notícias</span>
+            <i class="fa fa-newspaper-o"></i> <span>Avisos</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroNoticia')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaNoticias')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('AvisosController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
           </ul>
         </li>
         <br>

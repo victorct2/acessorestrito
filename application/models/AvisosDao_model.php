@@ -7,8 +7,46 @@ Class AvisosDao_model extends CI_Model {
 	}
 	
 		
-	function insertAvisos($data){
-		return $this->db->insert('tbl_avisos',$data);
+	function insertAvisos($data,$arquivo){	
+		//start the transaction
+		$this->db->trans_begin();
+			
+			$this->db->insert('avisos',$data);	
+			$idNoticia = $this->db->insert_id();
+
+			if(count($arquivo)>0){
+				foreach ($arquivo as $key => $arquivos) {
+					$novo_nome_arquivo = $data['id'].'-'.$data['dia'].'-'.geraSenha(10). '.' . @end(explode(".",$arquivos));
+					//$imagemData = array(
+					//	'idImagem' => null,
+					//	'nomeImagem' => $novo_nome_imagem,
+					//	'noticia_id' => $idNoticia					
+					//);
+					//$this->db->insert('tb_imagem_noticia',$imagemData);	
+	
+					//atualziando o nome da imagem e copiando para a pasta específica
+					chmod('uploadImagens/arquivos/'.$arquivos, 0777);
+					rename( 'uploadImagens/arquivos/'.$arquivos,  'uploadImagens/arquivos/'.$novo_nome_arquivo);
+					copy('uploadImagens/arquivos/'.$novo_nome_arquivo, 'assets/img/noticias/'.$novo_nome_arquivo);
+					chmod('assets/img/noticias/'.$novo_nome_arquivo, 0777);
+					unlink('uploadImagens/arquivos/'.$novo_nome_arquivo);
+				}
+			}
+			
+
+
+		//make transaction complete
+		$this->db->trans_complete();
+		//check if transaction status TRUE or FALSE
+		if ($this->db->trans_status() === FALSE) {
+			//if something went wrong, rollback everything
+			$this->db->trans_rollback();
+		return FALSE;
+		} else {
+			//if everything went right, commit the data to the database
+			$this->db->trans_commit();
+			return TRUE;
+		}
 	}
 	
 	
