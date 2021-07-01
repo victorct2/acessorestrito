@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        <h1><?php echo converteDataInterface($noticia[0]->dia) ?></h1>
+        <h1><?php echo converteDataInterface($avisos[0]->dia) ?></h1>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -31,7 +31,7 @@
        
        <div class="col-sm-7 descricaoCompleta" <?php echo $estiloColuna_2; ?>>
 
-      <h3><?php echo $noticia[0]->descricao; ?></h3>
+      <h3><?php echo $avisos[0]->descricao; ?></h3>
 
          <br/>
 
@@ -39,7 +39,7 @@
         <hr>
 
 
-               <?php echo $noticia[0]->descricao_completa; ?>
+               <?php echo $avisos[0]->descricao_completa; ?>
 
         </div>
         

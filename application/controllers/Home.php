@@ -25,7 +25,7 @@ class Home extends CI_Controller {
 
 		$limite = 8;				
 		
-		$data['listNoticias'] = $this->noticiasDao_model->selectAllNoticias('',$limite,$offset);
+		$data['listAvisos'] = $this->AvisosDao_model->selectAllAvisos('',$limite,$offset);
 
 		/*
 		** Paginação
@@ -33,7 +33,7 @@ class Home extends CI_Controller {
 		$this->load->library('pagination');
 		
 		$config['base_url'] = base_url().'Home/index/';
-		$config['total_rows'] = $this->noticiasDao_model->countAllNoticias('',$limite,$offset);		
+		$config['total_rows'] = $this->AvisosDao_model->countAllAvisos('',$limite,$offset);		
 		$config['per_page'] = $limite;
 		$config['uri_segment'] = 3;
 		$config['num_links'] = 5;
@@ -80,10 +80,10 @@ class Home extends CI_Controller {
 	}
 
 
-	public function noticiaAberta($friendly_url){		
+	public function avisoAberto($friendly_url){		
 		$this->load->view('include/openDoc');
-		$data['noticia'] = $this->AvisosDao_model->selectNoticiaByFriendly_url($friendly_url);		
-		$data['titulo'] = $data['noticia'][0]->descricao;	
+		$data['avisos'] = $this->AvisosDao_model->selectAvisoByFriendly_url($friendly_url);		
+		$data['titulo'] = $data['avisos'][0]->descricao;	
 		$data['logos'] = $this->noticiasDao_model->listarLogos();	
 		$this->load->view('paginas/noticias/noticia-aberta',$data);
 		$this->load->view('include/footer');

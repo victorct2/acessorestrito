@@ -20,29 +20,20 @@
 
     <br>
 
-        <?php foreach ($listNoticias as $key => $noticia) { ?>
-          <?php  echo (!(intval($key) % 2) || $key == '0') ? '<div class="row linhaNoticia"> ' : '';      
+        <?php foreach ($listAvisos as $key => $avisos) { ?>
+          <?php  echo (!(intval($key) % 2) || $key == '0') ? '<div class="row linhaNoticia"> ' : '';   ?>   
 
-                if ($noticia->imagens != '') {
-                    $imagem = explode(',',$noticia->imagens);
-                    //print_r($imagem);
-                ?>
-                  <div class="col-sm-6">        
-                      <h3><a href="<?php echo base_url('Home/noticiaAberta/'.$noticia->friendly_url)?>"></a>
-                          <?php echo converteDataInterface($noticia->dia) .' :: '. $noticia->descricao ?> 
+                   <div class="col-sm-6">        
+                      <h3><a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>"></a>
+                          <?php echo converteDataInterface($avisos->dia) .' :: '. $avisos->descricao ?> 
                       </h3>
                       <p>
-                        <a href="<?php echo base_url('Home/noticiaAberta/'.$noticia->friendly_url)?>">
-                          <?php echo $noticia->sinopse ?>»»
+                        <a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>">
+                          <?php echo $avisos->sinopse ?>»»
                         </a>
                       </p>
                   </div>
-                <?php }else{ ?>
-                  <div class="col-sm-6">
-                    <h3><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <?php echo converteDataInterface($noticia->dia) .' :: '. $noticia->descricao ?> </h3>              
-                    <p><a href="<?php echo base_url('Home/noticiaAberta/'.$noticia->friendly_url)?>"><?php echo $noticia->sinopse ?>»»</a></p>
-                  </div> 
-                <?php } ?>
+                
             
             <?php echo ((intval($key) % 2) && $key != '0') ? '</div><hr> ' : '';?>                   
             

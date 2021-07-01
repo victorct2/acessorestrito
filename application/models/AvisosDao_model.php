@@ -42,13 +42,43 @@ Class AvisosDao_model extends CI_Model {
 		return $this->db->delete('tbl_avisos');
 	}
 
-	
 
-	 function selectNoticiaByFriendly_url($friendly_url){
+
+	 function selectAvisoByFriendly_url($friendly_url){
         $this->db->where('friendly_url',$friendly_url);
-        $this->db->select('descricao,subtitulo,sinopse,descricao_completa,link,friendly_url,linkVideo,legendaVideo,imagem,dia,codigoEmbed,releaseNoticia, ativa,id,GROUP_CONCAT(tb_imagem_noticia.nomeImagem) as imagens,GROUP_CONCAT(tb_imagem_noticia.legendaImagem) as legendasImagem');	
-        $this->db->from('novidades');
-        $this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,arquivo,alinfile,sinopse');	
+        $this->db->from('avisos');
+        //$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        return $this->db->get()->result();
+    }
+
+     function countAllAvisos($dadosBusca){
+        if($dadosBusca !=''){
+            $this->db->like('descricao',$dadosBusca);
+            $this->db->or_like('sinopse',$dadosBusca);
+            $this->db->or_like('descricao_completa',$dadosBusca);
+        }
+        //$this->db->where('ativa','S');
+        $this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
+        $this->db->where('releaseNoticia = "N" OR releaseNoticia = "NR"',NULL,FALSE);
+        return $this->db->count_all_results('novidades');
+    }
+
+    function selectAllAvisos($dadosBusca,$limite,$offset){        
+        if($dadosBusca != ''){
+            $this->db->like('descricao',$dadosBusca);
+            //$this->db->or_like('sinopse',$dadosBusca);
+            $this->db->or_like('descricao_completa',$dadosBusca);
+        }        
+        $this->db->where('ativa','S');
+        //$this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
+        $this->db->where('(releaseAviso = "N" OR releaseAviso = "NR")',NULL,FALSE);
+        $this->db->order_by('id','desc');
+        $this->db->group_by('id');
+        $this->db->limit($limite,$offset);
+        $this->db->select('descricao,descricao_completa,link,friendly_url,arquivo,dia,releaseAviso,ativa,id,alinfile,sinopse');	
+        $this->db->from('avisos');
+		//$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
         return $this->db->get()->result();
     }
 }
