@@ -15,6 +15,7 @@ class Home extends CI_Controller {
 		$this->load->model('relatoriosDao_model');
 		$this->load->model('usuariosDao_model');
 		$this->load->model('noticiasDao_model');
+		$this->load->model('AvisosDao_model');
 	}
 
 	
@@ -60,7 +61,14 @@ class Home extends CI_Controller {
 		$data['paginacao'] = $this->pagination->create_links();	
 		$data['logos'] = $this->noticiasDao_model->listarLogos();
 
-		$this->load->view('index',$data);
+		
+		$data['mainNav'] = 'home';
+		$data['subMainNav'] = '';
+		$this->load->view('index',$data);	
+
+		$footer['assetsJsBower'] = 'ckeditor/ckeditor.js';
+		$footer['assetsJs'] = 'home.js';
+		$this->load->view('include/footer',$footer);
 	}
 
 	public function carregarTotalAcessosOnDemand(){
@@ -73,10 +81,13 @@ class Home extends CI_Controller {
 
 
 	public function noticiaAberta($friendly_url){		
-		$data['noticia'] = $this->noticiasDao_model->selectNoticiaByFriendly_url($friendly_url);		
+		$this->load->view('include/openDoc');
+		$data['noticia'] = $this->AvisosDao_model->selectNoticiaByFriendly_url($friendly_url);		
 		$data['titulo'] = $data['noticia'][0]->descricao;	
 		$data['logos'] = $this->noticiasDao_model->listarLogos();	
 		$this->load->view('paginas/noticias/noticia-aberta',$data);
+		$this->load->view('include/footer');
+		
 	}
 
 }

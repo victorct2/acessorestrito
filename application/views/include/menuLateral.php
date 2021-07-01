@@ -41,6 +41,7 @@
             <li <?php echo (isset($subMainNav) && $subMainNav == 'listaUsuarios')? 'class="active"':'' ?>><a href="<?php echo base_url('UsuariosController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
           </ul>
         </li>
+        
        
       
         <li <?php echo (isset($mainNav) && $mainNav == 'grupos')?'class="active treeview"':'class="treeview"' ?>>
@@ -65,17 +66,11 @@
           </a>
           <ul class="treeview-menu">
             <li <?php echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php echo base_url('RestritoController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php echo base_url('RestritoController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
-             
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php echo base_url('RestritoController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>             
           </ul>
-
-          <ul class="treeview-menu">
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroGrupo')? 'class="active"':'' ?>><a href="<?php echo base_url('GruposController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaGrupos')? 'class="active"':'' ?>><a href="<?php echo base_url('GruposController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
-          </ul>
-
-  
         </li>
+
+        
 
          <li <?php echo (isset($mainNav) && $mainNav == 'noticias')?'class="active treeview"':'class="treeview"' ?>>
           <a href="#">

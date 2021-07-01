@@ -41,5 +41,15 @@ Class AvisosDao_model extends CI_Model {
 		$this->db->where('idAviso',$idAviso);
 		return $this->db->delete('tbl_avisos');
 	}
+
+	
+
+	 function selectNoticiaByFriendly_url($friendly_url){
+        $this->db->where('friendly_url',$friendly_url);
+        $this->db->select('descricao,subtitulo,sinopse,descricao_completa,link,friendly_url,linkVideo,legendaVideo,imagem,dia,codigoEmbed,releaseNoticia, ativa,id,GROUP_CONCAT(tb_imagem_noticia.nomeImagem) as imagens,GROUP_CONCAT(tb_imagem_noticia.legendaImagem) as legendasImagem');	
+        $this->db->from('novidades');
+        $this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        return $this->db->get()->result();
+    }
 }
 ?>
