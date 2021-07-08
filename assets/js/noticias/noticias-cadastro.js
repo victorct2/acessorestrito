@@ -83,7 +83,7 @@
                     }, false);
                     return xhr;
                 },
-                url: CI_ROOT + 'NoticiasController/upload',
+                url: CI_ROOT + 'AvisosController/upload',
                 type: "POST",
                 dataType: 'json',
                 data: new FormData(this),
