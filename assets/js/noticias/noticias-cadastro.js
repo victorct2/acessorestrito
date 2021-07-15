@@ -95,7 +95,7 @@
                    	    	
                         $.each(data.file_name, function(key, file) {                           
                             console.log(file);
-                            $('#formNoticias #resp').append('<input type="hidden" name="listaImagem[]" value="'+file+'" />');	        	
+                            $('#formAvisos #resp').append('<input type="hidden" name="listaImagem[]" value="'+file+'" />');	        	
                         });
                    
                     if (data.result === true) {

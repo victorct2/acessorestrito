@@ -150,10 +150,10 @@ class RestritoController extends CI_Controller {
     public function cadastrarRestrito(){
 
             
-        $descricao   = $this->input->post('descricao');
-        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;;
-        $idCooperado   = $this->input->post('cooperado');
-        $TipoArquivo   = $this->input->post('TipoArquivo');
+        $descricao   = sql_inject($this->input->post('descricao'));
+        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;
+        $idCooperado   = sql_inject($this->input->post('cooperado'));
+        $TipoArquivo   = sql_inject($this->input->post('TipoArquivo'));
                         
         $mensagem = array();
         

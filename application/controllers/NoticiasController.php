@@ -120,7 +120,7 @@ class NoticiasController extends CI_Controller {
         $situacao = $this->input->post('situacao');
 		$descricaoCompleta = $this->input->post('descricaoCompleta');
 		$site_novo = $this->input->post('site_novo');
-		//$friendly_url = getRawUrl($dia.$imagens[0]);
+		$friendly_url = getRawUrl($dia.$imagens[0]);
         $mensagem = array();
 
         if(empty($descricao)){

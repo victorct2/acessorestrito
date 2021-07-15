@@ -13,7 +13,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url('Home') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?php echo base_url('AvisosController/viewLista') ?>">Sistema de Avisos</a></li>
+        <li><a href="<?php echo base_url('AvisosController/viewCadastro') ?>">Sistema de Avisos</a></li>
         <li class="active">Cadastro</li>
       </ol>
     </section>
@@ -21,13 +21,16 @@
     <!-- Main content -->
     <section class="content">
 
-      <form action="<?php echo base_url('AvisosController/cadastrarAvisos') ?>" method="POST" id="formAvisos">
+      <form action="<?php echo base_url('AvisosController/cadastrarAvisos') ?>" method="POST" >
+
               
 
         <!-- SELECT2 EXAMPLE -->
         <div class="box box-default">
           <div class="box-header with-border">
             <h3 class="box-title">Informações</h3>
+
+            <?php $this->load->view('include/alertsMsg') ?>
 
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
@@ -41,13 +44,13 @@
               <div class="col-md-6">
 
                 <div class="form-group">
-                    <label>Descrição</label>
-                    <textarea name="descricao" class="form-control" rows="4" placeholder="Descrição ..."></textarea>
+                     <label for="descricao">Descrição :</label>
+                  <input name="descricao" type="text" class="form-control" id="descricao" placeholder="Informe a Descrição">
                 </div>                
 
                 <div class="form-group">
                     <label>Sinopse</label>
-                    <textarea name="sinopse" class="form-control" rows="4" placeholder="Sinopse ..."></textarea>
+                    <input name="sinopse" type="text" class="form-control" id="sinopse" placeholder="Informe a Descrição">
                 </div>
 
               
@@ -74,17 +77,17 @@
                   
                  <div class="form-group">
                     <label>Situação</label>
-                    <select name="situacao" class="form-control" style="width: 100%;">
-                      <option value="S" selected="selected">ATIVO</option>
-                      <option value="N">INATIVO</option>
+                    <select name="ativa" class="form-control select2" style="width: 100%;">
+                      <option value="S" >ATIVO</option>
+                      <option value="N" >INATIVO</option>
                     </select>
                   </div>
 
-                <div id="resp"></div>
+                
 
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
 
-              </div>
+              
               <!-- /.col -->
             </div>
             <!-- /.row -->
@@ -112,7 +115,7 @@
                 
                 <div class="box-body pad">
                   <form>
-                        <textarea id="editor1" name="descricaoCompleta" rows="10" cols="80">
+                        <textarea id="editor1" name="descricao_completa" rows="10" cols="80">
                             Escreva o aviso completo aqui...
                         </textarea>
                   </form>
@@ -155,9 +158,9 @@
                       <span>Procurar</span><input type="file" name="userfile[]" id="uploadBtn" multiple>
                       <?php //echo form_upload('userfile[]','','multiple'); ?>
                   </span>
-                  <!--<div class="col-md-6">
+                  <div class="col-md-6">
                     <input id="uploadFile" placeholder="Choose File" disabled="disabled" class="form-control" />
-                  </div>-->
+                  </div>
                   <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Upload</button>
                 </div>
 

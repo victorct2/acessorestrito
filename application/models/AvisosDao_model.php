@@ -11,8 +11,8 @@ Class AvisosDao_model extends CI_Model {
 		//start the transaction
 		$this->db->trans_begin();
 			
-			$this->db->insert('avisos',$data);	
-			$idNoticia = $this->db->insert_id();
+			$this->db->insert('avisos',$data,$arquivo);	
+			$idAvisos = $this->db->insert_id();
 
 			if(count($arquivo)>0){
 				foreach ($arquivo as $key => $arquivos) {
@@ -85,8 +85,7 @@ Class AvisosDao_model extends CI_Model {
 	 function selectAvisoByFriendly_url($friendly_url){
         $this->db->where('friendly_url',$friendly_url);
         $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,arquivo,alinfile,sinopse');	
-        $this->db->from('avisos');
-        //$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        $this->db->from('avisos');        
         return $this->db->get()->result();
     }
 
@@ -110,7 +109,7 @@ Class AvisosDao_model extends CI_Model {
         }        
         $this->db->where('ativa','S');
         //$this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
-        $this->db->where('(releaseAviso = "N" OR releaseAviso = "NR")',NULL,FALSE);
+        //$this->db->where('(releaseAviso = "N" OR releaseAviso = "NR")',NULL,FALSE);
         $this->db->order_by('id','desc');
         $this->db->group_by('id');
         $this->db->limit($limite,$offset);
