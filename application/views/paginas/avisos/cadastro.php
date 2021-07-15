@@ -155,7 +155,7 @@
               <div class="form-group">
                 <div class="col-md-12">
                   <span class="butn butn-success fileinput-button">
-                      <span>Procurar</span><input type="file" name="userfile[]" id="uploadBtn" multiple>
+                      <span>Procurar</span><input type="file" name="listaImagem[]" id="uploadBtn" multiple>
                       <?php //echo form_upload('userfile[]','','multiple'); ?>
                   </span>
                   <div class="col-md-6">

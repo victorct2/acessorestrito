@@ -83,8 +83,17 @@ class AvisosController extends CI_Controller {
 			$data['descricao_completa'] = $descricao_completa;			
 			$data['dia'] = converteDataBanco($dia) ;			
 			$data['friendly_url'] = getRawUrl($descricao.$dia);
-			$data['ativa'] = $situacao;			
-            //$data['arquivo'] = $arquivo;
+			$data['ativa'] = $situacao;
+			$ext = @end(explode(".",$arquivo[0]));
+			$teste = $descricao.'.'.$ext; 			
+            $data['arquivo'] = $teste;
+            
+            
+             chmod('uploadImagens/arquivos/'.$arquivo[0], 0777);
+                    rename('uploadImagens/arquivos/'.$arquivo[0],  'uploadImagens/arquivos/'.$arquivo);
+                    chmod('uploadImagens/arquivos/'.$arquivo, 0777);                     
+                    copy('uploadImagens/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
+                    unlink('uploadImagens/arquivos/'.$arquivo);    
 
 			if($this->AvisosDao_model->insertAvisos($data,$arquivo)){
 				$this->session->set_flashdata('resultado_ok','Aviso cadastrado com sucesso!');
@@ -113,7 +122,7 @@ class AvisosController extends CI_Controller {
   				 'multi' => 'all'
   		 ));
 
-  		 $successful = $this->upload->do_upload('userfile');
+  		 $successful = $this->upload->do_upload('listaImagem');
   		 $fileName = array();
   		 $data = array();
 

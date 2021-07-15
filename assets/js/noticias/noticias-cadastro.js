@@ -3,7 +3,7 @@
 
    $('[data-mask]').inputmask();
 
-  //Date picker
+  //Date picker[]
   $("#datepicker").datepicker({
     dateFormat : 'dd/mm/yy',
     dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado','Domingo'],

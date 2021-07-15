@@ -50,7 +50,7 @@ Class AvisosDao_model extends CI_Model {
 	}
 	
 	
-	function selectAvisos($limite, $offset){
+	/*function selectAvisos($limite, $offset){
 		$this->db->order_by('prioridade', 'asc');
 		$this->db->order_by('dataAviso', 'asc');	
 		$this->db->order_by('idAviso', 'asc');	
@@ -73,7 +73,7 @@ Class AvisosDao_model extends CI_Model {
 		}else{
 			return TRUE;
 		}
-	}
+	}*/
 	
 	function deleteAvisos($idAviso){
 		$this->db->where('idAviso',$idAviso);
@@ -110,7 +110,7 @@ Class AvisosDao_model extends CI_Model {
         $this->db->where('ativa','S');
         //$this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
         //$this->db->where('(releaseAviso = "N" OR releaseAviso = "NR")',NULL,FALSE);
-        $this->db->order_by('id','desc');
+        $this->db->order_by('dia','desc');
         $this->db->group_by('id');
         $this->db->limit($limite,$offset);
         $this->db->select('descricao,descricao_completa,link,friendly_url,arquivo,dia,releaseAviso,ativa,id,alinfile,sinopse');	
