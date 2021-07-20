@@ -42,8 +42,7 @@ class AvisosController extends CI_Controller {
         
         $descricao   = $this->input->post('descricao');
 		$sinopse = $this->input->post('sinopse');		
-		$arquivo = is_array($this->input->post('listaImagem'))? $this->input->post('listaImagem') : null;        
-        $dia = $this->input->post('dia');
+		$dia = $this->input->post('dia');
         $situacao = $this->input->post('ativa');
         $descricao_completa = $this->input->post('descricao_completa');		
 		$friendly_url = getRawUrl($dia.$arquivo[0]);
@@ -83,19 +82,10 @@ class AvisosController extends CI_Controller {
 			$data['descricao_completa'] = $descricao_completa;			
 			$data['dia'] = converteDataBanco($dia) ;			
 			$data['friendly_url'] = getRawUrl($descricao.$dia);
-			$data['ativa'] = $situacao;
-			$ext = @end(explode(".",$arquivo[0]));
-			$teste = $descricao.'.'.$ext; 			
-            $data['arquivo'] = $teste;
-            
-            
-             chmod('uploadImagens/arquivos/'.$arquivo[0], 0777);
-                    rename('uploadImagens/arquivos/'.$arquivo[0],  'uploadImagens/arquivos/'.$arquivo);
-                    chmod('uploadImagens/arquivos/'.$arquivo, 0777);                     
-                    copy('uploadImagens/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
-                    unlink('uploadImagens/arquivos/'.$arquivo);    
+			$data['ativa'] = $situacao;			
+           
 
-			if($this->AvisosDao_model->insertAvisos($data,$arquivo)){
+			if($this->AvisosDao_model->insertAvisos($data)){
 				$this->session->set_flashdata('resultado_ok','Aviso cadastrado com sucesso!');
 				redirect(base_url() . 'AvisosController/viewCadastro','refresh');
 			}
@@ -109,69 +99,57 @@ class AvisosController extends CI_Controller {
     }
 
 
+     public function viewLista($offset=0){
 
-   public function upload(){
+		$open['assetsBower'] = 'bootstrap-daterangepicker/daterangepicker.css,datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
+		$open['assetsCSS'] = 'noticias/noticias-list.css';
+		$open['pluginCSS'] = 'iCheck/all.css,jqueryUi/jquery-ui.min.css';
+        $this->load->view('include/openDoc',$open);
 
-  		$this->load->library("upload");
-  		 $this->upload->initialize(array(
-  				 "upload_path" => './uploadImagens/arquivos/',
-  				 'allowed_types' => 'png|jpg|jpeg|png|gif|psd|pdf|xls|txt',
-  				 "overwrite" => FALSE,
-  				 "max_filename" => 0,
-  				 "encrypt_name" => TRUE,
-  				 'multi' => 'all'
-  		 ));
+		$data['mainNav'] = 'avisos';
+		$data['subMainNav'] = 'listaAvisos';
+		$this->load->view('paginas/avisos/lista',$data);
 
-  		 $successful = $this->upload->do_upload('listaImagem');
-  		 $fileName = array();
-  		 $data = array();
+		$footer['assetsJsBower'] = 'moment/min/moment.min.js,bootstrap-daterangepicker/daterangepicker.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
+        $footer['assetsJs'] = 'noticias/noticias-home.js';
+        $this->load->view('include/footer',$footer);
+    }
 
-  		 if($successful)
-  		 {
-  			$data[] = $this->upload->data();
-  			$resp =  is_array($data);
+    public function listaAvisoDataTables(){
 
-  			if(count($data[0])>6){
-  				foreach ($data as $key => $value) {
-  					$fileName[] = $value['file_name'];
-  				}
-  			}else{
-  				foreach ($data as $key => $value) {
-  					if(count($value)> 1){
-  						foreach ($value as $file) {
-  							$fileName[] = $file['file_name'];
-  						}
-  					}
-  				}
-  			}
+        $fetch_data = $this->AvisosDao_model->make_datatables();
+        $data = array();
+        foreach($fetch_data as $row){
 
+            $situacao = '';
+            if($row->ativa == 'S'){
+                $situacao = '<span class="label pull-right bg-green">ATIVO</span><br>';
+            }else if($row->ativa == 'N'){
+                $situacao = '<span class="label pull-right bg-red">INATIVO</span><br>';
+			}
 
+			
 
-  		 } else {
+			$sub_array = array();
+			
+            $sub_array[] = converteDataInterface($row->dia);
+            $sub_array[] = $row->descricao;
+            $sub_array[] = $row->sinopse;
+            $sub_array[] = $situacao;
+            $sub_array[] = '<a href="'.base_url('NoticiasController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
+                            <a href="'.base_url('NoticiasController/apagarNoticias/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
+           
 
-  			 $msg = $this->upload->display_errors();
-  		 }
-
-  		 echo json_encode(['result' => $successful, 'file_name'=>$fileName]);
-
-  	 }
-
-	/*public function alterar(){
-		$idAvisos = $this->input->post('idAvisos');
-		$data['avisos'] = $this->avisosDao_model->selectAvisosById($idAvisos);
-		$this->load->view('paginas/avisos/alterar',$data);
-	}*/
-
-	
-
-	/*public function excluir(){
-		$idAviso = $this->input->post('idAviso');
-		if($this->avisosDao_model->deleteAvisos($idAviso)){
-			echo 'sucesso';
-		}else{
-			echo 'error';
-		}
-	}*/
+            $data[] = $sub_array;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->AvisosDao_model->get_all_data(),
+            "recordsFiltered" => $this->AvisosDao_model->get_filtered_data(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
 
 
 	

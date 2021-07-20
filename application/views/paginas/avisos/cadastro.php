@@ -116,7 +116,7 @@
                 <div class="box-body pad">
                   <form>
                         <textarea id="editor1" name="descricao_completa" rows="10" cols="80">
-                            Escreva o aviso completo aqui...
+                           
                         </textarea>
                   </form>
                 </div>
@@ -134,19 +134,13 @@
 
      <!-- IMAGEM -->
      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title">Upload de Arquivo</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
-          </div>
-        </div>
+      
         <!-- /.box-header -->
-        <div class="box-body">
+        <!--<div class="box-body">
           
           <div class="row">
-          <?= form_open_multipart("AvisosController/upload", ['id' => 'uploader']); ?>
+           //form_open_multipart("AvisosController/upload", ['id' => 'uploader']);   
+
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="imagens" class="control-label">Selecionar Arquivos:</label>
@@ -174,12 +168,12 @@
                   </div>
                 </div>
               </div>
-              <?php echo form_close() ?>
+              <?php //echo form_close() ?>
               <div id="message"></div>
               
           </div>
-          <!-- /.row -->
-        </div>
+           /.row -->
+       <!-- </div>-->
         <!-- /.box-body -->
         
       </div>

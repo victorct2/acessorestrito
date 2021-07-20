@@ -19,12 +19,12 @@ var dataTable = $('#listaNoticias').DataTable({
     "autoWidth": false,
     "dom": '<"top"i>rt<"bottom"lp><"clear">',
     "ajax":{  
-        url:CI_ROOT +'NoticiasController/listaNoticiasDataTables', 
+        url:CI_ROOT +'AvisosController/listaAvisoDataTables', 
         type:"POST"  
     },  
     "columnDefs":[  
         {  
-            "targets":[4, 5],  
+            "targets":[4, 4],  
             "orderable":false,  
         },  
     ],
@@ -33,12 +33,11 @@ var dataTable = $('#listaNoticias').DataTable({
     },
     "columns": [
         {"width": "10%"},
-        {"width": "10%"},
         {"width": "30%"},
         {"width": "30%"},
-        {"width": "15%"},
-        {"width": "15%"}
-    ]
+        {"width": "20%"},
+        {"width": "10%"}       
+      ]
 });
 
 $('.search-input-text').on( 'keyup click', function () {   // for text boxes

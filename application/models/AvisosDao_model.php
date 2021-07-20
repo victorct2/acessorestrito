@@ -7,34 +7,12 @@ Class AvisosDao_model extends CI_Model {
 	}
 	
 		
-	function insertAvisos($data,$arquivo){	
+	function insertAvisos($data){	
 		//start the transaction
 		$this->db->trans_begin();
 			
-			$this->db->insert('avisos',$data,$arquivo);	
+			$this->db->insert('avisos',$data);	
 			$idAvisos = $this->db->insert_id();
-
-			if(count($arquivo)>0){
-				foreach ($arquivo as $key => $arquivos) {
-					$novo_nome_arquivo = $data['id'].'-'.$data['dia'].'-'.geraSenha(10). '.' . @end(explode(".",$arquivos));
-					//$imagemData = array(
-					//	'idImagem' => null,
-					//	'nomeImagem' => $novo_nome_imagem,
-					//	'noticia_id' => $idNoticia					
-					//);
-					//$this->db->insert('tb_imagem_noticia',$imagemData);	
-	
-					//atualziando o nome da imagem e copiando para a pasta específica
-					chmod('uploadImagens/arquivos/'.$arquivos, 0777);
-					rename( 'uploadImagens/arquivos/'.$arquivos,  'uploadImagens/arquivos/'.$novo_nome_arquivo);
-					copy('uploadImagens/arquivos/'.$novo_nome_arquivo, 'assets/img/noticias/'.$novo_nome_arquivo);
-					chmod('assets/img/noticias/'.$novo_nome_arquivo, 0777);
-					unlink('uploadImagens/arquivos/'.$novo_nome_arquivo);
-				}
-			}
-			
-
-
 		//make transaction complete
 		$this->db->trans_complete();
 		//check if transaction status TRUE or FALSE
@@ -48,32 +26,66 @@ Class AvisosDao_model extends CI_Model {
 			return TRUE;
 		}
 	}
-	
-	
-	/*function selectAvisos($limite, $offset){
-		$this->db->order_by('prioridade', 'asc');
-		$this->db->order_by('dataAviso', 'asc');	
-		$this->db->order_by('idAviso', 'asc');	
-		$this->db->limit($limite, $offset);	
-		return $this->db->get('tbl_avisos')->result();
-	}
-	
-	function updateAvisos($data){
-		$this->db->where('idAviso',$data['idAviso']);
-		return $this->db->update('tbl_avisos',$data);
-	}
-	
-	function selectAvisosExistente($descricao,$prioridade,$situacao){
-		$this->db->where('descricao',$descricao);
-		$this->db->where('prioridade',$prioridade);
-		$this->db->where('situacao',$situacao);
-		$query =  $this->db->get('tbl_avisos')->result();
-		if(count($query) > 0){
-			return FALSE;
-		}else{
-			return TRUE;
+
+	function make_query(){  
+		$order_column = array("dia","descricao","sinopse");  
+		$this->db->select('*');  
+		$this->db->from('avisos');
+
+		if(!empty($_POST['columns'][1]["search"]["value"])){
+			$this->db->where("dia", $_POST['columns'][1]["search"]["value"]);
 		}
-	}*/
+
+		if(!empty($_POST['columns'][2]["search"]["value"])){
+			$this->db->like("descricao", $_POST['columns'][2]["search"]["value"]);
+		}
+
+		if(!empty($_POST['columns'][3]["search"]["value"])){
+			$this->db->or_like("sinopse", $_POST['columns'][3]["search"]["value"]);
+		}
+
+		switch ($_POST['columns'][4]["search"]["value"]) {
+			case 'ATIVO':
+				$this->db->where("ativa", 'S');
+				break;
+			case 'INATIVO':
+				$this->db->where("ativa", 'N');
+				break;
+				default:				
+				break;
+			
+		} 
+		if(isset($_POST["order"])){  
+			$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+		}  
+		else{  
+			$this->db->order_by('id', 'DESC');  
+		}  
+	}
+
+	function make_datatables(){  
+		$this->make_query();  
+		if($_POST["length"] != -1){  
+			$this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+    } 
+
+    function get_filtered_data(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+    }
+
+	function get_all_data(){  
+		$this->db->select("*");  
+		$this->db->from('avisos');		
+		return $this->db->count_all_results();  
+    }
+	
+	
+	
 	
 	function deleteAvisos($idAviso){
 		$this->db->where('idAviso',$idAviso);
@@ -84,7 +96,7 @@ Class AvisosDao_model extends CI_Model {
 
 	 function selectAvisoByFriendly_url($friendly_url){
         $this->db->where('friendly_url',$friendly_url);
-        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,arquivo,alinfile,sinopse');	
+        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse');	
         $this->db->from('avisos');        
         return $this->db->get()->result();
     }
@@ -113,10 +125,20 @@ Class AvisosDao_model extends CI_Model {
         $this->db->order_by('dia','desc');
         $this->db->group_by('id');
         $this->db->limit($limite,$offset);
-        $this->db->select('descricao,descricao_completa,link,friendly_url,arquivo,dia,releaseAviso,ativa,id,alinfile,sinopse');	
+        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse');	
         $this->db->from('avisos');
 		//$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
         return $this->db->get()->result();
     }
+
+    function totalAvisos($ativos = false, $inativos= false){
+		if($ativos == true){
+			$this->db->where('ativa','S');
+		}
+		if($inativos == true){
+			$this->db->where('ativa','N');
+		}
+		return $this->db->get('avisos')->num_rows();
+	}
 }
 ?>

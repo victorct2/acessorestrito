@@ -81,7 +81,7 @@
           </a>
           <ul class="treeview-menu">
             <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('AvisosController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
-            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('NoticiasController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'listaAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('AvisosController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
           </ul>
         </li>
         <br>
