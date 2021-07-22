@@ -113,6 +113,8 @@ class RestritoController extends CI_Controller {
             $sub_array[] = $row->nome_arquivo;
             $sub_array[] = "<a target=_blank href=".base_url().RESTRITO_UPLOAD.$row->arquivo.">$row->arquivo</a>";
             $sub_array[] =  $row->Data_cadastro;
+            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir Arquivo</a>
+                            ';
             
            
             
@@ -122,7 +124,7 @@ class RestritoController extends CI_Controller {
             "draw" => intval($_POST["draw"]),
             "recordsTotal" => $this->RestritoDao_model->get_all_files($id),
             "recordsFiltered" => $this->RestritoDao_model->get_filtered_data2($id),
-            "data" => $data,
+            "data" => $data
         );
         echo json_encode($output);
     }

@@ -25,6 +25,8 @@ var dataTable = $('#listArquivoUsuario').DataTable({
     "columns": [
         {"width": "25%"},
         {"width": "25%"},
+        {"width": "25%"},
+        {"width": "25%"},
         {"width": "25%"}
 
         ]   

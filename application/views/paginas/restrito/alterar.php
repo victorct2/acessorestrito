@@ -92,6 +92,7 @@
                   <th>Nome do Arquivo</th>                                     
                   <th>Arquivo</th>                     
                   <th>Data de Criação</th>
+                  <th>Ação</th>
                 </tr>
               </thead>
               
@@ -115,6 +116,7 @@
                   <th>Nome do Arquivo</th>                                     
                   <th>Arquivo</th>                     
                   <th>Data de Criação</th>
+                  <th>Ação</th>
                 </tr>
               </tfoot>
             </table>
