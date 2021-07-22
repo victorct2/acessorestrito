@@ -111,7 +111,7 @@ class RestritoController extends CI_Controller {
             $sub_array = array();
             $sub_array[] = $row->descr; 
             $sub_array[] = $row->nome_arquivo;
-            $sub_array[] = "<a href=".base_url().RESTRITO_UPLOAD.$row->arquivo.">$row->arquivo</a>";
+            $sub_array[] = "<a target=_blank href=".base_url().RESTRITO_UPLOAD.$row->arquivo.">$row->arquivo</a>";
             $sub_array[] =  $row->Data_cadastro;
             
            
@@ -151,7 +151,7 @@ class RestritoController extends CI_Controller {
 
             
         $descricao   = $this->input->post('descricao');
-        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;
+        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;;
         $idCooperado   = $this->input->post('cooperado');
         $TipoArquivo   = $this->input->post('TipoArquivo');
                         
@@ -203,16 +203,23 @@ class RestritoController extends CI_Controller {
                 /*
                 * Foto
                 */
+                $searchString = " ";
+                $replaceString = "";
+                $originalString =$descricao;
+                
+                $trataString=$outputString = str_replace($searchString, $replaceString, $originalString);
+                
                 $nome_arquivo= $descricao;  
                 $ext = @end(explode(".",$arquivos[0]));
-                $arquivo = $descricao.'.'.$ext;                 
+                $arquivo = $trataString.'.'.$ext;
+                //die($arquivo);                
                 
                 if($this->RestritoDao_model->completar_cadastro($nome_arquivo,$arquivo,$id)){
-                    chmod('uploadArquivos/arquivos/' . $arquivos[0], 0777);
-                    rename('uploadArquivos/arquivos/' . $arquivos[0],  'uploadArquivos/arquivos/' . $arquivo);
-                    chmod('uploadArquivos/arquivos/' . $arquivo, 0777);                     
-                    copy('uploadArquivos/arquivos/' . $arquivo, 'assets/arquivos/restrito/' . $arquivo);
-                    unlink('uploadArquivos/arquivos/' . $arquivo);
+                    chmod('uploadArquivos/arquivos/'.$arquivos[0], 0777);
+                    rename('uploadArquivos/arquivos/'.$arquivos[0],  'uploadArquivos/arquivos/'.$arquivo);
+                    chmod('uploadArquivos/arquivos/'.$arquivo, 0777);                     
+                    copy('uploadArquivos/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
+                    unlink('uploadArquivos/arquivos/'.$arquivo);
 
                 }
                 

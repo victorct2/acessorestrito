@@ -83,16 +83,6 @@ Class AvisosDao_model extends CI_Model {
 		$this->db->from('avisos');		
 		return $this->db->count_all_results();  
     }
-	
-	
-	
-	
-	function deleteAvisos($idAviso){
-		$this->db->where('idAviso',$idAviso);
-		return $this->db->delete('tbl_avisos');
-	}
-
-
 
 	 function selectAvisoByFriendly_url($friendly_url){
         $this->db->where('friendly_url',$friendly_url);
@@ -151,6 +141,31 @@ function selectAvisosById($id){
 			$this->db->where('id',$data['id']);			
 			$this->db->update('avisos',$data);
         //make transaction complete
+		$this->db->trans_complete();
+		//check if transaction status TRUE or FALSE
+		if ($this->db->trans_status() === FALSE) {
+			//if something went wrong, rollback everything
+			$this->db->trans_rollback();
+		return FALSE;
+		} else {
+			//if everything went right, commit the data to the database
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+	function deleteAvisos($id){	
+
+		//start the transaction
+		$this->db->trans_begin();
+
+			$this->db->where('id',$id);	
+			$this->db->delete('avisos');
+
+			$this->db->where('id',$id);
+			
+
+		//make transaction complete
 		$this->db->trans_complete();
 		//check if transaction status TRUE or FALSE
 		if ($this->db->trans_status() === FALSE) {

@@ -137,7 +137,7 @@ class AvisosController extends CI_Controller {
             $sub_array[] = $row->sinopse;
             $sub_array[] = $situacao;
             $sub_array[] = '<a href="'.base_url('AvisosController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
-                            <a href="'.base_url('NoticiasController/apagarNoticias/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
+                            <a href="'.base_url('AvisosController/apagarAvisos/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
            
 
             $data[] = $sub_array;
@@ -232,6 +232,17 @@ class AvisosController extends CI_Controller {
 		}
 
     }
+
+    public function apagarAvisos($id){
+        if($this->AvisosDao_model->deleteAvisos($id)){
+            $this->session->set_flashdata('resultado_ok', 'Exclusão da Notícia foi efetuada com sucesso!');
+            redirect(base_url() . 'AvisosController/viewLista', 'refresh');
+        }
+        else {
+            $this->session->set_flashdata('resultado_error', 'Erro ao Excluir a Notícia!');
+            redirect(base_url() . 'AvisosController/viewLista','refresh');
+        }
+	}
 
 	
 

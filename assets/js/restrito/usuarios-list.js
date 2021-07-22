@@ -15,7 +15,7 @@ var dataTable = $('#listArquivoUsuario').DataTable({
     },  
     "columnDefs":[  
         {  
-            "targets":[3,3],  
+            "targets":[4,4],  
             "orderable":false,  
         },  
     ],
