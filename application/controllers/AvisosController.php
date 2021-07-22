@@ -136,7 +136,7 @@ class AvisosController extends CI_Controller {
             $sub_array[] = $row->descricao;
             $sub_array[] = $row->sinopse;
             $sub_array[] = $situacao;
-            $sub_array[] = '<a href="'.base_url('NoticiasController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
+            $sub_array[] = '<a href="'.base_url('AvisosController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
                             <a href="'.base_url('NoticiasController/apagarNoticias/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
            
 
@@ -152,7 +152,86 @@ class AvisosController extends CI_Controller {
     }
 
 
-	
+ public function viewAlterar($id){
+
+		$open['assetsBower'] = 'select2/dist/css/select2.min.css';
+		$open['pluginCSS'] = 'jqueryUi/jquery-ui.min.css,bootstrap-fileinput/css/fileinput.min.css';
+    $open['assetsCSS'] = 'noticias/noticias-cadastro.css';
+        $this->load->view('include/openDoc',$open);
+
+		$data['avisos'] = $this->AvisosDao_model->selectAvisosById($id);		
+		$this->load->view('paginas/avisos/alterar',$data);
+
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js,ckeditor/ckeditor.js';
+		$footer['pluginJS'] = 'input-mask/jquery.inputmask.js,jqueryUi/jquery-ui.min.js,bootstrap-fileinput/js/fileinput.min.js,bootstrap-fileinput/js/fileinput_locale_pt-BR.js';
+        $footer['assetsJs'] = 'noticias/noticias-cadastro.js';
+		$this->load->view('include/footer',$footer);
+	}	
+
+
+ public function alterarAvisos(){
+ 	    $id = $this->input->post('id');
+ 	    $descricao   = $this->input->post('descricao');
+		$sinopse = $this->input->post('sinopse');		
+		$dia = $this->input->post('dia');
+        $situacao = $this->input->post('ativa');
+        $descricao_completa = $this->input->post('descricao_completa');		
+		$friendly_url = getRawUrl($descricao.$dia);		
+        $mensagem = array();
+
+        
+
+     if(empty($descricao)){
+            $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
+        }
+
+		if(empty($sinopse)){
+			$mensagem[] = 'A <b>SINOPSE</b> de exibição da notícia é Obrigatória.';
+		}
+
+		if(empty($descricao_completa)){
+			$mensagem[] = 'A <b>DESCRIÇÃO COMPLETA</b> da notícia é Obrigatória.';
+		}
+
+		if(empty($dia)){
+			$mensagem[] = 'A <b>DATA</b> da notícia é Obrigatório.';
+		}
+
+		if(empty($situacao)){
+			$mensagem[] = 'A <b>SITUAÇÃO</b> da notícia é Obrigatória.';
+		}
+
+		if (count($mensagem) > 0) {
+			$this->session->set_flashdata('mensagem',$mensagem);
+			redirect(base_url() . 'AvisosController/viewAlterar/'.$id,'refresh');
+		}
+		else{
+
+			/*
+			** Armazenando dados do formulário no Array $data
+			*/
+			$data['descricao'] = $descricao;
+			$data['sinopse'] = $sinopse;			
+			$data['descricao_completa'] = $descricao_completa;
+			$data['dia'] = converteDataBanco($dia) ;				
+			$data['friendly_url'] = getRawUrl($descricao.$dia);					
+			$data['ativa'] = $situacao;			
+			$data['id'] = $id;
+			//var_dump($data);
+
+
+			if($this->AvisosDao_model->updateAvisos($data)){
+				$this->session->set_flashdata('resultado_ok','Aviso Atualizado com sucesso!');
+				redirect(base_url() . 'AvisosController/viewLista','refresh');
+			}
+			else {
+				$this->session->set_flashdata('resultado_error','Erro ao Atualizar o  Aviso!');
+				redirect(base_url() . 'AvisosController/viewLista','refresh');
+			}
+
+		}
+
+    }
 
 	
 

@@ -107,10 +107,10 @@ Class AvisosDao_model extends CI_Model {
             $this->db->or_like('sinopse',$dadosBusca);
             $this->db->or_like('descricao_completa',$dadosBusca);
         }
-        //$this->db->where('ativa','S');
-        $this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
-        $this->db->where('releaseNoticia = "N" OR releaseNoticia = "NR"',NULL,FALSE);
-        return $this->db->count_all_results('novidades');
+        $this->db->where('ativa','S');
+        //$this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
+        //$this->db->where('releaseNoticia = "N" OR releaseNoticia = "NR"',NULL,FALSE);
+        return $this->db->count_all_results('avisos');
     }
 
     function selectAllAvisos($dadosBusca,$limite,$offset){        
@@ -120,14 +120,12 @@ Class AvisosDao_model extends CI_Model {
             $this->db->or_like('descricao_completa',$dadosBusca);
         }        
         $this->db->where('ativa','S');
-        //$this->db->where('(ativa = "S" OR site_novo = "S")',NULL,FALSE);
-        //$this->db->where('(releaseAviso = "N" OR releaseAviso = "NR")',NULL,FALSE);
+       
         $this->db->order_by('dia','desc');
         $this->db->group_by('id');
         $this->db->limit($limite,$offset);
         $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse');	
-        $this->db->from('avisos');
-		//$this->db->join('tb_imagem_noticia','tb_imagem_noticia.noticia_id = novidades.id','LEFT');
+        $this->db->from('avisos');		
         return $this->db->get()->result();
     }
 
@@ -140,5 +138,32 @@ Class AvisosDao_model extends CI_Model {
 		}
 		return $this->db->get('avisos')->num_rows();
 	}
+
+function selectAvisosById($id){
+		$this->db->where('id',$id);
+		return $this->db->get('avisos')->result();
+	}
+
+	function updateAvisos($data){	
+		//start the transaction
+		$this->db->trans_begin();
+
+			$this->db->where('id',$data['id']);			
+			$this->db->update('avisos',$data);
+        //make transaction complete
+		$this->db->trans_complete();
+		//check if transaction status TRUE or FALSE
+		if ($this->db->trans_status() === FALSE) {
+			//if something went wrong, rollback everything
+			$this->db->trans_rollback();
+		return FALSE;
+		} else {
+			//if everything went right, commit the data to the database
+			$this->db->trans_commit();
+			return TRUE;
+		}
+	}
+
+
 }
 ?>
