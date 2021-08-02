@@ -48,7 +48,9 @@ return $this->db->get()->result();
 		return $this->db->insert('cooperado_arquivo',$data2);	
 	}
 
-	
+	function insertTipoArquivo($data){	
+		return $this->db->insert('tipo_arquivo',$data);	
+	}
 
 	
 	function completar_cadastro($nome_arquivo,$arquivo,$id){	

@@ -44,6 +44,19 @@ class RestritoController extends CI_Controller {
         $footer['assetsJs'] = 'restrito/usuarios-home.js';
         $this->load->view('include/footer',$footer);
     }
+   public function viewCadastroArquivo(){
+
+        $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
+        $this->load->view('include/openDoc',$open);
+
+        $data['mainNav'] = 'grupos';
+        $data['subMainNav'] = 'cadastroGrupo';
+        $this->load->view('paginas/restrito/cadastroTipoArquivo',$data); 
+
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
+        $footer['assetsJs'] = 'grupos/grupos-cadastro.js';
+        $this->load->view('include/footer',$footer);
+    }
 
      public function viewAlterar($id){
         //$open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
@@ -131,6 +144,24 @@ class RestritoController extends CI_Controller {
 
     
     public function viewCadastro(){
+
+        $open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
+        $open['pluginCSS'] = 'bootstrap-fileinput/css/fileinput.min.css';
+        
+        $this->load->view('include/openDoc',$open);
+        $data['listCooperado'] = $this->RestritoDao_model->listarCooperado();
+        $data['listTipoArquivo'] = $this->RestritoDao_model->listarSituacao();
+        $data['mainNav'] = 'restrito';
+        $data['subMainNav'] = 'cadastroRestrito';
+        $this->load->view('paginas/restrito/cadastro',$data);   
+
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js,bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+        $footer['pluginJS'] = 'input-mask/jquery.inputmask.js,bootstrap-fileinput/js/fileinput.min.js,bootstrap-fileinput/js/fileinput_locale_pt-BR.js';
+        $footer['assetsJs'] = 'restrito/restrito-cadastro.js';
+
+        $this->load->view('include/footer',$footer);
+    }
+     public function AlteraTipoCadastro(){
 
         $open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
         $open['pluginCSS'] = 'bootstrap-fileinput/css/fileinput.min.css';
@@ -239,5 +270,45 @@ class RestritoController extends CI_Controller {
                 redirect(base_url() . 'RestritoController/viewCadastro','refresh'); 
             }
         }
+    }
+
+     public function cadastrarTipoArquivo(){
+
+        
+        $descricao = $this->input->post('descricao');
+        $status = $this->input->post('status');
+        
+        $mensagem = array();
+        
+        if(empty($descricao)){
+        $mensagem[] = "A<b>Descrição</b> é obrigatório.";
+        }
+        
+        if(empty($status)){
+        $mensagem[]="O campo <b>STATUS</b> é obrigatório.";
+        }
+        
+        if(count($mensagem)>0){        
+            $this->session->set_flashdata('mensagem',$mensagem);    
+            redirect(base_url() . 'RestritoController/viewCadastro','refresh');       
+        }
+        else{
+        
+            /**
+            * Armazenando os valores para serem gravados no BANCO
+            */
+            $data['descricao'] = $descricao;
+            $data['Ativa'] = $status;
+            
+            if($this->RestritoDao_model->insertTipoArquivo($data)){            
+                $this->session->set_flashdata('resultado_ok','Grupo cadastrado com sucesso!');          
+                redirect(base_url() . 'RestritoController/viewCadastro','refresh');             
+            }else{            
+                $this->session->set_flashdata('resultado_error','Erro ao cadastrar o Grupo!');          
+                redirect(base_url() . 'RestritoController/viewCadastro','refresh');             
+            }
+        
+        }
+
     }
 }
