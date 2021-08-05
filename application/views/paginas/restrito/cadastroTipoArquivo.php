@@ -57,7 +57,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary">Cadastrar</button>   
-              <button type="submit" formaction="<?php echo base_url('RestritoController/AlteraTipoCadastro') ?>" class="btn btn-primary">Alterar</button>
+              <button type="submit" formaction="<?php echo base_url('RestritoController/viewListaTipoArquivo') ?>" class="btn btn-primary">Alterar</button>
 
 
               </form>

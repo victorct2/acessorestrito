@@ -24,6 +24,7 @@ return $this->db->get()->result();
 
 	function listarSituacao(){
 		$this->db->order_by('descricao');
+		$this->db->where('ativa','S');
 		return $this->db->get('tipo_arquivo')->result();
 	}
 
@@ -228,8 +229,42 @@ return $this->db->get()->result();
 		return $this->db->count_all_results();  
     }
 
-	
+	function make_queryTipoArquivo(){  
+		$order_column = array("id","descricao","ativa", null, null);  
+		$this->db->select('*');  
+		$this->db->from('tipo_arquivo');
+		if(isset($_POST["search"]["value"])){  
+			$this->db->like("id", $_POST["search"]["value"]);		
+			$this->db->or_like("descricao", $_POST["search"]["value"]); 
+			$this->db->or_like("ativa", $_POST["search"]["value"]); 
+		}  
+		if(isset($_POST["order"])){  
+			$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
+		}  
+		else{  
+			$this->db->order_by('id', 'ASC');  
+		}  
+	}
+function make_datatablesTipoArquivo(){  
+		$this->make_queryTipoArquivo();  
+		if($_POST["length"] != -1){  
+			$this->db->limit($_POST['length'], $_POST['start']);  
+		}  
+		$query = $this->db->get();  
+		return $query->result();  
+    } 
 
+    function get_filtered_dataLista(){  
+		$this->make_query();  
+		$query = $this->db->get();  
+		return $query->num_rows();  
+    }
+
+	function get_all_dataLista(){  
+		$this->db->select("*");  
+		$this->db->from('tipo_arquivo');  
+		return $this->db->count_all_results();  
+    }
 	
 
 		

@@ -298,7 +298,7 @@ class RestritoController extends CI_Controller {
             * Armazenando os valores para serem gravados no BANCO
             */
             $data['descricao'] = $descricao;
-            $data['Ativa'] = $status;
+            $data['ativa'] = $status;
             
             if($this->RestritoDao_model->insertTipoArquivo($data)){            
                 $this->session->set_flashdata('resultado_ok','Grupo cadastrado com sucesso!');          
@@ -311,4 +311,46 @@ class RestritoController extends CI_Controller {
         }
 
     }
-}
+
+     public function viewListaTipoArquivo($offset=0){
+
+        $open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css';
+        $open['assetsCSS'] = 'grupos/grupos-list.css';
+        $this->load->view('include/openDoc',$open);
+
+        $data['mainNav'] = 'restrito';
+        $data['subMainNav'] = 'listaTipoArquivo';
+        $this->load->view('paginas/restrito/listaTipoArquivo',$data);    
+
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js';
+        $footer['assetsJs'] = 'restrito/lista_tipoArquivo.js'; 
+        $this->load->view('include/footer',$footer);
+    }
+
+    public function listaTipoArquivoDataTables(){
+        $fetch_data = $this->RestritoDao_model->make_datatablesTipoArquivo();
+        $data = array();
+        foreach($fetch_data as $row){        
+            $sub_array = array();  
+            $sub_array[] = $row->id;             
+            $sub_array[] = $row->descricao;   
+            $sub_array[] = $ativa;
+            $sub_array[] = '<a href="'.base_url('GruposController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
+                            <a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
+            
+            $data[] = $sub_array;  
+        }  
+        $output = array(  
+            "draw" => intval($_POST["draw"]),  
+            "recordsTotal" => $this->RestritoDao_model->get_all_dataLista(),  
+            "recordsFiltered" => $this->RestritoDao_model->get_filtered_dataLista(),  
+            "data" => $data  
+        );  
+        echo json_encode($output);
+    }
+
+
+    }
+    
+
+
