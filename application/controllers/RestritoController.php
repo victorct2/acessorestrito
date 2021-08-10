@@ -49,8 +49,8 @@ class RestritoController extends CI_Controller {
         $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
         $this->load->view('include/openDoc',$open);
 
-        $data['mainNav'] = 'grupos';
-        $data['subMainNav'] = 'cadastroGrupo';
+        $data['mainNav'] = 'restrito';
+        $data['subMainNav'] = 'alteraTipoArquivo';
         $this->load->view('paginas/restrito/cadastroTipoArquivo',$data); 
 
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
@@ -322,7 +322,7 @@ class RestritoController extends CI_Controller {
         $data['subMainNav'] = 'listaTipoArquivo';
         $this->load->view('paginas/restrito/listaTipoArquivo',$data);    
 
-        $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js';
+       $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js';
         $footer['assetsJs'] = 'restrito/lista_tipoArquivo.js'; 
         $this->load->view('include/footer',$footer);
     }
@@ -330,16 +330,21 @@ class RestritoController extends CI_Controller {
     public function listaTipoArquivoDataTables(){
         $fetch_data = $this->RestritoDao_model->make_datatablesTipoArquivo();
         $data = array();
-        foreach($fetch_data as $row){        
+        foreach($fetch_data as $row){  
+            
+
             $sub_array = array();  
             $sub_array[] = $row->id;             
             $sub_array[] = $row->descricao;   
-            $sub_array[] = $ativa;
+            $sub_array[] = $row->ativa;
             $sub_array[] = '<a href="'.base_url('GruposController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
                             <a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
             
-            $data[] = $sub_array;  
-        }  
+            
+            $data[] = $sub_array; 
+
+            } 
+         
         $output = array(  
             "draw" => intval($_POST["draw"]),  
             "recordsTotal" => $this->RestritoDao_model->get_all_dataLista(),  

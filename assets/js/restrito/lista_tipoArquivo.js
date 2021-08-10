@@ -5,12 +5,12 @@
       "scrollX": true,  
       "order":[],  
       "ajax":{  
-          url:CI_ROOT +'GruposController/listaTipoArquivoDataTables',  
+          url:CI_ROOT +'RestritoController/listaTipoArquivoDataTables',  
           type:"POST"  
       },  
       "columnDefs":[  
           {  
-                "targets":[3, 4],  
+                "targets":[4, 4],  
                 "orderable":false,  
           },  
       ],

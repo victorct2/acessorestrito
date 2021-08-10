@@ -38,9 +38,10 @@
             <table id="listaTipoArquivo" class="table table-bordered table-striped">
               <thead>
                 <tr>
-                  <th>ID</th>                  
-                  <th>Descrição Tipo de arquivo</th> 
-                  <th>Ativo</th>   
+                  <th>ID</th>
+                  <th>Nome do Grupo</th>
+                  <th>descrição do Grupo</th> 
+                  <th>Informação</th>   
                   <th>Ação</th>
                 </tr>
               </thead>
@@ -49,9 +50,10 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <th>ID</th>                  
-                  <th>Descrição Tipo de arquivo</th> 
-                  <th>Ativo</th>   
+                  <th>ID</th>
+                  <th>Nome do Grupo</th>
+                  <th>descrição do Grupo</th> 
+                  <th>Informação</th>   
                   <th>Ação</th>
                 </tr>
               </tfoot>
