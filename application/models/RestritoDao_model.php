@@ -230,13 +230,15 @@ return $this->db->get()->result();
     }
 
 	function make_queryTipoArquivo(){  
-		$order_column = array("id","descricao","ativa",null,null);  
+		$order_column = array("id","descricao","ativa");  
 		$this->db->select('*');  
 		$this->db->from('tipo_arquivo');
+		
 		if(isset($_POST["search"]["value"])){  
 			$this->db->like("id", $_POST["search"]["value"]);		
 			$this->db->or_like("descricao", $_POST["search"]["value"]); 
 			$this->db->or_like("ativa", $_POST["search"]["value"]);
+			
 		}  
 		if(isset($_POST["order"])){  
 			$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);  
@@ -255,7 +257,7 @@ function make_datatablesTipoArquivo(){
     } 
 
     function get_filtered_dataLista(){  
-		$this->make_query();  
+		$this->make_queryTipoArquivo();  
 		$query = $this->db->get();  
 		return $query->num_rows();  
     }
@@ -267,7 +269,15 @@ function make_datatablesTipoArquivo(){
     }
 	
 
-		
+	function selectTipoArquivoById($id){
+		$this->db->where('id', $id);		
+		return $this->db->get('tipo_arquivo')->result();
+	}
+
+		function deleteTipoArquivo($id){		
+		$this->db->where('id',$id);	
+		return $this->db->delete('tipo_arquivo');
+	}	
 	
 	
 	

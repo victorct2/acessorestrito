@@ -53,8 +53,8 @@ class GruposController extends CI_Controller {
             $sub_array[] = $row->nome;  
             $sub_array[] = $row->descricao;   
             $sub_array[] = $situacao;
-            $sub_array[] = '<a href="'.base_url('GruposController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
-                            <a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
+            $sub_array[] = '<a href="'.base_url('GruposController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>';
+            $sub_array[] = '<a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
             
             $data[] = $sub_array;  
         }  

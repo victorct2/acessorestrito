@@ -35,12 +35,12 @@
         <!-- /.box-header -->
         <div class="box-body"> 
 
-            <table id="listaTipoArquivo" class="table table-bordered table-striped">
+            <table id="listaTipoArquivo" class="table table-bordered table-striped dt-responsive">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Nome do Grupo</th>
-                  <th>descrição do Grupo</th> 
+                  <th>Nome Tipo Arquivo</th>
+                  <th>Ativo</th>
                   <th>Informação</th>   
                   <th>Ação</th>
                 </tr>
@@ -51,8 +51,8 @@
               <tfoot>
                 <tr>
                   <th>ID</th>
-                  <th>Nome do Grupo</th>
-                  <th>descrição do Grupo</th> 
+                  <th>Nome Tipo Arquivo</th>
+                  <th>Ativo</th> 
                   <th>Informação</th>   
                   <th>Ação</th>
                 </tr>

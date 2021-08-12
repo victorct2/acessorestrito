@@ -337,8 +337,9 @@ class RestritoController extends CI_Controller {
             $sub_array[] = $row->id;             
             $sub_array[] = $row->descricao;   
             $sub_array[] = $row->ativa;
-            $sub_array[] = '<a href="'.base_url('GruposController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
-                            <a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
+            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterarTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>';                            
+            $sub_array[] ='<a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
+
             
             
             $data[] = $sub_array; 
@@ -352,6 +353,30 @@ class RestritoController extends CI_Controller {
             "data" => $data  
         );  
         echo json_encode($output);
+    }
+
+     public function viewAlterarTipoArquivo($id){
+
+        $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
+        $this->load->view('include/openDoc',$open);
+
+        $data['restrito'] = $this->RestritoDao_model->selectTipoArquivoById($id);
+        $this->load->view('paginas/restrito/alterarTipoArquivo',$data);  
+
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
+        $footer['assetsJs'] = 'grupos/grupos-cadastro.js';
+        $this->load->view('include/footer',$footer);
+    }
+
+    function excluirTipoArquivo($id){         
+        if($this->RestritoDao_model->deleteTipoArquivo($id)){
+            $this->session->set_flashdata('resultado_ok', 'Exclusão efetuada com sucesso!');
+            redirect(base_url() . 'RestritoController/viewLista', 'refresh');
+        }
+        else {
+            $this->session->set_flashdata('resultado_ok', 'Erro ao Excluir o Grupo!');
+            redirect(base_url() . 'RestritoController/viewLista','refresh'); 
+        } 
     }
 
 

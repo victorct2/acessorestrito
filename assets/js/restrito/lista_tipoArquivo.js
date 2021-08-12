@@ -10,7 +10,7 @@
       },  
       "columnDefs":[  
           {  
-                "targets":[4, 4],  
+                "targets":[4,4 ],  
                 "orderable":false,  
           },  
       ],
