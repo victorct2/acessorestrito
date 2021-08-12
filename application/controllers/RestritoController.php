@@ -254,12 +254,7 @@ class RestritoController extends CI_Controller {
                     copy('uploadArquivos/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
                     unlink('uploadArquivos/arquivos/'.$arquivo);
 
-                }
-                
-
-
-
-                                    
+                }                               
                 
                 
                 $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');            
@@ -338,7 +333,7 @@ class RestritoController extends CI_Controller {
             $sub_array[] = $row->descricao;   
             $sub_array[] = $row->ativa;
             $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterarTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>';                            
-            $sub_array[] ='<a href="'.base_url('GruposController/excluirGrupo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
+            $sub_array[] ='<a href="'.base_url('RestritoController/excluirTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
 
             
             
@@ -357,6 +352,7 @@ class RestritoController extends CI_Controller {
 
      public function viewAlterarTipoArquivo($id){
 
+        
         $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
         $this->load->view('include/openDoc',$open);
 
@@ -366,16 +362,60 @@ class RestritoController extends CI_Controller {
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
         $footer['assetsJs'] = 'grupos/grupos-cadastro.js';
         $this->load->view('include/footer',$footer);
+
+
+    }
+
+
+    public function alterarTipoArquivo(){
+
+        $id = $this->input->post('id');
+        $descricao = $this->input->post('descricao');
+        $status = $this->input->post('status');
+        
+        $mensagem = array();
+        
+        if(empty($descricao)){
+        $mesangem[] = "O campo <b>DESCRICAO</b> é obrigatório.";
+        }
+        
+        if(empty($status)){
+        $mensagem[]="O campo <b>STATUS</b> é obrigatório.";
+        }
+        
+        if(count($mensagem)>0){        
+            $this->session->set_flashdata('mensagem',$mensagem);    
+            redirect(base_url() . 'RestritoController/viewListaTipoArquivo/'.$id,'refresh');       
+        }
+        else{
+        
+            /**
+            * Armazenando os valores para serem gravados no BANCO
+            */
+            $data['id'] = $id;
+            $data['descricao'] = $descricao;
+            $data['inativa'] = $status;
+            
+            if($this->RestritoDao_model->updateTipoArquivo($data)){            
+                $this->session->set_flashdata('resultado_ok','Grupo cadastrado com sucesso!');          
+                redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh');             
+            }else{            
+                $this->session->set_flashdata('resultado_error','Erro ao cadastrar o Grupo!');          
+                redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh');             
+            }
+        
+        }
+
     }
 
     function excluirTipoArquivo($id){         
         if($this->RestritoDao_model->deleteTipoArquivo($id)){
             $this->session->set_flashdata('resultado_ok', 'Exclusão efetuada com sucesso!');
-            redirect(base_url() . 'RestritoController/viewLista', 'refresh');
+            redirect(base_url() . 'RestritoController/viewListaTipoArquivo', 'refresh');
         }
         else {
             $this->session->set_flashdata('resultado_ok', 'Erro ao Excluir o Grupo!');
-            redirect(base_url() . 'RestritoController/viewLista','refresh'); 
+            redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh'); 
         } 
     }
 

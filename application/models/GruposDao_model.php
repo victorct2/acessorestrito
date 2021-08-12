@@ -50,7 +50,7 @@ Class GruposDao_model extends CI_Model {
 		return $this->db->count_all_results();  
     }
 
-	function selectTipoArquivoById($id){
+	function selectGruposById($id){
 		$this->db->where('id', $id);		
 		return $this->db->get('grupos')->result();
 	}

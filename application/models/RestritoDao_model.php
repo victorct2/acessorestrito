@@ -278,6 +278,11 @@ function make_datatablesTipoArquivo(){
 		$this->db->where('id',$id);	
 		return $this->db->delete('tipo_arquivo');
 	}	
+
+	function updateTipoArquivo($data){	
+		$this->db->where('id',$data['id']);			
+		return $this->db->update('tipo_arquivo',$data);
+	}
 	
 	
 	

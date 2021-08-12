@@ -8,12 +8,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Sistema de Grupos
+        Sistema de Tipo de Arquivo
         <small>Alterar</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url('Home') ?>"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="<?php echo base_url('GruposController/viewLista') ?>">Sistema de Grupos</a></li>
+        <li><a href="<?php echo base_url('RestritoController/viewListaTipoArquivo') ?>">Tipo de Arquivo</a></li>
         <li class="active">Alterar</li>
       </ol>
     </section>
@@ -36,43 +36,27 @@
         <!-- /.box-header -->
         <div class="box-body">
 
-          <form action="<?php echo base_url('GruposController/alterarGrupo') ?>" method="POST">
+          <form action="<?php echo base_url('RestritoController/viewAlterarTipoArquivo') ?>" method="POST">
 
-          <input type="hidden" name="id" value="<?php echo $grupo[0]->id ?>">
+          <input type="hidden" name="id" value="<?php echo $restrito[0]->id ?>">
           
           <div class="row">
             <div class="col-md-6">
 
               <div class="form-group">
-                  <label for="nome">Nome do Grupo:</label>
-                  <input type="text" name="nome" class="form-control" id="nome" placeholder="Informe o nome" value="<?php echo $grupo[0]->nome ?>">
+                  <label for="descricao">Descricao:</label>
+                  <input type="text" name="descricao" class="form-control" id="descricao" placeholder="Informe o nome" value="<?php echo $restrito[0]->descricao ?>">
               </div>
-
-             <div class="form-group">
-                  <label for="descricao">Descrição do Grupo:</label>
-                  <input type="text" name="descricao" class="form-control" id="descricao" placeholder="Informe o descricao" value="<?php echo $grupo[0]->descricao ?>">
-              </div>
-                        
-                            
-            </div>
-            <!-- /.col -->
-            <div class="col-md-6">
-
-              <div class="form-group">
-                  <label for="nivel">Nível:</label>
-                  <input type="text" name="nivel" class="form-control" id="nivel" placeholder="Informe o nivel" value="<?php echo $grupo[0]->nivel ?>">
-              </div>                   
-               
-               
+                          
               <div class="form-group">
                 <label>Status</label>
                 <select name="status" class="form-control" style="width: 100%;">
-                  <option value="ATIVO" <?php echo ($grupo[0]->status == 'ATIVO')? 'selected="selected"':'' ?>>ATIVO</option>
-                  <option value="INATIVO" <?php echo ($grupo[0]->status == 'INATIVO')? 'selected="selected"':'' ?>INATIVO</option>
+                  <option value="S" <?php echo ($restrito[0]->ativa == 'S')? 'selected="selected"':'' ?>>ATIVO</option>
+                  <option value="N" <?php echo ($restrito[0]->ativa == 'N')? 'selected="selected"':'' ?>>INATIVO</option>
                 </select>
               </div>
 
-              <button type="submit" class="btn btn-warning">Alterar Grupo</button>
+              <button type="submit" class="btn btn-warning">Alterar tipo de arquivo</button>
 
               </form>
 
