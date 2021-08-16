@@ -356,11 +356,11 @@ class RestritoController extends CI_Controller {
         $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
         $this->load->view('include/openDoc',$open);
 
-        $data['restrito'] = $this->RestritoDao_model->selectTipoArquivoById($id);
+        $data['restritoTipo'] = $this->RestritoDao_model->selectTipoArquivoById($id);
         $this->load->view('paginas/restrito/alterarTipoArquivo',$data);  
 
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
-        $footer['assetsJs'] = 'grupos/grupos-cadastro.js';
+        #$footer['assetsJs'] = 'grupos/grupos-cadastro.js';
         $this->load->view('include/footer',$footer);
 
 
@@ -394,9 +394,10 @@ class RestritoController extends CI_Controller {
             */
             $data['id'] = $id;
             $data['descricao'] = $descricao;
-            $data['inativa'] = $status;
+            $data['ativa'] = $status;
             
-            if($this->RestritoDao_model->updateTipoArquivo($data)){            
+            if($this->RestritoDao_model->updateTipoArquivo($data)){ 
+                  
                 $this->session->set_flashdata('resultado_ok','Grupo cadastrado com sucesso!');          
                 redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh');             
             }else{            
