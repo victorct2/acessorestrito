@@ -6,7 +6,7 @@
   <div class="container-fluid">
     <div class="hero">
       <hgroup>    
-    <h1>Avisos</h1><small><?php echo date("d/m/Y");?></small>
+    <h1>Avisos</h1><big><?php echo date("d/m/Y");?></big>
   <br>
       </hgroup>
     </div>
@@ -20,7 +20,7 @@
 
                    <div class="col-sm-6">        
                       <h3><a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>"></a></h3>
-<h3><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span><?php echo converteDataInterface($avisos->dia) .' :: '. $avisos->descricao ?> </h3>
+<h3><span class="glyphicon glyphicon-arrow-right " aria-hidden="true"></span><?php echo converteDataInterface($avisos->dia) .' :: '. $avisos->descricao ?> </h3>
 <p><a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>"><?php echo $avisos->sinopse ?>»»</a></p>
                   </div>
 
