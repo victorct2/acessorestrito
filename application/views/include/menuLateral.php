@@ -8,8 +8,8 @@
           <img src="<?php echo IMAGEM_AVATAR.$this->session->userdata("avatar")?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <?php $nome = explode(' ' ,$this->session->userdata("nomeUsuario")); ?>
-          <p><?php echo $nome[0] . ' ' . $nome[1] ?></p>
+          <?php $nome = $this->session->userdata("nomeUsuario"); ?>
+          <p><?php echo $nome ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>

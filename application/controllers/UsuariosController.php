@@ -134,23 +134,23 @@ class UsuariosController extends CI_Controller {
     public function cadastrarUsuario(){
 
         
-        $nome        = sql_inject($this->input->post('nome'));
-		$login       = sql_inject($this->input->post('login'));
-		$senha       = sql_inject($this->input->post('senha'));
+        $nome        = $this->input->post('nome');
+		$login       = $this->input->post('login');
+		$senha       = $this->input->post('senha');
 		$grupos      = $this->input->post('grupos');
 		$programas      = $this->input->post('programas');
-		$email 		 = sql_inject($this->input->post('email'));
-		$telefone    = sql_inject($this->input->post('telefone'));
-        $celular     = sql_inject($this->input->post('celular'));
-		$profissao   = sql_inject($this->input->post('profissao'));
-		$instituicao = sql_inject($this->input->post('instituicao'));
-		$cargo  	 = sql_inject($this->input->post('cargo'));
-		$mobilizacao = sql_inject($this->input->post('mobilizacao'));
-		$autorizar   = sql_inject($this->input->post('autorizar'));
-        $api         = sql_inject($this->input->post('api'));
-		$ativo       = sql_inject($this->input->post('situacao')); 
-        $dataNascimento = sql_inject($this->input->post('dataNascimento')); 
-        $freelancer = sql_inject($this->input->post('freelancer')); 
+		$email 		 = $this->input->post('email');
+		$telefone    = $this->input->post('telefone');
+        $celular     = $this->input->post('celular');
+		$profissao   = $this->input->post('profissao');
+		$instituicao = $this->input->post('instituicao');
+		$cargo  	 = $this->input->post('cargo');
+		$mobilizacao = $this->input->post('mobilizacao');
+		$autorizar   = $this->input->post('autorizar');
+        $api         = $this->input->post('api');
+		$ativo       = $this->input->post('situacao'); 
+        $dataNascimento = $this->input->post('dataNascimento'); 
+        $freelancer = $this->input->post('freelancer'); 
 		
 		$mensagem = array();
 
@@ -193,8 +193,12 @@ class UsuariosController extends CI_Controller {
 			$data['login']      = $login;
 			$data['senha']      = md5($senha);
 			$data['nome']       = $nome;
+			if (!empty($telefone)) {
 			$data['telefones']  = tratarTelefone($telefone);
+		    }
+			if (!empty($celular)) {
 			$data['celular']    = tratarTelefone($celular);
+			}
 			$data['email']      = $email;
 			$data['profissao']  = $profissao;
 			$data['cargo']      = $cargo;
@@ -248,24 +252,24 @@ class UsuariosController extends CI_Controller {
     public function alterarUsuario(){
 
         
-        $nome        = sql_inject($this->input->post('nome'));
-		$login       = sql_inject($this->input->post('login'));
-		$senha       = sql_inject($this->input->post('senha'));
+        $nome        = $this->input->post('nome');
+		$login       = $this->input->post('login');
+		$senha       = $this->input->post('senha');
 		$grupos      = $this->input->post('grupos');
 		$programas   = $this->input->post('programas');
-		$email 		 = sql_inject($this->input->post('email'));
-		$telefone    = sql_inject($this->input->post('telefone'));
-        $celular     = sql_inject($this->input->post('celular'));
-		$profissao   = sql_inject($this->input->post('profissao'));
-		$instituicao = sql_inject($this->input->post('instituicao'));
-		$cargo  	 = sql_inject($this->input->post('cargo'));
-		$mobilizacao = sql_inject($this->input->post('mobilizacao'));
-		$autorizar   = sql_inject($this->input->post('autorizar'));
-        $api         = sql_inject($this->input->post('api'));
-		$ativo       = sql_inject($this->input->post('situacao')); 
-        $dataNascimento = sql_inject($this->input->post('dataNascimento')); 
-        $freelancer = sql_inject($this->input->post('freelancer')); 
-        $id          = sql_inject($this->input->post('id'));
+		$email 		 = $this->input->post('email');
+		$telefone    = $this->input->post('telefone');
+        $celular     = $this->input->post('celular');
+		$profissao   = $this->input->post('profissao');
+		$instituicao = $this->input->post('instituicao');
+		$cargo  	 = $this->input->post('cargo');
+		$mobilizacao = $this->input->post('mobilizacao');
+		$autorizar   = $this->input->post('autorizar');
+        $api         = $this->input->post('api');
+		$ativo       = $this->input->post('situacao'); 
+        $dataNascimento = $this->input->post('dataNascimento'); 
+        $freelancer = $this->input->post('freelancer'); 
+        $id          = $this->input->post('id');
 		
         $dadosAtuais = $this->usuariosDao_model->selectUsuarioById($id);
 		$mensagem = array();
@@ -311,8 +315,12 @@ class UsuariosController extends CI_Controller {
 			$data['login']      = $login;
 			$data['senha']      = $senha;
 			$data['nome']       = $nome;
+			if (!empty($telefone)) {
 			$data['telefones']  = tratarTelefone($telefone);
+		    }
+			if (!empty($celular)) {
 			$data['celular']    = tratarTelefone($celular);
+			}
 			$data['email']      = $email;
 			$data['profissao']  = $profissao;
 			$data['cargo']      = $cargo;
@@ -386,12 +394,12 @@ class UsuariosController extends CI_Controller {
 
 		$id = $this->session->userdata("idUsuario");
 		 
-        $nome        = sql_inject($this->input->post('nome'));
-		$login       = sql_inject($this->input->post('login'));
-		$senha       = sql_inject($this->input->post('senha'));
-		$email 		 = sql_inject($this->input->post('email'));
-		$telefone    = sql_inject($this->input->post('telefone'));
-        $celular     = sql_inject($this->input->post('celular'));
+        $nome        = $this->input->post('nome');
+		$login       = $this->input->post('login');
+		$senha       = $this->input->post('senha');
+		$email 		 = $this->input->post('email');
+		$telefone    = $this->input->post('telefone');
+        $celular     = $this->input->post('celular');
 		
         $dadosAtuais = $this->usuariosDao_model->selectUsuarioById($id);
 		$mensagem = array();
@@ -427,8 +435,12 @@ class UsuariosController extends CI_Controller {
 			$data['login']      = $login;
 			$data['senha']      = $senha;
 			$data['nome']       = $nome;
+			if (!empty($telefone)) {
 			$data['telefones']  = tratarTelefone($telefone);
+		    }
+			if (!empty($celular)) {
 			$data['celular']    = tratarTelefone($celular);
+			}
 			$data['email']      = $email;
             $data['id'] = $id;
 
