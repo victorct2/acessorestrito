@@ -45,6 +45,16 @@ class RestritoController extends CI_Controller {
         $this->load->view('include/footer',$footer);
     }
    public function viewCadastroArquivo(){
+    if(!$this->session->userdata('logged_in')){
+            redirect(base_url() . 'Login', 'refresh');
+        }
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
 
         $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
         $this->load->view('include/openDoc',$open);
@@ -65,7 +75,7 @@ class RestritoController extends CI_Controller {
          $open['assetsCSS'] = 'usuarios/usuarios-list.css';       
          $this->load->view('include/openDoc',$open);
 
-        $data['mainNav'] = 'usuarios';
+        $data['mainNav'] = 'restrito';
         $data['listGrupos'] = $this->gruposDao_model->listarGrupos();       
         $data['usuario'] = $this->usuariosDao_model->selectUsuarioById($id);
         $data['id'] = $id;
@@ -144,6 +154,16 @@ class RestritoController extends CI_Controller {
 
     
     public function viewCadastro(){
+        if(!$this->session->userdata('logged_in')){
+            redirect(base_url() . 'Login', 'refresh');
+        }
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
 
         $open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
         $open['pluginCSS'] = 'bootstrap-fileinput/css/fileinput.min.css';

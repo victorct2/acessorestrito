@@ -22,6 +22,16 @@ class AvisosController extends CI_Controller {
 
 
 	public function viewCadastro(){
+		if(!$this->session->userdata('logged_in')){
+			redirect(base_url() . 'Login', 'refresh');
+		}
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
 
 		$open['assetsBower'] = 'select2/dist/css/select2.min.css';
 		$open['pluginCSS'] = 'jqueryUi/jquery-ui.min.css,bootstrap-fileinput/css/fileinput.min.css';
@@ -39,6 +49,16 @@ class AvisosController extends CI_Controller {
 	}
 
 	public function cadastrarAvisos(){
+		if(!$this->session->userdata('logged_in')){
+			redirect(base_url() . 'Login', 'refresh');
+		}
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
         
         $descricao   = $this->input->post('descricao');
 		$sinopse = $this->input->post('sinopse');		
@@ -100,6 +120,16 @@ class AvisosController extends CI_Controller {
 
 
      public function viewLista($offset=0){
+     	if(!$this->session->userdata('logged_in')){
+			redirect(base_url() . 'Login', 'refresh');
+		}
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
 
 		$open['assetsBower'] = 'bootstrap-daterangepicker/daterangepicker.css,datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
 		$open['assetsCSS'] = 'noticias/noticias-list.css';

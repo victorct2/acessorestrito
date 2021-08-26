@@ -23,6 +23,17 @@ class UsuariosController extends CI_Controller {
 
 
     public function viewLista(){
+    	if(!$this->session->userdata('logged_in')){
+			redirect(base_url() . 'Login', 'refresh');
+		}
+        $grupos = $this->session->userdata('grupos');
+        if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
+        }else{
+            redirect(base_url() . 'Home', 'refresh');
+        }
+        
 
 		//$open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css';
 		$open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
@@ -92,6 +103,8 @@ class UsuariosController extends CI_Controller {
 		}
         $grupos = $this->session->userdata('grupos');
         if(in_array("1", $grupos)){             
+        }
+        if(in_array("50", $grupos)){
         }else{
             redirect(base_url() . 'Home', 'refresh');
         }

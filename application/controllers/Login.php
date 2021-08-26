@@ -46,7 +46,7 @@ class Login extends CI_Controller {
 
 			
 			$loginUser = $this->loginDao_model->loginUser($data);
-			if($loginUser[0]->avatar == '' || $loginUser[0]->avatar == null){
+			if(empty($loginUser[0]->avatar)){
 				$avatar = 'avatar33.png';
 			}else{
 				$avatar = $loginUser[0]->avatar;
