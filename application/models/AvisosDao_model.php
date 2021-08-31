@@ -104,18 +104,19 @@ Class AvisosDao_model extends CI_Model {
     }
 
     function selectAllAvisos($dadosBusca,$limite,$offset){        
-        if($dadosBusca != ''){
+       if($dadosBusca != ''){
             $this->db->like('descricao',$dadosBusca);
-            //$this->db->or_like('sinopse',$dadosBusca);
+            $this->db->or_like('sinopse',$dadosBusca);
             $this->db->or_like('descricao_completa',$dadosBusca);
-        }        
+        }
         $this->db->where('ativa','S');
        
         $this->db->order_by('dia','desc');
         $this->db->group_by('id');
         $this->db->limit($limite,$offset);
-        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse');	
+        $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse,imagem, GROUP_CONCAT(tb_imagem_avisos.nomeImagem) as imagens,legendaImagem');	
         $this->db->from('avisos');		
+        $this->db->join('tb_imagem_avisos','tb_imagem_avisos.noticia_id = avisos.id','LEFT');
         return $this->db->get()->result();
     }
 

@@ -71,6 +71,72 @@ class Home extends CI_Controller {
 		$this->load->view('include/footer',$footer);
 	}
 
+	public function buscar($offset=0){	
+		$data['titulo'] = "COOPAS";	
+		$limite = 8;   
+	$this->load->view('include/openDoc');
+
+	if(empty($_GET)){				
+			$dadosBusca = $this->session->userdata('palavraChave');
+		
+		}else if($_GET !=''){
+
+			if($this->input->get('palavraChave') =='' ){						
+				redirect(base_url() . 'Home','refresh'); 
+			}							
+			$palavraChave =  $this->input->get('palavraChave');		
+			
+			/*
+			** Salvando o filtro de busca na Sessão pra paginação
+			*/
+			$filtro_busca = array(
+				'palavraChave' => $palavraChave			
+			);
+			$this->session->set_userdata($filtro_busca);
+			
+			$dadosBusca = $palavraChave;
+		
+		}		
+		$data['palavraChave'] = $dadosBusca;
+		$data['listAvisos'] = $this->AvisosDao_model->selectAllAvisos($dadosBusca,$limite,$offset);
+
+
+		$this->load->library("pagination");
+
+		$config['base_url'] = base_url().'Home/buscar/';
+		$config['total_rows'] = $this->AvisosDao_model->countAllAvisos($dadosBusca,$limite,$offset);		
+		$config['per_page'] = $limite;
+		$config['uri_segment'] = 3;
+		$config['num_links'] = 5;
+
+		$config['full_tag_open'] = "<ul class='pagination'>";
+		$config['full_tag_close'] ="</ul>";
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		$config['cur_tag_open'] = "<li class='disabled'><li class='active'><a href='#'>";
+		$config['cur_tag_close'] = "<span class='sr-only'></span></a></li>";
+		$config['next_tag_open'] = "<li>";
+		$config['next_tagl_close'] = "</li>";
+		$config['prev_tag_open'] = "<li>";
+		$config['prev_tagl_close'] = "</li>";
+		$config['first_tag_open'] = "<li>";
+		$config['first_tagl_close'] = "</li>";
+		$config['last_tag_open'] = "<li>";
+		$config['last_tagl_close'] = "</li>";
+		$config['prev_link'] = '« Anterior';		
+		$config['next_link'] = 'Próximo »';			
+		$config['last_link'] = 'Último';
+
+		$this->pagination->initialize($config);
+		$data['paginacao'] = $this->pagination->create_links();	
+		$this->load->view('index',$data);
+
+		
+		$footer['assetsJsBower'] = 'ckeditor/ckeditor.js';
+		$footer['assetsJs'] = 'home.js';
+		$this->load->view('include/footer',$footer);
+	}
+
 	public function carregarTotalAcessosOnDemand(){
 		echo json_encode($this->relatoriosDao_model->totalAcessos());
 	}
