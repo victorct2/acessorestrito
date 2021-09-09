@@ -1,11 +1,8 @@
-<div class="login-box">
-  <div class="login-logo">
-    <a href="<?php echo base_url()?>"><b>Canal Saúde</b> - COOPAS</a>
-  </div>
-  <!-- /.login-logo -->
+<div class="login-box">  
   <div class="login-box-body">
-    <?php $this->load->view('include/alertsMsg') ?>
-    <p class="login-box-msg">Faça login para iniciar sua sessão</p>
+    
+    <img src="assets/img/logos/logo_coopas.png"  style="margin-left:37%;" ><br>
+	<p class="login-box-msg">Faça login para iniciar sua sessão</p>
 
     <form action="<?php echo base_url('Login/autentication') ?>" method="post">
       <div class="form-group has-feedback">
@@ -18,12 +15,13 @@
       </div>
       <div class="row">        
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Entrar</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" style="margin-left:125%;">Entrar</button>
         </div>
         <!-- /.col -->
+		
       </div>
     </form>
-    <br>
+    <?php $this->load->view('include/alertsMsg') ?>
     <!--<a href="#">Esqueci a minha senha</a><br>
     <a href="register.html" class="text-center">Cadastrar novo usuário</a>-->
 
