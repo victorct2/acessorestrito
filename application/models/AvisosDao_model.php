@@ -7,12 +7,35 @@ Class AvisosDao_model extends CI_Model {
 	}
 	
 		
-	function insertAvisos($data){	
+	function insertAvisos($data,$imagens){	
 		//start the transaction
 		$this->db->trans_begin();
 			
 			$this->db->insert('avisos',$data);	
-			$idAvisos = $this->db->insert_id();
+			$idNoticia = $this->db->insert_id();
+			
+		
+			if(count($imagens)>0){
+				foreach ($imagens as $key => $imagem) {
+					$novo_nome_imagem = $data['id'].'-'.$data['dia'].'-'.geraSenha(10). '.' . @end(explode(".",$imagem));
+					$imagemData = array(
+						'idImagem' => null,
+						'nomeImagem' => $novo_nome_imagem,
+						'noticia_id' => $idNoticia					
+					);
+
+					$this->db->insert('tb_imagem_avisos',$imagemData);	
+	
+					//atualziando o nome da imagem e copiando para a pasta específica
+					chmod('uploadImagens/arquivos/'.$imagem, 0777);
+					rename( 'uploadImagens/arquivos/'.$imagem,  'uploadImagens/arquivos/'.$novo_nome_imagem);
+					copy('uploadImagens/arquivos/'.$novo_nome_imagem, 'assets/img/noticias/'.$novo_nome_imagem);
+					chmod('assets/img/noticias/'.$novo_nome_imagem, 0777);
+					unlink('uploadImagens/arquivos/'.$novo_nome_imagem);
+				}
+			}
+			
+		
 		//make transaction complete
 		$this->db->trans_complete();
 		//check if transaction status TRUE or FALSE

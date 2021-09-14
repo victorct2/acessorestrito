@@ -21,7 +21,7 @@
     <!-- Main content -->
     <section class="content">
 
-      <form action="<?php echo base_url('AvisosController/cadastrarAvisos') ?>" method="POST" >
+      <form action="<?php echo base_url('AvisosController/cadastrarAvisos') ?>" method="POST" id="formAvisos">
 
               
 
@@ -84,7 +84,7 @@
                   </div>
 
                 
-
+                  <div id="resp"></div>
                 <button type="submit" class="btn btn-primary">Cadastrar</button>
 
               
@@ -133,28 +133,34 @@
      <br><br><br>
 
      <!-- IMAGEM -->
-     <div class="box box-default">
-      
+    <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">Upload de Imagem</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-remove"></i></button>
+          </div>
+        </div>
         <!-- /.box-header -->
-        <!--<div class="box-body">
+        <div class="box-body">
           
           <div class="row">
-           //form_open_multipart("AvisosController/upload", ['id' => 'uploader']);   
-
+          <?= form_open_multipart("AvisosController/upload", ['id' => 'uploader']); ?>
               <div class="col-md-12">
                 <div class="form-group">
-                  <label for="imagens" class="control-label">Selecionar Arquivos:</label>
+                  <label for="imagens" class="control-label">Selecionar Imagens:</label>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-md-12">
                   <span class="butn butn-success fileinput-button">
-                      <span>Procurar</span><input type="file" name="listaImagem[]" id="uploadBtn" multiple>
+                      <span>Procurar</span><input type="file" name="userfile[]" id="uploadBtn" multiple>
                       <?php //echo form_upload('userfile[]','','multiple'); ?>
                   </span>
-                  <div class="col-md-6">
+                  <!--<div class="col-md-6">
                     <input id="uploadFile" placeholder="Choose File" disabled="disabled" class="form-control" />
-                  </div>
+                  </div>-->
                   <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Upload</button>
                 </div>
 
@@ -168,16 +174,15 @@
                   </div>
                 </div>
               </div>
-              <?php //echo form_close() ?>
+                <?php echo form_close() ?>
               <div id="message"></div>
               
           </div>
-           /.row -->
-       <!-- </div>-->
+          <!-- /.row -->
+        </div>
         <!-- /.box-body -->
         
       </div>
-      <!-- /.box -->
 
 
     </section>

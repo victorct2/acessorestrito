@@ -64,9 +64,12 @@ class AvisosController extends CI_Controller {
 		$sinopse = $this->input->post('sinopse');		
 		$dia = $this->input->post('dia');
         $situacao = $this->input->post('ativa');
+        $imagens = is_array($this->input->post('listaImagem'))? $this->input->post('listaImagem') : null;
         $descricao_completa = $this->input->post('descricao_completa');		
-		$friendly_url = getRawUrl($dia.$arquivo[0]);
+		
         $mensagem = array();
+        
+
 
         if(empty($descricao)){
             $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
@@ -105,7 +108,7 @@ class AvisosController extends CI_Controller {
 			$data['ativa'] = $situacao;			
            
 
-			if($this->AvisosDao_model->insertAvisos($data)){
+			if($this->AvisosDao_model->insertAvisos($data,$imagens)){
 				$this->session->set_flashdata('resultado_ok','Aviso cadastrado com sucesso!');
 				redirect(base_url() . 'AvisosController/viewCadastro','refresh');
 			}
@@ -274,6 +277,50 @@ class AvisosController extends CI_Controller {
         }
 	}
 
-	
+	  function upload(){
+
+  		$this->load->library("upload");
+  		 $this->upload->initialize(array(
+  				 "upload_path" => './uploadImagens/arquivos/',
+  				 'allowed_types' => 'png|jpg|jpeg|png|gif|psd',
+  				 "overwrite" => FALSE,
+  				 "max_filename" => 0,
+  				 "encrypt_name" => TRUE,
+  				 'multi' => 'all'
+  		 ));
+
+  		 $successful = $this->upload->do_upload('userfile');
+  		 $fileName = array();
+  		 $data = array();
+
+  		 if($successful)
+  		 {
+  			$data[] = $this->upload->data();
+  			$resp =  is_array($data);
+
+  			if(count($data[0])>6){
+  				foreach ($data as $key => $value) {
+  					$fileName[] = $value['file_name'];
+  				}
+  			}else{
+  				foreach ($data as $key => $value) {
+  					if(count($value)> 1){
+  						foreach ($value as $file) {
+  							$fileName[] = $file['file_name'];
+  						}
+  					}
+  				}
+  			}
+
+
+
+  		 } else {
+
+  			 $msg = $this->upload->display_errors();
+  		 }
+
+  		echo json_encode(['result' => $successful, 'file_name'=>$fileName]);
+
+  	 }
 
 }

@@ -21,7 +21,7 @@
     <!-- Main content -->
     <section class="content">
 
-      <form action="<?php echo base_url('NoticiasController/cadastrarNoticias') ?>" method="POST" id="formNoticias">
+      <form action="<?php echo base_url('NoticiasController/cadastrarNoticias') ?>" method="POST" id="formAvisos">
               
 
         <!-- SELECT2 EXAMPLE -->
