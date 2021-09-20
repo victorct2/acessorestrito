@@ -192,7 +192,8 @@ class AvisosController extends CI_Controller {
     $open['assetsCSS'] = 'noticias/noticias-cadastro.css';
         $this->load->view('include/openDoc',$open);
 
-		$data['avisos'] = $this->AvisosDao_model->selectAvisosById($id);		
+		$data['avisos'] = $this->AvisosDao_model->selectAvisosById($id);	
+		$data['imagensAvisos'] = $this->AvisosDao_model->selectImagemAvisosById($id);	
 		$this->load->view('paginas/avisos/alterar',$data);
 
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js,ckeditor/ckeditor.js';
@@ -209,7 +210,9 @@ class AvisosController extends CI_Controller {
 		$dia = $this->input->post('dia');
         $situacao = $this->input->post('ativa');
         $descricao_completa = $this->input->post('descricao_completa');		
-		$friendly_url = getRawUrl($descricao.$dia);		
+		$friendly_url = getRawUrl($descricao.$dia);	
+		$imagens = is_array($this->input->post('listaImagem'))? $this->input->post('listaImagem') : null;
+		$imagensExcluir = is_array($this->input->post('imagensExcluir'))? $this->input->post('imagensExcluir') : null;	
         $mensagem = array();
 
         
@@ -253,7 +256,7 @@ class AvisosController extends CI_Controller {
 			//var_dump($data);
 
 
-			if($this->AvisosDao_model->updateAvisos($data)){
+			if($this->AvisosDao_model->updateAvisos($data,$imagens,$imagensExcluir)){
 				$this->session->set_flashdata('resultado_ok','Aviso Atualizado com sucesso!');
 				redirect(base_url() . 'AvisosController/viewLista','refresh');
 			}

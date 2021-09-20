@@ -158,12 +158,48 @@ function selectAvisosById($id){
 		return $this->db->get('avisos')->result();
 	}
 
-	function updateAvisos($data){	
+	function selectImagemAvisosById($id){
+		$this->db->where('noticia_id',$id);
+		return $this->db->get('tb_imagem_avisos')->result();
+	}
+
+	function updateAvisos($data,$imagens,$imagensExcluir){	
 		//start the transaction
 		$this->db->trans_begin();
 
 			$this->db->where('id',$data['id']);			
 			$this->db->update('avisos',$data);
+
+			if(count($imagens)>0){
+				foreach ($imagens as $key => $imagem) {
+					$novo_nome_imagem = $data['id'].'-'.$data['dia'].'-'.geraSenha(10). '.' . @end(explode(".",$imagem));
+					
+					$imagemData = array(
+						'idImagem' => null,
+						'nomeImagem' => $novo_nome_imagem,
+						'noticia_id' => $data['id']					
+					);
+
+
+					$this->db->insert('tb_imagem_avisos',$imagemData);	
+	
+					//atualziando o nome da imagem e copiando para a pasta específica
+					chmod('uploadImagens/arquivos/'.$imagem, 0777);
+					rename( 'uploadImagens/arquivos/'.$imagem,  'uploadImagens/arquivos/'.$novo_nome_imagem);
+					copy('uploadImagens/arquivos/'.$novo_nome_imagem, 'assets/img/noticias/'.$novo_nome_imagem);
+					chmod('assets/img/noticias/'.$novo_nome_imagem, 0777);
+					unlink('uploadImagens/arquivos/'.$novo_nome_imagem);
+				}
+			}
+			if(count($imagensExcluir)>0){
+				foreach ($imagensExcluir as $img) {
+					$this->db->where('idImagem',$img);
+					$dadosImagem = $this->db->get('tb_imagem_avisos')->result();
+					$this->db->where('idImagem',$img);	
+					$this->db->delete('tb_imagem_avisos');		
+					unlink('assets/img/noticias/'.$dadosImagem[0]->nomeImagem);
+				}
+			}
         //make transaction complete
 		$this->db->trans_complete();
 		//check if transaction status TRUE or FALSE
