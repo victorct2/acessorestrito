@@ -161,15 +161,20 @@ class AvisosController extends CI_Controller {
                 $situacao = '<span class="label pull-right bg-red">INATIVO</span><br>';
 			}
 
-			
+			$imagem = '';
+			$arrayImagem = $this->AvisosDao_model->selectImagemAvisosById($row->id);
+			if(count($arrayImagem)>0){
+				$imagem = '<img src="'.IMAGEM_NOTICIA.$arrayImagem[0]->nomeImagem.'" class="img-rounded  imgList" width="210" height="150" />';
+			}else{
+				$imagem = '<img src="'.SEM_IMAGEM.'" class="img-rounded  imgList" width="210" height="150" />';
+			}
 
 			$sub_array = array();
-			
+			$sub_array[] = $imagem;
             $sub_array[] = converteDataInterface($row->dia);
             $sub_array[] = $row->descricao;
             $sub_array[] = $row->sinopse;
-            $sub_array[] = $situacao;
-            $sub_array[] = '<a href="'.base_url('AvisosController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
+            $sub_array[] = $situacao. '<a href="'.base_url('AvisosController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
                             <a href="'.base_url('AvisosController/apagarAvisos/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
            
 

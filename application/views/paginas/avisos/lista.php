@@ -82,28 +82,29 @@
 
             <table id="listaNoticias" class="table table-bordered table-striped">
               <thead>
-                <tr>                  
+                <tr> 
+                  <th>Imagem</th>
                   <th>Data</th>
                   <th>Descrição</th>
                   <th>Sinopse</th>                       
-                  <th>Informação</th>   
-                  <th>Ação</th>
+                  <th>Status/Ação</th>   
+                 
                 </tr>
               </thead>
               <thead>
                 <tr class="busca">                  
-                         
-                  <th><input type="text" data-column="1" class="form-control search-input-text"  placeholder="pesquisar descrição ..." style="width:100%;"></th>                        
+                    <th></th>         
+                   <th><input type="text" data-column="1" value=""  class="form-control pull-right search-input-data" id="datepicker" placeholder="Data ..." style="width:100%;"></th>                 
                   <th><input type="text" data-column="2" class="form-control search-input-text"  placeholder="pesquisar descrição ..." style="width:100%;"></th>
-                  <th><input type="text" data-column="3" class="form-control search-input-text"  placeholder="pesquisar sinopse ..." style="width:100%;"></th>                
+                  <th><input type="text" data-column="3" class="form-control search-input-text"  placeholder="pesquisar sinopse ..." style="width:100%;"></th>                    
                   <th>
-                      <select  data-column="4" class="form-control search-input-select-informacao" style="width: 80%;">
+                      <select  data-column="4" class="form-control search-input-select-informacao" style="width: 100%;">
                         <option value="">Selecione ...</option>                        
                         <option value="ATIVO">Ativo</option>
                         <option value="INATIVO">Inativo</option>                        
                       </select>
                   </th>                   
-                  
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -111,11 +112,12 @@
               </tbody>
               <tfoot>
                 <tr>
+                <th>Imagem</th>
                   <th>Data</th>
                   <th>Descrição</th>
                   <th>Sinopse</th>                       
-                  <th>Informação</th>   
-                  <th>Ação</th>
+                  <th>Status/Ação</th>   
+                  
                 </tr>
               </tfoot>
             </table>

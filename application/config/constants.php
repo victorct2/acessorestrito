@@ -100,11 +100,11 @@ defined('IMAGEM_TESTEIRA')        OR define('IMAGEM_TESTEIRA', 'https://intranet
 defined('IMAGEM_BANNER')        OR define('IMAGEM_BANNER', 'https://intranet.canalsaude.fiocruz.br/assets/img/banners/'); // no errors
 defined('SEM_IMAGEM')        OR define('SEM_IMAGEM', 'https://intranet.canalsaude.fiocruz.br/assets/img/sem_imagem.png'); // no errors
 defined('IMAGEM_PARCEIROS')        OR define('IMAGEM_PARCEIROS', 'https://intranet.canalsaude.fiocruz.br/assets/img/programas/parceiros-mini.jpg'); // no errors
-defined('IMAGEM_NOTICIA')        OR define('IMAGEM_NOTICIA', 'https://intranet.canalsaude.fiocruz.br/assets/img/noticias/'); // no errors
+defined('IMAGEM_NOTICIA')        OR define('IMAGEM_NOTICIA', 'http://localhost/acessorestrito/assets/img/noticias/'); // no errors
 defined('IMAGEM_PARCEIRO_INST')        OR define('IMAGEM_PARCEIRO_INST', 'https://intranet.canalsaude.fiocruz.br/assets/img/parceirosInstitucionais/'); // no errors
 defined('IMAGEM_AVATAR')        OR define('IMAGEM_AVATAR', 'https://intranet.canalsaude.fiocruz.br/assets/img/avatar/'); // no errors
 defined('IMAGEM_PODCAST')        OR define('IMAGEM_PODCAST', 'https://intranet.canalsaude.fiocruz.br/assets/img/podcast/');
 defined('URL_PODCAST_DOWNLOAD')        OR define('URL_PODCAST_DOWNLOAD', 'https://intranet.canalsaude.fiocruz.br/assets/podcast/');
 defined('CLOSED_CAPTION')        OR define('CLOSED_CAPTION', 'https://intranet.canalsaude.fiocruz.br/assets/closedCaption/');
 defined('RESTRITO_UPLOAD')        OR define('RESTRITO_UPLOAD', 'assets/arquivos/restrito/');
-defined('IMAGEM_NOTICIA_SITE')        OR define('IMAGEM_NOTICIA_SITE', 'assets/img/noticias/');
+defined('IMAGEM_NOTICIA_SITE')        OR define('IMAGEM_NOTICIA_SITE', 'http://localhost/acessorestrito/assets/img/noticias/');

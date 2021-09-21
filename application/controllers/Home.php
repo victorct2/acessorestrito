@@ -30,7 +30,7 @@ class Home extends CI_Controller {
 		/*
 		** Paginação
 		*/
-		$this->load->library('pagination');
+		$this->load->library("pagination");
 		
 		$config['base_url'] = base_url().'Home/index/';
 		$config['total_rows'] = $this->AvisosDao_model->countAllAvisos('',$limite,$offset);		

@@ -51,7 +51,7 @@ Class AvisosDao_model extends CI_Model {
 	}
 
 	function make_query(){  
-		$order_column = array("dia","descricao","sinopse");  
+		$order_column = array(null,"dia","descricao","sinopse");  
 		$this->db->select('*');  
 		$this->db->from('avisos');
 
@@ -107,6 +107,7 @@ Class AvisosDao_model extends CI_Model {
 		return $this->db->count_all_results();  
     }
 
+   
 	 function selectAvisoByFriendly_url($friendly_url){
         $this->db->where('friendly_url',$friendly_url);
         $this->db->select('descricao,descricao_completa,link,friendly_url,dia,releaseAviso,ativa,id,alinfile,sinopse');	
