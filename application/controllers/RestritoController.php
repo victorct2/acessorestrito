@@ -79,7 +79,8 @@ class RestritoController extends CI_Controller {
         $data['listGrupos'] = $this->gruposDao_model->listarGrupos();       
         $data['usuario'] = $this->usuariosDao_model->selectUsuarioById($id);
         $data['id'] = $id;
-       
+        $data['listTipoArquivo'] = $this->RestritoDao_model->listarSituacao();
+       # $data['filter_tipo_arquivo'] = $this->RestritoDao_model->listarSituacao('descricao');
 
         
 

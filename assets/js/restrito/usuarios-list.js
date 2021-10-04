@@ -41,3 +41,6 @@ $('.search-input-text').on( 'keyup click', function () {   // for text boxes
     dataTable.columns(i).search(v).draw();
 });
 
+
+
+
