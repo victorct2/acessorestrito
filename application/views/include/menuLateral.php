@@ -119,14 +119,22 @@
                  <li <?php echo (isset($subMainNav) && $subMainNav == 'listarProgramasParceiros')? 'class="active"':'' ?>><a href="<?php echo base_url('midiasParceirosController/viewProgramasParceiros') ?>"><i class="fa fa-circle-o text-red"></i> Programas Parceiros</a></li>
               </ul>
             </li>
-           <!-- <li>
-            <a href="<?php echo base_url('Plataformas') ?>" target="_blank">
+          <li>
+            <a href="<?php echo base_url('Product_filter/index') ?>" target="_blank">
               <i class="fa fa-circle-o text-yellow"></i> <span>Fluxo</span>
               <span class="pull-right-container">
                 <small class="label pull-right bg-red">antigo</small>
               </span>
             </a>
-          </li>-->
+          </li>
+          <li>
+            <a href="<?php echo base_url('Product_filter2/index') ?>" target="_blank">
+              <i class="fa fa-circle-o text-yellow"></i> <span>Fluxo2</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-red">antigo</small>
+              </span>
+            </a>
+          </li>
           </ul>
         </li>
 
