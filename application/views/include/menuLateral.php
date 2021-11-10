@@ -86,7 +86,11 @@
           </ul>
         </li>
         <br>
+<<<<<<< HEAD
         <a href="http://coopas.tv.br/" target="_blank">&nbsp&nbsp&nbsp&nbsp<img  class="whatsapp" src="http://157.86.124.178/acessorestrito/assets/img/logo-verde-claro.png" width="30px"></i><span>Site COOPAS</span></a>
+=======
+        <a href="http://coopas.tv.br/" target="_blank">&nbsp&nbsp&nbsp&nbsp<img  class="whatsapp" src="http://localhost/acessorestrito/assets/img/logo-verde-claro.png" width="30px"></i><span>Site COOPAS</span></a>
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
         <br>
         <br>
         <br>
@@ -118,6 +122,7 @@
                  <!--<li <?php echo (isset($subMainNav) && $subMainNav == 'listarProgramas')? 'class="active"':'' ?>><a href="<?php echo base_url('midiasController/viewLista') ?>"><i class="fa fa-circle-o text-red"></i> Programas Casa</a></li>-->
                  <li <?php echo (isset($subMainNav) && $subMainNav == 'listarProgramasParceiros')? 'class="active"':'' ?>><a href="<?php echo base_url('midiasParceirosController/viewProgramasParceiros') ?>"><i class="fa fa-circle-o text-red"></i> Programas Parceiros</a></li>
               </ul>
+<<<<<<< HEAD
 	    </li>
       <li>
                   <a href="<?php echo base_url('Product_filter/index') ?>" target="_blank">
@@ -142,12 +147,29 @@
         </li>
            <!-- <li>
             <a href="<?php echo base_url('Plataformas') ?>" target="_blank">
+=======
+            </li>
+          <li>
+            <a href="<?php echo base_url('Product_filter/index') ?>" target="_blank">
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
               <i class="fa fa-circle-o text-yellow"></i> <span>Fluxo</span>
               <span class="pull-right-container">
                 <small class="label pull-right bg-red">antigo</small>
               </span>
             </a>
+<<<<<<< HEAD
           </li>-->
+=======
+          </li>
+          <li>
+            <a href="<?php echo base_url('Product_filter2/index') ?>" target="_blank">
+              <i class="fa fa-circle-o text-yellow"></i> <span>Fluxo2</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-red">antigo</small>
+              </span>
+            </a>
+          </li>
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
           </ul>
         </li>
 

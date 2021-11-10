@@ -100,6 +100,10 @@ class RestritoController extends CI_Controller {
 
      public function listaUsuariosDataTables(){
 
+<<<<<<< HEAD
+=======
+        
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
 
         $fetch_data = $this->RestritoDao_model->make_datatables();
 
@@ -112,7 +116,11 @@ class RestritoController extends CI_Controller {
             $sub_array[] = $row->login;
             $sub_array[] = $row->email;
            
+<<<<<<< HEAD
             $sub_array[] = '<a href="'.base_url('RestritoController/index/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+=======
+            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
                             ';
 
             $data[] = $sub_array;
@@ -439,6 +447,7 @@ class RestritoController extends CI_Controller {
             redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh'); 
         } 
     }
+<<<<<<< HEAD
  function index($id=0)
  {
   $this->load->view('include/openDoc');
@@ -490,6 +499,9 @@ class RestritoController extends CI_Controller {
   );
   echo json_encode($output);
  }
+=======
+
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
 
     }
     

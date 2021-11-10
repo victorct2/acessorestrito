@@ -107,4 +107,8 @@ defined('IMAGEM_PODCAST')        OR define('IMAGEM_PODCAST', 'https://intranet.c
 defined('URL_PODCAST_DOWNLOAD')        OR define('URL_PODCAST_DOWNLOAD', 'https://intranet.canalsaude.fiocruz.br/assets/podcast/');
 defined('CLOSED_CAPTION')        OR define('CLOSED_CAPTION', 'https://intranet.canalsaude.fiocruz.br/assets/closedCaption/');
 defined('RESTRITO_UPLOAD')        OR define('RESTRITO_UPLOAD', 'assets/arquivos/restrito/');
+<<<<<<< HEAD
 defined('IMAGEM_NOTICIA_SITE')        OR define('IMAGEM_NOTICIA_SITE', 'http://157.86.124.178/acessorestrito/assets/img/noticias/');
+=======
+defined('IMAGEM_NOTICIA_SITE')        OR define('IMAGEM_NOTICIA_SITE', 'http://localhost/acessorestrito/assets/img/noticias/');
+>>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
