@@ -297,7 +297,7 @@ function make_datatablesTipoArquivo(){
  function make_query_descr($descricao)
  {
   $query = "
-  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro FROM tipo_arquivo 
+  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
   inner join usuarios on cooperado_arquivo.id_user = usuarios.id
@@ -348,6 +348,7 @@ function make_datatablesTipoArquivo(){
       Nome do Arquivo : <b>'. $row['nome_arquivo'] .' </b></p>
      <a target=_blank href="'.base_url().RESTRITO_UPLOAD.$row['arquivo'].'">Download</a></strong></p>
       Cadastro : <b>'. $row['Data_cadastro'] .' </b></p>
+	  Cadastro : <b>'. $row['id_user'] .' </b></p>
       </div>
     </div>
     ';

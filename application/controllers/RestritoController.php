@@ -443,11 +443,13 @@ class RestritoController extends CI_Controller {
  {
   $this->load->view('include/openDoc');
   $data['descricao_data'] = $this->RestritoDao_model->fetch_filter_type('tipo_arquivo.descricao');
+   
+  $data['usuario'] = $this->RestritoDao_model->selectUsuarioById($id);
   #$data['ram_data'] = $this->product_filter_model2->fetch_filter_type('product_ram');
   #$data['product_storage'] = $this->product_filter_model2->fetch_filter_type('product_storage');
   $this->load->view('paginas/product/product_filter2', $data);
-  $this->load->model('usuariosDao_model');
-  $data['usuario'] = $this->usuariosDao_model->selectUsuarioById($id);
+ 
+ 
   
  }
 

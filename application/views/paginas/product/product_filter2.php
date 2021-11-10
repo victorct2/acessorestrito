@@ -1,3 +1,5 @@
+
+
   <?php $this->load->view('include/header') ?>
   <?php $this->load->view('include/menuLateral') ?>
     <meta charset="utf-8">
@@ -34,6 +36,7 @@
                     <div class="list-group-item checkbox">
                         <label><input type="checkbox" class="common_selector descricao" value="<?php echo $row['descricao']; ?>"  > <?php echo $row['descricao']; ?></label>
                     </div>
+					
                     <?php
                     }
                     ?>
