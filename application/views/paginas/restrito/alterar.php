@@ -97,18 +97,7 @@
               
                  <thead>
                 <tr class="busca">
-<<<<<<< HEAD
                 
-=======
-                 <th ><div class="list-group-item checkbox">
-                 <?php foreach ($listTipoArquivo as $row) { ?>
-                  
-                  <input type="checkbox"data-column="1" name="servicos" class="common_selector brand" name="<?php  echo $row->id ?>" value="<?php   echo $row->id  ?>"/> <?php   echo $row->descricao;  ?>
-                   
-                   
-                <?php }  ?>
-          </div></th>
->>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
                   <th ><input type="text"  data-column="1" class="form-control search-input-text"  placeholder="Tipo de Arquivo " style="width:100%;" ></th>
                   <th><input type="text" data-column="2" class="form-control search-input-text"  placeholder="Nome do Arquivo..." style="width:100%;"></th>
                   <th><input type="text" data-column="3" class="form-control search-input-text"  placeholder="Arquivo ..." style="width:100%;"></th>                 

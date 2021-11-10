@@ -285,7 +285,6 @@ function make_datatablesTipoArquivo(){
 	}
 	
 	
-<<<<<<< HEAD
 	 function fetch_filter_type($type)
  {
   $this->db->distinct();
@@ -360,9 +359,6 @@ function make_datatablesTipoArquivo(){
   }
   return $output;
  }
-=======
-	
->>>>>>> f7b39b2679a329f971ed2dcb9eb3f9da55e1a4b0
 
 }
 
