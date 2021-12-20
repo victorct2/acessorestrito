@@ -290,17 +290,13 @@ function make_datatablesTipoArquivo(){
   $this->db->distinct();
   $this->db->select($type);
   $this->db->from('tipo_arquivo');
-  $this->db->join('arquivo_upload','arquivo_upload.tipo_arquivo = tipo_arquivo.id');
-  $this->db->join('cooperado_arquivo','cooperado_arquivo.id_arquivo = arquivo_upload.id');
- $this->db->join('usuarios','cooperado_arquivo.id_user = usuarios.id');
-  $this->db->where('tipo_arquivo.ativa', 'S');
+  $this->db->where('ativa', 'S');
   return $this->db->get();
  }
 
- function make_query_descr($descricao,$id_user)
+ function make_query_descr($descricao)
  {
 	 $gruposArray = $this->session->userdata('grupos');
-	
 		
 		if(!in_array("50",$gruposArray)){
 			
@@ -322,7 +318,7 @@ function make_datatablesTipoArquivo(){
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
   inner join usuarios on cooperado_arquivo.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo.id_user='".$id_user."' ";
+  WHERE ativa = 'S' and cooperado_arquivo.id_user= '".$usuario."' ";
 		
 		
 	}
@@ -341,16 +337,16 @@ function make_datatablesTipoArquivo(){
  }
 
  
- function count_all($descricao,$id_user )
+ function count_all($descricao )
  {
-  $query = $this->make_query_descr($descricao,$id_user);
+  $query = $this->make_query_descr($descricao);
   $data = $this->db->query($query);
   return $data->num_rows();
  }
 
- function fetch_data($limit, $start, $descricao,$id_user)
+ function fetch_data($limit, $start, $descricao)
  {
-  $query = $this->make_query_descr($descricao,$id_user );
+  $query = $this->make_query_descr($descricao );
 
   $query .= ' LIMIT '.$start.', ' . $limit;
 

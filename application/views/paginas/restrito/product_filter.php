@@ -1,5 +1,3 @@
-
-
   <?php $this->load->view('include/header') ?>
   <?php $this->load->view('include/menuLateral') ?>
     <meta charset="utf-8">
@@ -34,14 +32,21 @@
                     ?>
 					 
                     <div class="list-group-item checkbox">
+					 <form action="<?php echo base_url('UsuariosController/alterarUsuario') ?>" method="POST">
+          <input type="hidden" name="id" value="<?php echo $usuario[0]->id ?>">
+          <input type="hidden" name="id_usuario" id="id_usuario" value="<?php echo $id ?>">
                         <label><input type="checkbox" class="common_selector descricao" value="<?php echo $row['descricao']; ?>"  > <?php echo $row['descricao']; ?></label>
+						
+          
                     </div>
+					
 					
                     <?php
                     }
                     ?>
+					
                 </div>
-
+</form>
             </div>
 
             <div class="col-md-9">
@@ -78,13 +83,13 @@ $(document).ready(function(){
     {
         $('.filter_data').html('<div id="loading" style="" ></div>');
         var action = 'fetch_data';
-        var descricao = get_filter('descricao');
-        
+        var descricao = get_filter('descricao');        
+        var id = $("#id_usuario").val();		
         $.ajax({
             url:"<?php echo base_url(); ?>RestritoController/fetch_data/"+page,
             method:"POST",
             dataType:"JSON",
-            data:{action:action,  descricao:descricao},
+            data:{action:action,  descricao:descricao, id:id},
             success:function(data)
             {
                 $('.filter_data').html(data.product_list);

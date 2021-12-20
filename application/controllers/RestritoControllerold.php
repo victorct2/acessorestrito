@@ -100,9 +100,9 @@ class RestritoController extends CI_Controller {
 
      public function listaUsuariosDataTables(){
 
+        
 
         $fetch_data = $this->RestritoDao_model->make_datatables();
-		
 
         $data = array();
         foreach($fetch_data as $row){
@@ -113,7 +113,7 @@ class RestritoController extends CI_Controller {
             $sub_array[] = $row->login;
             $sub_array[] = $row->email;
            
-            $sub_array[] = '<a href="'.base_url('RestritoController/index/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
                             ';
 
             $data[] = $sub_array;
@@ -440,67 +440,7 @@ class RestritoController extends CI_Controller {
             redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh'); 
         } 
     }
- function index($id)
- {
-  
-    $data['mainNav'] = 'restrito';
-  $this->load->view('include/openDoc');
-  $data['descricao_data'] = $this->RestritoDao_model->fetch_filter_type('tipo_arquivo.descricao');
-  $data['id_user'] = $this->RestritoDao_model->fetch_filter_type('cooperado_arquivo.id_user');
-  $data['listGrupos'] = $this->gruposDao_model->listarGrupos();     
-  $data['usuario'] = $this->RestritoDao_model->selectUsuarioById($id);
-  $data['id'] = $id;
-  #$data['ram_data'] = $this->product_filter_model2->fetch_filter_type('product_ram');
-  #$data['product_storage'] = $this->product_filter_model2->fetch_filter_type('product_storage');
-  $this->load->view('paginas/restrito/product_filter', $data);
-  $footer['assetsJs'] = 'restrito/usuarios-list.js';
- # $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
- 
- 
-  
- }
 
- function fetch_data()
- {
-  sleep(1);
-  $descricao = $this->input->post('descricao');
-  $id_user=$this->input->post('id');
-  
-  #$ativa = $this->input->post('ativa');
-  #$id = $this->input->post('id');
-  $this->load->library('pagination');
-  $config = array();
-  $config['base_url'] = '#';
-  $config['total_rows'] = $this->RestritoDao_model->count_all($descricao,$id_user);
-  $config['per_page'] = 8;
-  $config['uri_segment'] = 3;
-  $config['use_page_numbers'] = TRUE;
-  $config['full_tag_open'] = '<ul class="pagination">';
-  $config['full_tag_close'] = '</ul>';
-  $config['first_tag_open'] = '<li>';
-  $config['first_tag_close'] = '</li>';
-  $config['last_tag_open'] = '<li>';
-  $config['last_tag_close'] = '</li>';
-  $config['next_link'] = '&gt;';
-  $config['next_tag_open'] = '<li>';
-  $config['next_tag_close'] = '</li>';
-  $config['prev_link'] = '&lt;';
-  $config['prev_tag_open'] = '<li>';
-  $config['prev_tag_close'] = '</li>';
-  $config['cur_tag_open'] = "<li class='active'><a href='#'>";
-  $config['cur_tag_close'] = '</a></li>';
-  $config['num_tag_open'] = '<li>';
-  $config['num_tag_close'] = '</li>';
-  $config['num_links'] = 3;
-  $this->pagination->initialize($config);
-  $page = $this->uri->segment(3);
-  $start = ($page - 1) * $config['per_page'];
-  $output = array(
-   'pagination_link'  => $this->pagination->create_links(),
-   'product_list'   => $this->RestritoDao_model->fetch_data($config["per_page"], $start, $descricao, $id_user)
-  );
-  echo json_encode($output);
- }
 
     }
     

@@ -442,19 +442,17 @@ class RestritoController extends CI_Controller {
     }
  function index($id)
  {
-  
+ #  $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
     $data['mainNav'] = 'restrito';
   $this->load->view('include/openDoc');
   $data['descricao_data'] = $this->RestritoDao_model->fetch_filter_type('tipo_arquivo.descricao');
-  $data['id_user'] = $this->RestritoDao_model->fetch_filter_type('cooperado_arquivo.id_user');
   $data['listGrupos'] = $this->gruposDao_model->listarGrupos();     
   $data['usuario'] = $this->RestritoDao_model->selectUsuarioById($id);
   $data['id'] = $id;
   #$data['ram_data'] = $this->product_filter_model2->fetch_filter_type('product_ram');
   #$data['product_storage'] = $this->product_filter_model2->fetch_filter_type('product_storage');
-  $this->load->view('paginas/restrito/product_filter', $data);
+  $this->load->view('paginas/product/product_filter2', $data);
   $footer['assetsJs'] = 'restrito/usuarios-list.js';
- # $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
  
  
   
@@ -464,14 +462,13 @@ class RestritoController extends CI_Controller {
  {
   sleep(1);
   $descricao = $this->input->post('descricao');
-  $id_user=$this->input->post('id');
   
   #$ativa = $this->input->post('ativa');
   #$id = $this->input->post('id');
   $this->load->library('pagination');
   $config = array();
   $config['base_url'] = '#';
-  $config['total_rows'] = $this->RestritoDao_model->count_all($descricao,$id_user);
+  $config['total_rows'] = $this->RestritoDao_model->count_all($descricao);
   $config['per_page'] = 8;
   $config['uri_segment'] = 3;
   $config['use_page_numbers'] = TRUE;
@@ -497,7 +494,7 @@ class RestritoController extends CI_Controller {
   $start = ($page - 1) * $config['per_page'];
   $output = array(
    'pagination_link'  => $this->pagination->create_links(),
-   'product_list'   => $this->RestritoDao_model->fetch_data($config["per_page"], $start, $descricao, $id_user)
+   'product_list'   => $this->RestritoDao_model->fetch_data($config["per_page"], $start, $descricao)
   );
   echo json_encode($output);
  }
