@@ -306,11 +306,12 @@ function make_datatablesTipoArquivo(){
 			
 		
   $query = "
-  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
+   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
-  inner join usuarios on cooperado_arquivo.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo.id_user= '".$this->session->userdata("idUsuario")."'
+  left join usuarios on cooperado_arquivo.id_user = usuarios.id
+  WHERE ativa = 'S'    and cooperado_arquivo.id_user in('".$this->session->userdata("idUsuario")."', 0  )
+  
   ";
 
 		}
@@ -321,8 +322,8 @@ function make_datatablesTipoArquivo(){
   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
-  inner join usuarios on cooperado_arquivo.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo.id_user='".$id_user."' ";
+  left join usuarios on cooperado_arquivo.id_user = usuarios.id
+  WHERE ativa = 'S'    and cooperado_arquivo.id_user in ('".$id_user."',0)  ";
 		
 		
 	}
@@ -333,6 +334,9 @@ function make_datatablesTipoArquivo(){
    $query .= "
    
     AND tipo_arquivo.descricao in('".$descricao_filter."')
+	ORDER BY cooperado_arquivo.id desc
+	
+	
    ";
   }
 
