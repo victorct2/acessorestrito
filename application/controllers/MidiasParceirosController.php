@@ -935,7 +935,7 @@ class MidiasParceirosController extends CI_Controller {
 
 						}
 
-						if($row->dataRevisaoCatalogacao != '' && $row->dataRevisaoCatalogacao < $row->dataIngestClosedCaption && $row->idRevisaoCatalogacaoClosedCaption == '' && $row->dataCatalogacaoClosedCaption != ''){
+						if($row->dataRevisaoCatalogacao != ''  && $row->idRevisaoCatalogacaoClosedCaption == '' && $row->dataCatalogacaoClosedCaption != ''){
 							$linksFinais ='<a href="#" id="'.$row->idIngest.'" title="'.$row->idIngest.'" class="btn btn-app bg-blue revisarCatalogacaoClosedCaption" data-toggle="modal" data-target="#modal-revisarCatalogacaoClosedCaption"><i class="fa fa-cc" aria-hidden="true"></i> Revisar Catalogacao</a>';
 
 						}

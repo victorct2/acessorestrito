@@ -167,6 +167,43 @@
                   </div>
 
                 </form>
+				        <div class="box-body">
+          
+          <div class="row">
+          <?= form_open_multipart("AvisosController/upload", ['id' => 'uploader']); ?>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="imagens" class="control-label">Selecionar Imagens:</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                  <span class="butn butn-success fileinput-button">
+                      <span>Procurar</span><input type="file" name="userfile[]" id="uploadBtn" multiple>
+                      <?php //echo form_upload('userfile[]','','multiple'); ?>
+                  </span>
+                  <!--<div class="col-md-6">
+                    <input id="uploadFile" placeholder="Choose File" disabled="disabled" class="form-control" />
+                  </div>-->
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Upload</button>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <div class="col-md-6">
+                <br>
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" id="progressBarUpload" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <?php echo form_close() ?>
+              <div id="message"></div>
+              
+          </div>
+          <!-- /.row -->
+        </div>
               </div>
               <!-- /.tab-pane -->
 
@@ -182,18 +219,25 @@
                         <?php } ?>
                     </ul>
               </div>
+			  
+			  
 
 
             </div>
+			
             <!-- /.tab-content -->
           </div>
+		  
           <!-- /.nav-tabs-custom -->
         </div>
+		
         <!-- /.col -->
       </div>
+	  
       <!-- /.row -->
 
     </section>
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
