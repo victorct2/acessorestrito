@@ -15,178 +15,178 @@ Class ParceirosDao_model extends CI_Model {
 		$this->db->where('parceiros_id',$idParceiro);
 		#$this->db->order_by('idProgramasParceiros','desc');
 		$this->db->order_by('sigla','nomePrograma');
-		return $this->db->get('tbl_programasParceiros')->result();
-	}
-
-	function make_query_AreaParceiros(){
-		$order_column = array(null,"nomeParceiro","descriao",null);
-		$this->db->select('*');
-		$this->db->from('tbl_parceiros');
-
-		if(!empty($_POST['columns'][1]["search"]["value"])){
-			$this->db->where("idParceiros", $_POST['columns'][1]["search"]["value"]);
-		}
-		if(!empty($_POST['columns'][2]["search"]["value"])){
-			$this->db->or_like("descricao", $_POST['columns'][3]["search"]["value"]);
+			return $this->db->get('tbl_programasparceiros')->result();
 		}
 
-		switch ($_POST['columns'][3]["search"]["value"]) {
-			case 'ATIVO':
-				$this->db->where("ativo", 'S');
-				break;
-			case 'INATIVO':
-				$this->db->where("ativo", 'N');
-				break;
-			case 'SITE':
-				$this->db->where("site", 'S');
-				break;
-			case 'FORASITE':
-				$this->db->where("site", 'N');
-				break;
-			default:
+		function make_query_AreaParceiros(){
+			$order_column = array(null,"nomeParceiro","descriao",null);
+			$this->db->select('*');
+			$this->db->from('tbl_parceiros');
 
-				break;
+			if(!empty($_POST['columns'][1]["search"]["value"])){
+				$this->db->where("idParceiros", $_POST['columns'][1]["search"]["value"]);
+			}
+			if(!empty($_POST['columns'][2]["search"]["value"])){
+				$this->db->or_like("descricao", $_POST['columns'][3]["search"]["value"]);
+			}
 
+			switch ($_POST['columns'][3]["search"]["value"]) {
+				case 'ATIVO':
+					$this->db->where("ativo", 'S');
+					break;
+				case 'INATIVO':
+					$this->db->where("ativo", 'N');
+					break;
+				case 'SITE':
+					$this->db->where("site", 'S');
+					break;
+				case 'FORASITE':
+					$this->db->where("site", 'N');
+					break;
+				default:
+
+					break;
+
+			}
+
+			if(isset($_POST["order"])){
+				$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+			}
+			else{
+				$this->db->order_by('idParceiros DESC, nomeParceiro ASC');
+			}
 		}
 
-		if(isset($_POST["order"])){
-			$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		function make_datatables_AreaParceiros(){
+			$this->make_query_AreaParceiros();
+			if($_POST["length"] != -1){
+				$this->db->limit($_POST['length'], $_POST['start']);
+			}
+			$query = $this->db->get();
+			return $query->result();
+	    }
+
+		function get_filtered_data_AreaParceiros(){
+			$this->make_query_AreaParceiros();
+			$query = $this->db->get();
+			return $query->num_rows();
+	    }
+
+		function get_all_data_AreaParceiros(){
+			$this->db->select("*");
+			$this->db->from('tbl_parceiros');
+			return $this->db->count_all_results();
 		}
-		else{
-			$this->db->order_by('idParceiros DESC, nomeParceiro ASC');
+
+		function autorizar($data){
+			return $this->db->insert('tbl_autorizacao',$data);
 		}
-	}
 
-	function make_datatables_AreaParceiros(){
-		$this->make_query_AreaParceiros();
-		if($_POST["length"] != -1){
-			$this->db->limit($_POST['length'], $_POST['start']);
+		function autorizarClosedCaption($data){
+			$this->db->where('idAutorizacao',$data['idAutorizacao']);
+			return $this->db->update('tbl_autorizacao',$data);
 		}
-		$query = $this->db->get();
-		return $query->result();
-    }
 
-	function get_filtered_data_AreaParceiros(){
-		$this->make_query_AreaParceiros();
-		$query = $this->db->get();
-		return $query->num_rows();
-    }
+		function deleteAutorizacao($idIngest,$idAutorizacao){
+			$this->db->where('idAutorizacao',$idAutorizacao);
+			$this->db->where('ingest_id',$idIngest);
+			return $this->db->delete('tbl_autorizacao');
+		}
 
-	function get_all_data_AreaParceiros(){
-		$this->db->select("*");
-		$this->db->from('tbl_parceiros');
-		return $this->db->count_all_results();
-	}
+		function selectIdAutorizacao($idIngest){
+			$this->db->where('ingest_id',$idIngest);
+			$this->db->select('idAutorizacao');
+			return $this->db->get('tbl_autorizacao')->result();
+		}
 
-	function autorizar($data){
-		return $this->db->insert('tbl_autorizacao',$data);
-	}
+		function verificarParceiro($nome){
+			$this->db->where('nomeParceiro',$nome);
+			return $this->db->get('tbl_parceiros')->result();
+		}
 
-	function autorizarClosedCaption($data){
-		$this->db->where('idAutorizacao',$data['idAutorizacao']);
-		return $this->db->update('tbl_autorizacao',$data);
-	}
+		function verificarProgramaParceiro($nome){
+			$this->db->where('nomePrograma',$nome);
+			return $this->db->get('tbl_programasparceiros')->result();
+		}
 
-	function deleteAutorizacao($idIngest,$idAutorizacao){
-		$this->db->where('idAutorizacao',$idAutorizacao);
-		$this->db->where('ingest_id',$idIngest);
-		return $this->db->delete('tbl_autorizacao');
-	}
+		function selectParceiroById($idParceiro){
+			$this->db->where('idParceiros',$idParceiro);
+			return $this->db->get('tbl_parceiros')->result();
+		}
 
-	function selectIdAutorizacao($idIngest){
-		$this->db->where('ingest_id',$idIngest);
-		$this->db->select('idAutorizacao');
-		return $this->db->get('tbl_autorizacao')->result();
-	}
+		function selectProgramaParceiroById($idProgramaParceiro){
+			$this->db->where('idProgramasParceiros',$idProgramaParceiro);
+			return $this->db->get('tbl_programasparceiros')->result();
+		}
 
-	function verificarParceiro($nome){
-		$this->db->where('nomeParceiro',$nome);
-		return $this->db->get('tbl_parceiros')->result();
-	}
+		function insertParceiro($data){
+			return $this->db->insert('tbl_parceiros',$data);
+		}
 
-	function verificarProgramaParceiro($nome){
-		$this->db->where('nomePrograma',$nome);
-		return $this->db->get('tbl_programasParceiros')->result();
-	}
+		function insertProgramaParceiro($data){
+			return $this->db->insert('tbl_programasparceiros',$data);
+		}
 
-	function selectParceiroById($idParceiro){
-		$this->db->where('idParceiros',$idParceiro);
-		return $this->db->get('tbl_parceiros')->result();
-	}
+		function updateParceiro($data){
+			$this->db->where('idParceiros',$data['idParceiros']);
+			return $this->db->update('tbl_parceiros',$data);
+		}
 
-	function selectProgramaParceiroById($idProgramaParceiro){
-		$this->db->where('idProgramasParceiros',$idProgramaParceiro);
-		return $this->db->get('tbl_programasParceiros')->result();
-	}
+		function updateProgramaParceiro($data){
+			$this->db->where('idProgramasParceiros',$data['idProgramasParceiros']);
+			return $this->db->update('tbl_programasparceiros',$data);
+		}
 
-	function insertParceiro($data){
-		return $this->db->insert('tbl_parceiros',$data);
-	}
+		function updateAtivarSite($idParceiros){
+			$this->db->where('idParceiros',$idParceiros);
+			$result =  $this->db->get('tbl_parceiros')->result();
+			$ativarSite = '';
 
-	function insertProgramaParceiro($data){
-		return $this->db->insert('tbl_programasParceiros',$data);
-	}
-
-	function updateParceiro($data){
-		$this->db->where('idParceiros',$data['idParceiros']);
-		return $this->db->update('tbl_parceiros',$data);
-	}
-
-	function updateProgramaParceiro($data){
-		$this->db->where('idProgramasParceiros',$data['idProgramasParceiros']);
-		return $this->db->update('tbl_programasParceiros',$data);
-	}
-
-	function updateAtivarSite($idParceiros){
-		$this->db->where('idParceiros',$idParceiros);
-		$result =  $this->db->get('tbl_parceiros')->result();
-		$ativarSite = '';
-
-		if($result[0]->site != ''){
-			if($result[0]->site == 'S'){
-				$ativarSite = 'N';
-			}else if($result[0]->site == 'N'){
+			if($result[0]->site != ''){
+				if($result[0]->site == 'S'){
+					$ativarSite = 'N';
+				}else if($result[0]->site == 'N'){
+					$ativarSite = 'S';
+				}
+			}else{
 				$ativarSite = 'S';
 			}
-		}else{
-			$ativarSite = 'S';
+
+			$data = array(
+				'site' => $ativarSite
+			);
+			$this->db->where('idParceiros',$idParceiros);
+			return $this->db->update('tbl_parceiros',$data);
 		}
 
-		$data = array(
-			'site' => $ativarSite
-		);
-		$this->db->where('idParceiros',$idParceiros);
-		return $this->db->update('tbl_parceiros',$data);
-	}
+		function deleteParceiros($idParceiro){
+			//start the transaction
+			$this->db->trans_begin();
 
-	function deleteParceiros($idParceiro){
-		//start the transaction
-		$this->db->trans_begin();
+				$this->db->where('parceiros_id',$parceiros_id);
+				$this->db->delete('tbl_programasparceiros');
 
-			$this->db->where('parceiros_id',$parceiros_id);
-			$this->db->delete('tbl_programasParceiros');
+				$this->db->where('idParceiros',$idParceiro);
+				$this->db->delete('tbl_parceiros');
 
-			$this->db->where('idParceiros',$idParceiro);
-			$this->db->delete('tbl_parceiros');
+			//make transaction complete
+		$this->db->trans_complete();
+		//check if transaction status TRUE or FALSE
+		if ($this->db->trans_status() === FALSE) {
+		    //if something went wrong, rollback everything
+		    $this->db->trans_rollback();
+		return FALSE;
+		} else {
+				//if everything went right, commit the data to the database
+		    $this->db->trans_commit();
+		    return TRUE;
+		}
 
-		//make transaction complete
-        $this->db->trans_complete();
-        //check if transaction status TRUE or FALSE
-        if ($this->db->trans_status() === FALSE) {
-            //if something went wrong, rollback everything
-            $this->db->trans_rollback();
-        return FALSE;
-        } else {
-			//if everything went right, commit the data to the database
-            $this->db->trans_commit();
-            return TRUE;
-        }
+		}
 
-	}
-
-	function deleteProgramaParceiros($idProgramaParceiro){
-		$this->db->where('idProgramasParceiros',$idProgramaParceiro);
-		return $this->db->delete('tbl_programasParceiros');
+		function deleteProgramaParceiros($idProgramaParceiro){
+			$this->db->where('idProgramasParceiros',$idProgramaParceiro);
+			return $this->db->delete('tbl_programasparceiros');
 	}
 
 	function excluir($data){

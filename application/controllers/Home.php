@@ -16,16 +16,25 @@ class Home extends CI_Controller {
 		$this->load->model('usuariosDao_model');
 		$this->load->model('noticiasDao_model');
 		$this->load->model('AvisosDao_model');
-	}
+	    $this->load->model('loginDao_model');	
+		
+		
 
-	
+	}
 	public function index($offset=0){
+		/* $this->load->model('loginDao_model');	
+		$loginUser = $this->loginDao_model->loginUser($data);
+		 if($loginUser[0]->password_alterado !='S')  {
+
+		redirect(base_url().'AlterarSenha/alterarSenha','refresh');
+	}*/
 
 		$this->load->view('include/openDoc');
 
 		$limite = 8;				
 		
 		$data['listAvisos'] = $this->AvisosDao_model->selectAllAvisos('',$limite,$offset);
+		
 
 		/*
 		** Paginação

@@ -1,8 +1,7 @@
 <div class="wrapper">
 
   <?php $this->load->view('include/header') ?>
-  <?php $this->load->view('include/menuLateral') ?>
-
+  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -42,7 +41,12 @@
             
           <div class="row">
             <div class="col-md-6">
-
+ <?php 
+echo validation_errors('<div class="alert alert-danger">','</div>');
+                   
+echo form_open('AlterarSenha/alterarSenha2');
+                 
+                 ?>
              <div class="form-group">
                   <label for="nome">Nome Completo:</label>
                   <input type="text" name="nome" readonly="true" class="form-control" id="nome" placeholder="Informe o nome" value="<?php echo $usuario[0]->nome ?>">
@@ -69,10 +73,15 @@
                   </div>
                   <!-- /.input group -->
               </div>
-
+             
                             
              
               <button type="submit" class="btn btn-warning">Alterar Usuário</button>
+			  
+			   <?php	
+                 						   
+							   echo form_close();
+							   ?>
               
               </form>
             </div>

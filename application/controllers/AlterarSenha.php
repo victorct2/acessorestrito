@@ -30,15 +30,16 @@ class AlterarSenha extends CI_Controller {
 		if (empty($senha)){ 			
            $mensagem[] = 'A alteração de Senha é Obrigatória'; 
 		}else{
-            $senha = md5($senha);
-        }	
+			 $this->load->library('form_validation');
+			 $this->form_validation->set_rules('senha','Senha', 'required|min_length[8]|callback_is_password_strong');
+             
+			$senha = md5($senha);
+			if ($this->form_validation->run() ==FALSE){
+				$this->session->set_flashdata('resultado_error','A senha deve conter pelo menos 8 carácteres entre números e letras');			
+				redirect(base_url() . 'AlterarSenha/alterarSenha/','refresh'); 
+				}else{
+			 
 
-		
-        if (count($mensagem) > 0) {		
-			$this->session->set_flashdata('mensagem',$mensagem);	
-			redirect(base_url() . 'AlterarSenha/alterarSenha/','refresh');				
-		}
-        else{
 
             
             $data['senha']      = $senha;
@@ -49,13 +50,12 @@ class AlterarSenha extends CI_Controller {
 				$this->session->set_flashdata('resultado_ok','Senha alterada com sucesso!');			
 				redirect(base_url().'Home','refresh');
 			}
-			else {
-				$this->session->set_flashdata('resultado_error','Erro ao Alterar o usuário!');			
-				redirect(base_url() . 'AlterarSenha/alterarSenha/','refresh'); 
-			}
-        }
+			
+        
 
     }
+		}
+	}
 
   	
 public function alterarSenha(){	
@@ -77,7 +77,13 @@ public function alterarSenha(){
 
 		$this->load->view('include/footer',$footer);
 	}
-
+public function is_password_strong($senha)
+{
+   if (preg_match('#[0-9]#', $senha) && preg_match('#[a-zA-Z]#', $senha)) {
+     return TRUE;
+   }
+   return FALSE;
+}
 	
 
 }
