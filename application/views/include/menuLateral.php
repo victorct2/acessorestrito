@@ -85,6 +85,20 @@
             <li <?php echo (isset($subMainNav) && $subMainNav == 'listaAvisos')? 'class="active"':'' ?>><a href="<?php echo base_url('AvisosController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
           </ul>
         </li>
+		
+		     <li <?php echo (isset($mainNav) && $mainNav == 'restrito')?'class="active treeview"':'class="treeview"' ?>>
+          <a href="#">
+            <i class="fa fa-upload "></i> <span>Envio de arquivos</span>
+           <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'envio')? 'class="active"':'' ?>><a href="<?php echo base_url('EnvioController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
+            <!--<li <?php# echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php #echo base_url('RestritoController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
+            <li <?php #echo (isset($subMainNav) && $subMainNav == 'cadastroGrupo')? 'class="active"':'' ?>><a href="<?php# echo base_url('RestritoController/viewCadastroArquivo') ?>"><i class="fa fa-circle-o"></i> Cadastro Tipo de Arquivo</a></li> -->            
+          </ul>
+        </li>
         <br>
         <a href="http://coopas.tv.br/" target="_blank">&nbsp&nbsp&nbsp&nbsp<img  class="whatsapp" src="http://157.86.124.178/acessorestrito/assets/img/logo-verde-claro.png" width="30px"></i><span>Site COOPAS</span></a>
         <br>

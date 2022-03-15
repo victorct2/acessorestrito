@@ -21,7 +21,7 @@
     <!-- Main content -->
     <section class="content">
 
-      <form action="<?php echo base_url('RestritoController/cadastrarRestrito') ?>" method="POST">
+      <form action="<?php echo base_url('EnvioController/cadastrarEnvio') ?>" method="POST">
 
       <!-- SELECT2 EXAMPLE -->
       <div class="box box-default">
@@ -45,33 +45,15 @@
                   <label for="descricao">Descrição :</label>
                   <input name="descricao" type="text" class="form-control" id="descricao" placeholder="Informe a Descrição">
               </div>
-
-              <div class="form-group">
-                <label>Colaborador</label>
-                <select name="cooperado" class="form-control select2" style="width: 100%;">  
-                  <li><option value="GERAL" ><?php echo "Arquivo Global"?></option></li>	                
-                  <?php foreach ($listCooperado as $cooperado) { ?>
-                      <option value="<?php echo $cooperado->id ?>" ><?php echo $cooperado->nome ?></option>
-					  
-                  <?php } ?>      
-                    			  
-                </select>
+			  
+			  <div class="form-group">
+                  <label for="cooperado">Cooperado :</label>
+				  <?php $nome = $this->session->userdata("nomeUsuario"); ?>
+                  <input name="cooperado" type="text" class="form-control" id="cooperado" Value="<?php echo $nome?>" disabled="">
               </div>
+
               
-            </div>
-            <!-- /.col -->
-            <div class="col-md-6">
-               
-            
-
-              <div class="form-group">
-                <label>Tipo de Arquivo</label>
-                <select name="TipoArquivo" class="form-control select2" style="width: 100%;">                  
-                  <?php foreach ($listTipoArquivo as $TipoArquivo) { ?>
-                      <option value="<?php echo $TipoArquivo->id ?>" ><?php echo $TipoArquivo->descricao ?></option>
-                  <?php } ?>                  
-                </select>
-              </div>
+          
 
           
 
