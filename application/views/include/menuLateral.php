@@ -86,7 +86,7 @@
           </ul>
         </li>
 		
-		     <li <?php echo (isset($mainNav) && $mainNav == 'restrito')?'class="active treeview"':'class="treeview"' ?>>
+		     <li <?php echo (isset($mainNav) && $mainNav == 'envio')?'class="active treeview"':'class="treeview"' ?>>
           <a href="#">
             <i class="fa fa-upload "></i> <span>Envio de arquivos</span>
            <span class="pull-right-container">
@@ -95,8 +95,7 @@
           </a>
           <ul class="treeview-menu">
             <li <?php echo (isset($subMainNav) && $subMainNav == 'envio')? 'class="active"':'' ?>><a href="<?php echo base_url('EnvioController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro</a></li>
-            <!--<li <?php# echo (isset($subMainNav) && $subMainNav == 'restrito')? 'class="active"':'' ?>><a href="<?php #echo base_url('RestritoController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista</a></li>
-            <li <?php #echo (isset($subMainNav) && $subMainNav == 'cadastroGrupo')? 'class="active"':'' ?>><a href="<?php# echo base_url('RestritoController/viewCadastroArquivo') ?>"><i class="fa fa-circle-o"></i> Cadastro Tipo de Arquivo</a></li> -->            
+            <li <?php echo (isset($subMainNav) && $subMainNav == 'envio')? 'class="active"':'' ?>><a href="<?php echo base_url('EnvioController/viewLista') ?>"><i class="fa fa-circle-o"></i> Arquivos Enviados</a></li>           
           </ul>
         </li>
         <br>

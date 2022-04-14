@@ -41,12 +41,20 @@ return $this->db->get()->result();
 	** Adicionar Figurino
     */
 
-    function insertArquivo($data){	
+    /*function insertArquivo($data){	
 		return $this->db->insert('arquivo_upload',$data);	
+	}*/
+	
+	function insertArquivo($data){	
+		return $this->db->insert('arquivo_upload_usuario',$data);	
 	}
 
-	function insertRestrito($data2){	
+	/*function insertRestrito($data2){	
 		return $this->db->insert('cooperado_arquivo',$data2);	
+	}*/
+	
+	function insertRestrito($data2){	
+		return $this->db->insert('cooperado_arquivo_envio',$data2);	
 	}
 
 	function insertTipoArquivo($data){	
@@ -54,11 +62,18 @@ return $this->db->get()->result();
 	}
 
 	
-	function completar_cadastro($nome_arquivo,$arquivo,$id){	
+	/*function completar_cadastro($nome_arquivo,$arquivo,$id){	
 		$this->db->where('id',$id);	
 		$this->db->set('nome_arquivo', $nome_arquivo);
 		$this->db->set('arquivo', $arquivo);
 		return $query = $this->db->update('arquivo_upload');		
+	}*/
+	
+	function completar_cadastro($nome_arquivo,$arquivo,$id){	
+		$this->db->where('id',$id);	
+		$this->db->set('nome_arquivo', $nome_arquivo);
+		$this->db->set('arquivo', $arquivo);
+		return $query = $this->db->update('arquivo_upload_usuario');		
 	}
 
 	 function listarUsuarios($limit = null,$offset = null){
@@ -157,15 +172,15 @@ return $this->db->get()->result();
 
 
 
-		$order_column = array("tipo_arquivo.descricao as descr","arquivo_upload.nome_arquivo","arquivo_upload.arquivo","arquivo_upload.Data_cadastro");
+		$order_column = array("nome as descr","arquivo_upload_usuario.nome_arquivo","arquivo_upload_usuario.arquivo","arquivo_upload_usuario.Data_cadastro");
 
 			
-		$this->db->select('nome, login, id_user,id_arquivo,nome_arquivo, arquivo, arquivo_upload.Descricao, Data_cadastro, tipo_arquivo.descricao as descr, tipo_arquivo.id as  id');
-		$this->db->from('cooperado_arquivo');
+		$this->db->select('nome, login, id_user,id_arquivo,nome_arquivo, arquivo, arquivo_upload_usuario.Descricao, Data_cadastro, tipo_arquivo.descricao as descr, tipo_arquivo.id as  id');
+		$this->db->from('cooperado_arquivo_envio');
 		$this->db->order_by('Data_cadastro','desc');
-		$this->db->join('usuarios','cooperado_arquivo.id_user = usuarios.id');
-		$this->db->join('arquivo_upload','cooperado_arquivo.id_arquivo = arquivo_upload.id');
-		$this->db->join('tipo_arquivo','arquivo_upload.tipo_arquivo = tipo_arquivo.id');
+		$this->db->join('usuarios','cooperado_arquivo_envio.id_user = usuarios.id');
+		$this->db->join('arquivo_upload_usuario','cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id');
+		$this->db->join('tipo_arquivo','arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id','left');
 		
 		
 		$gruposArray = $this->session->userdata('grupos');
@@ -175,11 +190,11 @@ return $this->db->get()->result();
 			$this->db->where('usuarios.id',$id_user);
 		}else{
 
-			$this->db->where('cooperado_arquivo.id_user',$id);
+			$this->db->where('cooperado_arquivo_envio.id_user',$id);
 		}
 
 		if(!empty($_POST['columns'][1]["search"]["value"])){
-			$this->db->like("tipo_arquivo.descricao", $_POST['columns'][1]["search"]["value"]);  
+			$this->db->like("nome", $_POST['columns'][1]["search"]["value"]);  
 		}
 		if(!empty($_POST['columns'][2]["search"]["value"])){
 			$this->db->like("nome_arquivo", $_POST['columns'][2]["search"]["value"]);
@@ -290,9 +305,9 @@ function make_datatablesTipoArquivo(){
   $this->db->distinct();
   $this->db->select($type);
   $this->db->from('tipo_arquivo');
-  $this->db->join('arquivo_upload','arquivo_upload.tipo_arquivo = tipo_arquivo.id');
-  $this->db->join('cooperado_arquivo','cooperado_arquivo.id_arquivo = arquivo_upload.id');
- $this->db->join('usuarios','cooperado_arquivo.id_user = usuarios.id');
+  $this->db->join('arquivo_upload_usuario','arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id');
+  $this->db->join('cooperado_arquivo_envio','cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id');
+ $this->db->join('usuarios','cooperado_arquivo_envio.id_user = usuarios.id');
   $this->db->where('tipo_arquivo.ativa', 'S');
   return $this->db->get();
  }
@@ -307,10 +322,10 @@ function make_datatablesTipoArquivo(){
 		
   $query = "
    SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
-  inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
-  inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
-  left join usuarios on cooperado_arquivo.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo.id_user in('".$this->session->userdata("idUsuario")."', 0  )
+  inner join arquivo_upload_usuario on arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id
+  inner join cooperado_arquivo_envio on cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id
+  left join usuarios on cooperado_arquivo_envio.id_user = usuarios.id
+  WHERE ativa = 'S'    and cooperado_arquivo_envio.id_user in('".$this->session->userdata("idUsuario")."', 0  )
   
   ";
 
@@ -320,10 +335,10 @@ function make_datatablesTipoArquivo(){
 		
 	$query = "
   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
-  inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
-  inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
-  left join usuarios on cooperado_arquivo.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo.id_user in ('".$id_user."',0)  ";
+  inner join arquivo_upload_usuario on arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id
+  inner join cooperado_arquivo_envio on cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id
+  left join usuarios on cooperado_arquivo_envio.id_user = usuarios.id
+  WHERE ativa = 'S'    and cooperado_arquivo_envio.id_user in ('".$id_user."',0)  ";
 		
 		
 	}
@@ -334,7 +349,7 @@ function make_datatablesTipoArquivo(){
    $query .= "
    
     AND tipo_arquivo.descricao in('".$descricao_filter."')
-	ORDER BY cooperado_arquivo.id desc
+	ORDER BY cooperado_arquivo_envio.id desc
 	
 	
    ";

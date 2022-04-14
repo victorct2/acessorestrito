@@ -34,15 +34,15 @@ class EnvioController extends CI_Controller {
         $open['assetsCSS'] = 'usuarios/usuarios-list.css';
         $this->load->view('include/openDoc',$open);
 
-        $data['mainNav'] = 'restrito';      
-        $data['listGrupos'] = $this->RestritoDao_model->listarGrupos();
+        $data['mainNav'] = 'envio';      
+        $data['listGrupos'] = $this->EnvioDao_model->listarGrupos();
         
-        $this->load->view('paginas/restrito/lista',$data);
+        $this->load->view('paginas/envio/lista',$data);
 
       
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
-        $footer['assetsJs'] = 'restrito/usuarios-home.js';
+        $footer['assetsJs'] = 'envio/usuarios-home.js';
         $this->load->view('include/footer',$footer);
     }
    public function viewCadastroArquivo(){
@@ -60,9 +60,9 @@ class EnvioController extends CI_Controller {
         $open['assetsBower'] = 'select2/dist/css/select2.min.css';        
         $this->load->view('include/openDoc',$open);
 
-        $data['mainNav'] = 'restrito';
+        $data['mainNav'] = 'envio';
         $data['subMainNav'] = 'alteraTipoArquivo';
-        $this->load->view('paginas/restrito/cadastroTipoArquivo',$data); 
+        $this->load->view('paginas/envio/cadastroTipoArquivo',$data); 
 
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js';
         $footer['assetsJs'] = 'grupos/grupos-cadastro.js';
@@ -76,25 +76,25 @@ class EnvioController extends CI_Controller {
          $open['assetsCSS'] = 'usuarios/usuarios-list.css';       
          $this->load->view('include/openDoc',$open);
 
-        $data['mainNav'] = 'restrito';
+        $data['mainNav'] = 'envio';
         $data['listGrupos'] = $this->gruposDao_model->listarGrupos();       
         $data['usuario'] = $this->usuariosDao_model->selectUsuarioById($id);
         $data['id'] = $id;
-        $data['listTipoArquivo'] = $this->RestritoDao_model->listarSituacao();
+        $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
        # $data['filter_tipo_arquivo'] = $this->RestritoDao_model->listarSituacao('descricao');
 
         
 
-        $this->load->view('paginas/restrito/alterar',$data);
+        $this->load->view('paginas/envio/alterar',$data);
         
-         $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
+         $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
          
 
          
 
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
-        $footer['assetsJs'] = 'restrito/usuarios-list.js';
+        $footer['assetsJs'] = 'envio/usuarios-list.js';
         $this->load->view('include/footer',$footer);
     }
 
@@ -102,7 +102,7 @@ class EnvioController extends CI_Controller {
      public function listaUsuariosDataTables(){
 
 
-        $fetch_data = $this->RestritoDao_model->make_datatables();
+        $fetch_data = $this->EnvioDao_model->make_datatables();
 		
 
         $data = array();
@@ -114,31 +114,31 @@ class EnvioController extends CI_Controller {
             $sub_array[] = $row->login;
             $sub_array[] = $row->email;
            
-            $sub_array[] = '<a href="'.base_url('RestritoController/index/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+            $sub_array[] = '<a href="'.base_url('EnvioController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
                             ';
 
             $data[] = $sub_array;
         }
         $output = array(
             "draw" => intval($_POST["draw"]),
-            "recordsTotal" => $this->RestritoDao_model->get_all_data(),
-            "recordsFiltered" => $this->RestritoDao_model->get_filtered_data(),
+            "recordsTotal" => $this->EnvioDao_model->get_all_data(),
+            "recordsFiltered" => $this->EnvioDao_model->get_filtered_data(),
             "data" => $data
         );
         echo json_encode($output);
     }
 
       public function listaArquivoDataTables($id){
-        $fetch_data = $this->RestritoDao_model->make_datatables2($id);
+        $fetch_data = $this->EnvioDao_model->make_datatables2($id);
 
         $data = array();
         foreach($fetch_data as $row){
             $sub_array = array();
-            $sub_array[] = $row->descr; 
+            $sub_array[] = $row->nome;
             $sub_array[] = $row->nome_arquivo;
             $sub_array[] = "<a target=_blank href=".base_url().RESTRITO_UPLOAD.$row->arquivo.">$row->arquivo</a>";
             $sub_array[] =  $row->Data_cadastro;
-            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir Arquivo</a>
+            $sub_array[] = '<a href="'.base_url('EnvioController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir Arquivo</a>
                             ';
             
            
@@ -147,8 +147,8 @@ class EnvioController extends CI_Controller {
         }
         $output = array(
             "draw" => intval($_POST["draw"]),
-            "recordsTotal" => $this->RestritoDao_model->get_all_files($id),
-            "recordsFiltered" => $this->RestritoDao_model->get_filtered_data2($id),
+            "recordsTotal" => $this->EnvioDao_model->get_all_files($id),
+            "recordsFiltered" => $this->EnvioDao_model->get_filtered_data2($id),
             "data" => $data
         );
         echo json_encode($output);
@@ -159,22 +159,15 @@ class EnvioController extends CI_Controller {
         if(!$this->session->userdata('logged_in')){
             redirect(base_url() . 'Login', 'refresh');
         }
-        $grupos = $this->session->userdata('grupos');
-        if(in_array("1", $grupos)){             
-        }
-        if(in_array("50", $grupos)){
-        }else{
-            redirect(base_url() . 'Home', 'refresh');
-        }
-
+        
         $open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
         $open['pluginCSS'] = 'bootstrap-fileinput/css/fileinput.min.css';
         
         $this->load->view('include/openDoc',$open);
         
 		
-        $data['listTipoArquivo'] = $this->RestritoDao_model->listarSituacao();
-        $data['mainNav'] = 'restrito';
+        $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
+        $data['mainNav'] = 'envio';
         $data['subMainNav'] = 'cadastroEnvio';
         $this->load->view('paginas/envio/cadastro',$data);   
 
@@ -191,7 +184,7 @@ class EnvioController extends CI_Controller {
         
         $this->load->view('include/openDoc',$open);
         $data['listCooperado'] = $this->RestritoDao_model->listarCooperado();
-        $data['listTipoArquivo'] = $this->RestritoDao_model->listarSituacao();
+        $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
         $data['mainNav'] = 'restrito';
         $data['subMainNav'] = 'cadastroRestrito';
         $this->load->view('paginas/restrito/cadastro',$data);   
@@ -351,7 +344,7 @@ class EnvioController extends CI_Controller {
             $sub_array[] = $row->id;             
             $sub_array[] = $row->descricao;   
             $sub_array[] = $row->ativa;
-            $sub_array[] = '<a href="'.base_url('RestritoController/viewAlterarTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>';                            
+            $sub_array[] = '<a href="'.base_url('EnvioController/viewAlterarTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>';                            
             $sub_array[] ='<a href="'.base_url('RestritoController/excluirTipoArquivo/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';  
 
             
@@ -404,7 +397,7 @@ class EnvioController extends CI_Controller {
         
         if(count($mensagem)>0){        
             $this->session->set_flashdata('mensagem',$mensagem);    
-            redirect(base_url() . 'RestritoController/viewListaTipoArquivo/'.$id,'refresh');       
+            redirect(base_url() . 'EnvioController/viewListaTipoArquivo/'.$id,'refresh');       
         }
         else{
         
@@ -418,10 +411,10 @@ class EnvioController extends CI_Controller {
             if($this->RestritoDao_model->updateTipoArquivo($data)){ 
                   
                 $this->session->set_flashdata('resultado_ok','Grupo cadastrado com sucesso!');          
-                redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh');             
+                redirect(base_url() . 'EnvioController/viewListaTipoArquivo','refresh');             
             }else{            
                 $this->session->set_flashdata('resultado_error','Erro ao cadastrar o Grupo!');          
-                redirect(base_url() . 'RestritoController/viewListaTipoArquivo','refresh');             
+                redirect(base_url() . 'EnvioController/viewListaTipoArquivo','refresh');             
             }
         
         }
@@ -441,18 +434,18 @@ class EnvioController extends CI_Controller {
  function index($id)
  {
   
-    $data['mainNav'] = 'restrito';
+    $data['mainNav'] = 'envio';
   $this->load->view('include/openDoc');
-  $data['descricao_data'] = $this->RestritoDao_model->fetch_filter_type('tipo_arquivo.descricao');
-  $data['id_user'] = $this->RestritoDao_model->fetch_filter_type('cooperado_arquivo.id_user');
+  $data['descricao_data'] = $this->EnvioDao_model->fetch_filter_type('tipo_arquivo.descricao');
+  $data['id_user'] = $this->EnvioDao_model->fetch_filter_type('cooperado_arquivo_envio.id_user');
   $data['listGrupos'] = $this->gruposDao_model->listarGrupos();     
-  $data['usuario'] = $this->RestritoDao_model->selectUsuarioById($id);
+  $data['usuario'] = $this->EnvioDao_model->selectUsuarioById($id);
   $data['id'] = $id;
   #$data['ram_data'] = $this->product_filter_model2->fetch_filter_type('product_ram');
   #$data['product_storage'] = $this->product_filter_model2->fetch_filter_type('product_storage');
-  $this->load->view('paginas/restrito/product_filter', $data);
-  $footer['assetsJs'] = 'restrito/usuarios-list.js';
- # $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
+ $this->load->view('paginas/envio/alterar',$data);
+  $footer['assetsJs'] = 'envio/usuarios-list.js';
+  $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
  
  
   
@@ -469,7 +462,7 @@ class EnvioController extends CI_Controller {
   $this->load->library('pagination');
   $config = array();
   $config['base_url'] = '#';
-  $config['total_rows'] = $this->RestritoDao_model->count_all($descricao,$id_user);
+  $config['total_rows'] = $this->EnvioDao_model->count_all($descricao,$id_user);
   $config['per_page'] = 8;
   $config['uri_segment'] = 3;
   $config['use_page_numbers'] = TRUE;
@@ -495,7 +488,7 @@ class EnvioController extends CI_Controller {
   $start = ($page - 1) * $config['per_page'];
   $output = array(
    'pagination_link'  => $this->pagination->create_links(),
-   'product_list'   => $this->RestritoDao_model->fetch_data($config["per_page"], $start, $descricao, $id_user)
+   'product_list'   => $this->EnvioDao_model->fetch_data($config["per_page"], $start, $descricao, $id_user)
   );
   echo json_encode($output);
  }
