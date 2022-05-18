@@ -57,7 +57,7 @@
 
           
 
-              <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <!--<button type="submit" class="btn btn-primary">Cadastrar</button>-->
 
             </div>
             <!-- /.col -->
@@ -89,6 +89,7 @@
                   <input id="arquivos" name="arquivos[]" type="file" class="file" multiple data-show-upload="true" data-show-caption="true">
                       <div id="resp"></div>                    
                 </div>
+				 <button type="submit" class="btn btn-primary">Cadastrar</button>
               </div>
               
           </div>
