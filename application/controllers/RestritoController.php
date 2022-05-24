@@ -278,7 +278,16 @@ class RestritoController extends CI_Controller {
                 }                               
                 
                 
-                $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');            
+                $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');   
+				$this->load->library('email');
+                $this->email->from("coopascti@gmail.com", 'Meu E-mail');
+				$this->email->subject("Teste");
+				$this->email->to("victor.torrao@fiocruz.br");		
+				$this->email->message("Homologação!!!");
+				$this->email->send();				
+				/*if ( ! $this->email->send()) {
+        show_error($this->email->print_debugger());
+    } */
                 redirect(base_url() . 'RestritoController/viewCadastro','refresh'); 
             }
             else {

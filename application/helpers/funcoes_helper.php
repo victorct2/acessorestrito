@@ -267,6 +267,7 @@ function tratarTelefone($telefone) {
 ** Validando Email
 */
 function validarEmail ($email) {
+	
         $email=trim (strtolower($email));
         if (strlen($email)<6) return false;
         if (!preg_match('/^[a-z0-9]+([\._-][a-z0-9]+)*@[a-z0-9_-]+(\.[a-z0-9]+){0,4}\.[a-z0-9]{1,4}$/',$email)) return false;

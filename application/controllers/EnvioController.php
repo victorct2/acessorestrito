@@ -492,6 +492,10 @@ class EnvioController extends CI_Controller {
   );
   echo json_encode($output);
  }
+ public function enviar_email(){
+	 
+	 
+ }
 
     }
     
