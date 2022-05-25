@@ -51,11 +51,12 @@
                 <select name="cooperado" class="form-control select2" style="width: 100%;">  
                   <li><option value="GERAL" ><?php echo "Arquivo Global"?></option></li>	                
                   <?php foreach ($listCooperado as $cooperado) { ?>
-                      <option value="<?php echo $cooperado->id ?>" ><?php echo $cooperado->nome ?></option>
-					  
-                  <?php } ?>      
-                    			  
+                      <option value="<?php echo $cooperado->id .' - '. $cooperado->email ?>" ><?php echo $cooperado->nome ?></option>
+					<?php } ?>    
+                    
                 </select>
+				
+                    
               </div>
               
             </div>

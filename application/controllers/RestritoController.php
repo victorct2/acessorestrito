@@ -206,9 +206,15 @@ class RestritoController extends CI_Controller {
             
         $descricao   = $this->input->post('descricao');
         $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;;
-        $idCooperado   = $this->input->post('cooperado');
+		$termo = $this->input->post('cooperado');
+        $explodetermo = (explode("-",$termo));
+		$idCooperado= trim($explodetermo[0]);
+		$email= trim($explodetermo[1]);
         $TipoArquivo   = $this->input->post('TipoArquivo');
-                        
+		
+	   
+	   #die($idCooperado.$email);
+		                
         $mensagem = array();
         
         if(empty($descricao)){
@@ -280,10 +286,10 @@ class RestritoController extends CI_Controller {
                 
                 $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');   
 				$this->load->library('email');
-                $this->email->from("coopascti@gmail.com", 'Meu E-mail');
-				$this->email->subject("Teste");
-				$this->email->to("victor.torrao@fiocruz.br");		
-				$this->email->message("Homologação!!!");
+                $this->email->from("coopascti@gmail.com", 'Novo arquivo na intranet');
+				$this->email->subject(" COOPAS");
+				$this->email->to($email);		
+				$this->email->message("Teste Envio de e-mail INTRANET");
 				$this->email->send();				
 				/*if ( ! $this->email->send()) {
         show_error($this->email->print_debugger());

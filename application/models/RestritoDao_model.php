@@ -14,7 +14,7 @@ Class RestritoDao_model extends CI_Model {
 
     function listarCooperado($limit = null,$offset = null){
 		
-$this->db->select('usuarios.id,usuarios.nome');
+$this->db->select('usuarios.id,usuarios.nome,usuarios.email');
 $this->db->from('usuarios');
 $this->db->join('usuarios_grupos','usuarios.id = usuarios_grupos.idUsuario');
 $this->db->where('usuarios_grupos.idGrupo','49');
