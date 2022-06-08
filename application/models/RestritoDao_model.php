@@ -27,6 +27,27 @@ return $this->db->get()->result();
 		$this->db->where('ativa','S');
 		return $this->db->get('tipo_arquivo')->result();
 	}
+	
+	function listarEmail(){		
+		
+		$this->db->select('email');
+		$this->db->from('usuarios');
+		$this->db->join('usuarios_grupos','usuarios_grupos.idUsuario = usuarios.id');
+		$this->db->where('usuarios_grupos.idGrupo','49');
+		$this->db->where('usuarios.ativo','S');
+		$query = $this->db->get();
+		return $query->result_array();
+	}
+	
+	  function get_filtered_email(){  
+		$this->db->select('email');
+		$this->db->from('usuarios');
+		$this->db->join('usuarios_grupos','usuarios_grupos.idUsuario = usuarios.id');
+		$this->db->where('usuarios_grupos.idGrupo','49');
+		$this->db->where('usuarios.ativo','S');
+		$query = $this->db->get();
+		return $query->num_rows();  
+    }
 
 	function selectUsuarioById($id){
 		$this->db->where('id', $id);

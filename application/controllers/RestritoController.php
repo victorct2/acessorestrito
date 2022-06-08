@@ -209,11 +209,36 @@ class RestritoController extends CI_Controller {
 		$termo = $this->input->post('cooperado');
         $explodetermo = (explode("-",$termo));
 		$idCooperado= trim($explodetermo[0]);
-		$email= trim($explodetermo[1]);
-        $TipoArquivo   = $this->input->post('TipoArquivo');
+		#$email= trim($explodetermo[1]);
+		$TipoArquivo = $this->input->post('TipoArquivo');
+				
+		if ($idCooperado == "GERAL"){
+		$consultaEmail = $this->RestritoDao_model->listarEmail();
+		$total=$this->RestritoDao_model->get_filtered_email();
 		
-	   
-	   #die($idCooperado.$email);
+		foreach($consultaEmail		as $row){
+			$email =$row["email"];
+			
+			
+			#print_r ($email);
+			#print_r ($consultaEmail);
+			 $this->load->library('email');
+                $this->email->from("coopascti@gmail.com", 'Novo arquivo na intranet');
+				$this->email->subject(" COOPAS");
+				$this->email->to($email);		
+				$this->email->message("Teste Envio de e-mail INTRANET");
+				$this->email->send();	
+			
+		}
+		
+	  
+	 
+        }else{
+       $email= trim($explodetermo[1]);			
+		
+		
+	}
+	    
 		                
         $mensagem = array();
         
@@ -290,11 +315,13 @@ class RestritoController extends CI_Controller {
 				$this->email->subject(" COOPAS");
 				$this->email->to($email);		
 				$this->email->message("Teste Envio de e-mail INTRANET");
-				$this->email->send();				
-				/*if ( ! $this->email->send()) {
-        show_error($this->email->print_debugger());
-    } */
+				$this->email->send();		
+				
+				#if ( ! $this->email->send()) {
+        #show_error($this->email->print_debugger());
+    #}            
                 redirect(base_url() . 'RestritoController/viewCadastro','refresh'); 
+				
             }
             else {
                 $this->session->set_flashdata('resultado_error','Erro ao cadastrar o Arquivo!');            
