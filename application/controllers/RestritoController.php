@@ -205,7 +205,7 @@ class RestritoController extends CI_Controller {
 
             
         $descricao   = $this->input->post('descricao');
-        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;;
+        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;
 		$termo = $this->input->post('cooperado');
         $explodetermo = (explode("-",$termo));
 		$idCooperado= trim($explodetermo[0]);
@@ -213,6 +213,75 @@ class RestritoController extends CI_Controller {
 		$TipoArquivo = $this->input->post('TipoArquivo');
 				
 		if ($idCooperado == "GERAL"){
+			 $mensagem = array();
+        
+        if(empty($descricao)){
+            $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
+        }
+        
+        if(empty($arquivos)){
+            $arquivos[] = 'O <b>arquivo</b> é Obrigatório.';
+        }
+        
+        
+        
+        if(empty($TipoArquivo)){
+            $mensagem[] = 'O <b>Tipo</b> de arquivo é Obrigatório.';
+        }
+        
+        
+        if (count($mensagem) > 0) {     
+            $this->session->set_flashdata('mensagem',$mensagem);    
+            redirect(base_url() . 'RestritoController/viewCadastro','refresh');         
+        }       
+        else{           
+            
+            /*
+            ** Armazenando dados do formulário no Array $data
+            */      
+            $data['id'] = null;
+            $data['descricao'] = $descricao;    
+            $data['tipo_arquivo']=$TipoArquivo ;
+
+		}
+            
+            
+            
+            if($this->RestritoDao_model->insertArquivo($data)){ #aqui o correto é só adicionar a referência da outra tabela (arquivo_upload)
+                
+                $id = $this->db->insert_id();   
+                $idArquivo = $this->RestritoDao_model->selectArquivoById($id);
+                
+                $data2['id_arquivo'] = $id;
+                $data2['id'] = null;                    
+                $data2['id_user'] = $idCooperado ; 
+
+                $this->RestritoDao_model->insertRestrito($data2);
+
+                /*
+                * Foto
+                */
+                $searchString = " ";
+                $replaceString = "";
+                $originalString =$descricao;
+                
+                $trataString=$outputString = str_replace($searchString, $replaceString, $originalString);
+                
+                $nome_arquivo= $descricao;  
+                $ext = @end(explode(".",$arquivos[0]));
+                $arquivo = $trataString.'.'.$ext;
+                //die($arquivo);                
+                
+                if($this->RestritoDao_model->completar_cadastro($nome_arquivo,$arquivo,$id)){
+                    chmod('uploadArquivos/arquivos/'.$arquivos[0], 0777);
+                    rename('uploadArquivos/arquivos/'.$arquivos[0],  'uploadArquivos/arquivos/'.$arquivo);
+                    chmod('uploadArquivos/arquivos/'.$arquivo, 0777);                     
+                    copy('uploadArquivos/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
+                    unlink('uploadArquivos/arquivos/'.$arquivo);
+
+                }  
+			}
+							
 		$consultaEmail = $this->RestritoDao_model->listarEmail();
 		$total=$this->RestritoDao_model->get_filtered_email();
 		
@@ -228,6 +297,8 @@ class RestritoController extends CI_Controller {
 				$this->email->to($email);		
 				$this->email->message("Teste Envio de e-mail INTRANET");
 				$this->email->send();	
+				
+				redirect(base_url() . 'RestritoController/viewCadastro','refresh');
 			
 		}
 		
@@ -237,7 +308,7 @@ class RestritoController extends CI_Controller {
        $email= trim($explodetermo[1]);			
 		
 		
-	}
+	
 	    
 		                
         $mensagem = array();
@@ -327,8 +398,10 @@ class RestritoController extends CI_Controller {
                 $this->session->set_flashdata('resultado_error','Erro ao cadastrar o Arquivo!');            
                 redirect(base_url() . 'RestritoController/viewCadastro','refresh'); 
             }
-        }
-    }
+        
+		}
+		}    
+	}
 
      public function cadastrarTipoArquivo(){
 
@@ -492,11 +565,8 @@ class RestritoController extends CI_Controller {
   $data['listGrupos'] = $this->gruposDao_model->listarGrupos();     
   $data['usuario'] = $this->RestritoDao_model->selectUsuarioById($id);
   $data['id'] = $id;
-  #$data['ram_data'] = $this->product_filter_model2->fetch_filter_type('product_ram');
-  #$data['product_storage'] = $this->product_filter_model2->fetch_filter_type('product_storage');
   $this->load->view('paginas/restrito/product_filter', $data);
   $footer['assetsJs'] = 'restrito/usuarios-list.js';
- # $data['listArquivoUsuario'] = $this->RestritoDao_model->selectArquivoUsuario($id);
  
  
   
