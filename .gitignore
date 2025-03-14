@@ -34,3 +34,4 @@ application/config/database.php
 assets/arquivos/restrito/*
 application/config/email.php
 application/config/constants.php
+application/config/email.php
