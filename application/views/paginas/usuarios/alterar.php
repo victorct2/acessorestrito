@@ -85,30 +85,8 @@
                 </select>
               </div> 
 
-              <div class="form-group">
-                <label>Programas:</label>
-                <select name="programas[]" class="form-control selectProgramas" multiple="multiple" data-placeholder="Selecione os programas"
-                        style="width: 100%;">
-                  <?php foreach ($listProgramas as $programas) {      
-                          if(in_array($programas->id,$programasUsuario)){
-                            echo '<option value="'. $programas->id .'" selected="selected">'. $programas->titulo .'</option>';
-                          } else{
-                            echo '<option value="'. $programas->id .'" >'. $programas->titulo .'</option>';
-                          }                          
-                        } ?>
-                </select>
-              </div>
-
-              <div class="form-group">
-                  <label>E-mail:</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-envelope"></i>
-                    </div>
-                    <input type="email" name="email" class="form-control" placeholder="Informe o email" value="<?php echo $usuario[0]->email ?>">
-                  </div>
-                  <!-- /.input group -->
-              </div>
+            
+              
               <!-- /.form group -->
 
               <div class="form-group">
@@ -173,39 +151,19 @@
                   </div>
                   <!-- /.input group -->
                 </div>
+				<div class="form-group">
+                  <label>E-mail:</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-envelope"></i>
+                    </div>
+                    <input type="email" name="email" class="form-control" placeholder="Informe o email" value="<?php echo $usuario[0]->email ?>">
+                  </div>
+                  <!-- /.input group -->
+              </div>
                 <!-- /.form group -->
 
-              <div class="form-group">
-                <label>Freelancer</label>
-                <select name="freelancer" id="freelancer" class="form-control" style="width: 100%;">
-                  <option value="S" <?php echo ($usuario[0]->freelancer =="S")? 'selected="selected"':'' ?>>SIM</option>
-                  <option value="N" <?php echo ($usuario[0]->freelancer =="N")? 'selected="selected"':'' ?>>NÃO</option>
-                </select>
-              </div>  
-               
-              <div class="form-group">
-                <label>Mobilização</label>
-                <select name="mobilizacao" id="mobilizacao" class="form-control" style="width: 100%;">
-                  <option value="S" <?php echo ($usuario[0]->mobilizacao =="S")? 'selected="selected"':'' ?>>SIM</option>
-                  <option value="N" <?php echo ($usuario[0]->mobilizacao =="N")? 'selected="selected"':'' ?>>NÃO</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Autorizar os Dados para Mobilização</label>
-                <select name="autorizar" id="autorizar" class="form-control" style="width: 100%;">
-                  <option value="S" <?php echo ($usuario[0]->autorizar =="S")? 'selected="selected"':'' ?>>SIM</option>
-                  <option value="N" <?php echo ($usuario[0]->autorizar =="N")? 'selected="selected"':'' ?>>NÃO</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>API</label>
-                <select name="api" class="form-control" style="width: 100%;">
-                  <option value="S" <?php echo ($usuario[0]->api =="S")? 'selected="selected"':'' ?>>SIM</option>
-                  <option value="N" <?php echo ($usuario[0]->api =="N")? 'selected="selected"':'' ?>>NÃO</option>
-                </select>
-              </div>
+             
                
               <div class="form-group">
                 <label>Situação</label>

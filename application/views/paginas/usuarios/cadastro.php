@@ -79,26 +79,9 @@
                 </select>
               </div> 
 
-              <div class="form-group">
-                <label>Programas:</label>
-                <select name="programas[]" class="form-control selectProgramas" multiple="multiple" data-placeholder="Selecione os programas"
-                        style="width: 100%;">
-                  <?php foreach ($listProgramas as $programas) { ?>
-                    <option value="<?php echo $programas->id ?>"><?php echo $programas->titulo ?></option>
-                  <?php } ?>
-                </select>
-              </div>
+             
 
-              <div class="form-group">
-                  <label>E-mail:</label>
-                  <div class="input-group">
-                    <div class="input-group-addon">
-                      <i class="fa fa-envelope"></i>
-                    </div>
-                    <input type="email" name="email" class="form-control" placeholder="Informe o email" >
-                  </div>
-                  <!-- /.input group -->
-              </div>
+             
               <!-- /.form group -->
 
               <div class="form-group">
@@ -163,39 +146,20 @@
                   </div>
                   <!-- /.input group -->
                 </div>
+				 <div class="form-group">
+                  <label>E-mail:</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-envelope"></i>
+                    </div>
+                    <input type="email" name="email" class="form-control" placeholder="Informe o email" >
+                  </div>
+                  <!-- /.input group -->
+              </div>
                 <!-- /.form group -->
 
-              <div class="form-group">
-                <label>Freelancer</label>
-                <select name="freelancer" id="freelancer" class="form-control" style="width: 100%;">
-                  <option value="S" selected="selected">SIM</option>
-                  <option value="N">NÃO</option>
-                </select>
-              </div>  
                
-              <div class="form-group">
-                <label>Mobilização</label>
-                <select name="mobilizacao" id="mobilizacao" class="form-control" style="width: 100%;">
-                  <option value="S" selected="selected">SIM</option>
-                  <option value="N">NÃO</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>Autorizar os Dados para Mobilização</label>
-                <select name="autorizar" id="autorizar" class="form-control" style="width: 100%;">
-                  <option value="S" selected="selected">SIM</option>
-                  <option value="N">NÃO</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label>API</label>
-                <select name="api" class="form-control" style="width: 100%;">
-                  <option value="S" selected="selected">SIM</option>
-                  <option value="N">NÃO</option>
-                </select>
-              </div>
+             
                
               <div class="form-group">
                 <label>Situação</label>

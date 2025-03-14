@@ -19,6 +19,7 @@ $this->db->from('usuarios');
 $this->db->join('usuarios_grupos','usuarios.id = usuarios_grupos.idUsuario');
 $this->db->where('usuarios_grupos.idGrupo','49');
 $this->db->where('usuarios.ativo','S');
+$this->db->order_by('nome');
 return $this->db->get()->result();
 	}
 
@@ -30,7 +31,7 @@ return $this->db->get()->result();
 	
 	function listarEmail(){		
 		
-		$this->db->select('email');
+		$this->db->select('email, nome');
 		$this->db->from('usuarios');
 		$this->db->join('usuarios_grupos','usuarios_grupos.idUsuario = usuarios.id');
 		$this->db->where('usuarios_grupos.idGrupo','49');
@@ -120,6 +121,7 @@ return $this->db->get()->result();
 		$this->db->join('grupos','usuarios_grupos.idGrupo = grupos.id');
         $this->db->where('usuarios_grupos.idGrupo','49');
         $this->db->where('usuarios.id',$this->session->userdata("idUsuario"));
+		
     }
 
 
@@ -355,13 +357,13 @@ function make_datatablesTipoArquivo(){
    $query .= "
    
     AND tipo_arquivo.descricao in('".$descricao_filter."')
-	ORDER BY cooperado_arquivo.id desc
+	
 	
 	
    ";
   }
-
-  
+	$query .= "
+  ORDER BY cooperado_arquivo.id desc ";
   return $query;
  }
 
@@ -394,7 +396,7 @@ function make_datatablesTipoArquivo(){
       Nome do Arquivo : <b>'. $row['nome_arquivo'] .' </b></p>
      <a target=_blank href="'.base_url().RESTRITO_UPLOAD.$row['arquivo'].'">Download</a></strong></p>
       Cadastro : <b>'. $row['Data_cadastro'] .' </b></p>
-	  Cadastro : <b>'. $row['id_user'] .' </b></p>
+	  <!--Excluir : <b>'. $row['id_user'] .' </b></p>-->
       </div>
     </div>
     ';

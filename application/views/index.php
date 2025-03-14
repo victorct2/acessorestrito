@@ -48,10 +48,11 @@
 
 
           ?>   
+		  
 
           <div class="col-sm-6">        
-                      <h3><a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>"><img src="<?php echo IMAGEM_NOTICIA_SITE.$imagem[0] ?> " class="fotoNoticiaLista" width="150" height="100"></a>
-                          <?php echo converteDataInterface($avisos->dia) .' :: '. $avisos->descricao ?> 
+                      <h3><a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>"><img src="<?php echo IMAGEM_NOTICIA_SITE.$imagem[0] ?> " class="fotoNoticiaLista" width="75" height="50"></a>
+                       <?php echo converteDataInterface($avisos->dia) .' :: '. $avisos->descricao ?> 
                       </h3>
                       <p>
                         <a href="<?php echo base_url('Home/avisoAberto/'.$avisos->friendly_url)?>">

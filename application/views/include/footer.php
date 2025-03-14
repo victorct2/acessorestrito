@@ -3,7 +3,7 @@
     <div class="pull-right hidden-xs">
       <b>Version</b> 2.4.0
     </div>
-    <strong>Copyright &copy; 2017 <a href="http://coopas.tv.br/">COOPAS</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2022 <a href="http://coopas.tv.br/">COOPAS</a>.</strong> All rights reserved.
   </footer>
 <?php } ?>
 

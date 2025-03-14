@@ -55,9 +55,7 @@ Class UsuariosDao_model extends CI_Model {
 			case 'INATIVO':
 				$this->db->where("ativo", 'N');
 				break;
-			case 'FREELANCER':
-				$this->db->where("freelancer", 'S');
-				break;
+			
 			default:
 				
 				break;
@@ -69,7 +67,7 @@ Class UsuariosDao_model extends CI_Model {
 			$this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
 		}
 		else{
-			$this->db->order_by('id', 'DESC');
+			$this->db->order_by('usuarios.nome');
 		}
 	}
 

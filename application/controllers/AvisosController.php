@@ -10,7 +10,7 @@ class AvisosController extends CI_Controller {
             redirect(base_url() . 'Login', 'refresh');
         }
         $grupos = $this->session->userdata('grupos');
-        if(in_array("1", $grupos) || in_array("49", $grupos)){             
+        if(in_array("1", $grupos) || in_array("49", $grupos)|| in_array("52", $grupos)){             
         }else{
             redirect(base_url() . 'Home', 'refresh');
         }

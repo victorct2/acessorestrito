@@ -69,10 +69,7 @@ class UsuariosController extends CI_Controller {
             }else if($row->ativo == 'N'){
                 $situacao = '<span class="label pull-right bg-red">INATIVO</span><br>';
             }
-            $freelancer = '';
-            if($row->freelancer == 'S'){
-                $freelancer = '<span class="label pull-right bg-teal">FREELANCER</span><br>';
-            }
+           
 
             $sub_array = array();
             $sub_array[] = $row->id;
@@ -80,7 +77,7 @@ class UsuariosController extends CI_Controller {
             $sub_array[] = $row->login;
             $sub_array[] = $row->nome_grupo;
             $sub_array[] = $row->email;
-            $sub_array[] = $cargo.$profissao.$situacao.$freelancer;
+            $sub_array[] = $cargo.$profissao.$situacao;
             $sub_array[] = '<a href="'.base_url('UsuariosController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-edit"></i> Alterar</a>
                             <a href="'.base_url('UsuariosController/excluirUsuario/'.$row->id).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir</a>';
 
@@ -151,19 +148,19 @@ class UsuariosController extends CI_Controller {
 		$login       = $this->input->post('login');
 		$senha       = $this->input->post('senha');
 		$grupos      = $this->input->post('grupos');
-		$programas      = $this->input->post('programas');
+		//$programas      = $this->input->post('programas');
 		$email 		 = $this->input->post('email');
 		$telefone    = $this->input->post('telefone');
         $celular     = $this->input->post('celular');
 		$profissao   = $this->input->post('profissao');
 		$instituicao = $this->input->post('instituicao');
 		$cargo  	 = $this->input->post('cargo');
-		$mobilizacao = $this->input->post('mobilizacao');
-		$autorizar   = $this->input->post('autorizar');
-        $api         = $this->input->post('api');
+		//$mobilizacao = $this->input->post('mobilizacao');
+		//$autorizar   = $this->input->post('autorizar');
+        //$api         = $this->input->post('api');
 		$ativo       = $this->input->post('situacao'); 
         $dataNascimento = $this->input->post('dataNascimento'); 
-        $freelancer = $this->input->post('freelancer'); 
+        //$freelancer = $this->input->post('freelancer'); 
 		
 		$mensagem = array();
 
@@ -202,7 +199,7 @@ class UsuariosController extends CI_Controller {
         else{
 
             $data['dia']        = date('Y-m-d'); 
-            $data['freelancer'] = $freelancer; 
+          //  $data['freelancer'] = $freelancer; 
 			$data['login']      = $login;
 			$data['senha']      = md5($senha);
 			$data['nome']       = $nome;
@@ -215,9 +212,9 @@ class UsuariosController extends CI_Controller {
 			$data['email']      = $email;
 			$data['profissao']  = $profissao;
 			$data['cargo']      = $cargo;
-			$data['mobilizacao']= $mobilizacao;
-			$data['autorizar']  = $autorizar;
-            $data['api']        = $api;
+			//$data['mobilizacao']= $mobilizacao;
+			//$data['autorizar']  = $autorizar;
+            //$data['api']        = $api;
 			$data['ativo']	    = $ativo;
             $data['dataNascimento'] = converteDataBanco($dataNascimento);
 
@@ -269,19 +266,19 @@ class UsuariosController extends CI_Controller {
 		$login       = $this->input->post('login');
 		$senha       = $this->input->post('senha');
 		$grupos      = $this->input->post('grupos');
-		$programas   = $this->input->post('programas');
+		//$programas   = $this->input->post('programas');
 		$email 		 = $this->input->post('email');
 		$telefone    = $this->input->post('telefone');
         $celular     = $this->input->post('celular');
 		$profissao   = $this->input->post('profissao');
 		$instituicao = $this->input->post('instituicao');
 		$cargo  	 = $this->input->post('cargo');
-		$mobilizacao = $this->input->post('mobilizacao');
-		$autorizar   = $this->input->post('autorizar');
-        $api         = $this->input->post('api');
+		//$mobilizacao = $this->input->post('mobilizacao');
+		//$autorizar   = $this->input->post('autorizar');
+        //$api         = $this->input->post('api');
 		$ativo       = $this->input->post('situacao'); 
         $dataNascimento = $this->input->post('dataNascimento'); 
-        $freelancer = $this->input->post('freelancer'); 
+        //$freelancer = $this->input->post('freelancer'); 
         $id          = $this->input->post('id');
 		
         $dadosAtuais = $this->usuariosDao_model->selectUsuarioById($id);
@@ -324,7 +321,7 @@ class UsuariosController extends CI_Controller {
         else{
 
             
-            $data['freelancer'] = $freelancer; 
+        //    $data['freelancer'] = $freelancer; 
 			$data['login']      = $login;
 			$data['senha']      = $senha;
 			$data['nome']       = $nome;
@@ -337,9 +334,9 @@ class UsuariosController extends CI_Controller {
 			$data['email']      = $email;
 			$data['profissao']  = $profissao;
 			$data['cargo']      = $cargo;
-			$data['mobilizacao']= $mobilizacao;
-			$data['autorizar']  = $autorizar;
-            $data['api']        = $api;
+			//$data['mobilizacao']= $mobilizacao;
+			//$data['autorizar']  = $autorizar;
+            //$data['api']        = $api;
 			$data['ativo']	    = $ativo;
             $data['dataNascimento'] = converteDataBanco($dataNascimento);
             $data['id'] = $id;

@@ -111,7 +111,7 @@
                       <option value="">Selecione ...</option> 
                         <option value="ATIVO" >Ativo</option>
                         <option value="INATIVO">Inativo</option>
-                        <option value="FREELANCER">Freelancer</option>
+
                       </select>
                   </th>                   
                   <th></th>

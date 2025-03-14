@@ -40,17 +40,16 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?php echo IMAGEM_AVATAR.$this->session->userdata("avatar")?>" class="user-image" alt="User Image">
-              <?php $nome = $this->session->userdata("nomeUsuario"); ?>
-              <span class="hidden-xs"><?php echo $nome?></span>
+              
+              <span class="hidden-xs"><?php #echo $nome?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?php echo IMAGEM_AVATAR.$this->session->userdata("avatar")?>" class="img-circle" alt="User Image">
+      
 
                 <p>
-                  <?php echo $nome.' - '. $this->session->userdata("cargo")?>
+
                   <small>COOPAS</small>
                 </p>
               </li>

@@ -15,7 +15,7 @@ Class ParceirosDao_model extends CI_Model {
 		$this->db->where('parceiros_id',$idParceiro);
 		#$this->db->order_by('idProgramasParceiros','desc');
 		$this->db->order_by('sigla','nomePrograma');
-			return $this->db->get('tbl_programasparceiros')->result();
+			return $this->db->get('tbl_programasParceiros')->result();
 		}
 
 		function make_query_AreaParceiros(){
@@ -106,7 +106,7 @@ Class ParceirosDao_model extends CI_Model {
 
 		function verificarProgramaParceiro($nome){
 			$this->db->where('nomePrograma',$nome);
-			return $this->db->get('tbl_programasparceiros')->result();
+			return $this->db->get('tbl_programasParceiros')->result();
 		}
 
 		function selectParceiroById($idParceiro){
@@ -116,7 +116,7 @@ Class ParceirosDao_model extends CI_Model {
 
 		function selectProgramaParceiroById($idProgramaParceiro){
 			$this->db->where('idProgramasParceiros',$idProgramaParceiro);
-			return $this->db->get('tbl_programasparceiros')->result();
+			return $this->db->get('tbl_programasParceiros')->result();
 		}
 
 		function insertParceiro($data){
@@ -124,7 +124,7 @@ Class ParceirosDao_model extends CI_Model {
 		}
 
 		function insertProgramaParceiro($data){
-			return $this->db->insert('tbl_programasparceiros',$data);
+			return $this->db->insert('tbl_programasParceiros',$data);
 		}
 
 		function updateParceiro($data){
@@ -134,7 +134,7 @@ Class ParceirosDao_model extends CI_Model {
 
 		function updateProgramaParceiro($data){
 			$this->db->where('idProgramasParceiros',$data['idProgramasParceiros']);
-			return $this->db->update('tbl_programasparceiros',$data);
+			return $this->db->update('tbl_programasParceiros',$data);
 		}
 
 		function updateAtivarSite($idParceiros){
@@ -164,7 +164,7 @@ Class ParceirosDao_model extends CI_Model {
 			$this->db->trans_begin();
 
 				$this->db->where('parceiros_id',$parceiros_id);
-				$this->db->delete('tbl_programasparceiros');
+				$this->db->delete('tbl_programasParceiros');
 
 				$this->db->where('idParceiros',$idParceiro);
 				$this->db->delete('tbl_parceiros');
@@ -186,7 +186,7 @@ Class ParceirosDao_model extends CI_Model {
 
 		function deleteProgramaParceiros($idProgramaParceiro){
 			$this->db->where('idProgramasParceiros',$idProgramaParceiro);
-			return $this->db->delete('tbl_programasparceiros');
+			return $this->db->delete('tbl_programasParceiros');
 	}
 
 	function excluir($data){

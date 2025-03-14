@@ -28,7 +28,7 @@
           <div class="box box-primary">
             <div class="box-body box-profile">
               <?php if($usuario[0]->avatar == '' || $usuario[0]->avatar == null) { ?>
-                  <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() ?>assets/img/avatar/avatar33.png" alt="User profile picture">
+                  <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() ?>assets/img/avatar/logo-verde-claro.png" alt="User profile picture">
               <?php } else{ ?>  
                   <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url() ?>assets/img/avatar/<?php echo  $usuario[0]->avatar?>" alt="User profile picture">
               <?php } ?>      
@@ -107,7 +107,7 @@
           <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#settings" data-toggle="tab">Dados Pessoais</a></li>
-              <li><a href="#avatar" data-toggle="tab">Avatar</a></li>
+              <!--<li><a href="#avatar" data-toggle="tab">Avatar</a></li>-->
             </ul>
             <div class="tab-content">
                             
@@ -169,7 +169,7 @@
                 </form>
 				        <div class="box-body">
           
-          <div class="row">
+          <!--<div class="row">
           <?= form_open_multipart("AvisosController/upload", ['id' => 'uploader']); ?>
               <div class="col-md-12">
                 <div class="form-group">
@@ -185,7 +185,7 @@
                   <!--<div class="col-md-6">
                     <input id="uploadFile" placeholder="Choose File" disabled="disabled" class="form-control" />
                   </div>-->
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Upload</button>
+                 <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Upload</button>
                 </div>
 
               </div>
@@ -198,7 +198,7 @@
                   </div>
                 </div>
               </div>
-                <?php echo form_close() ?>
+                <?php #echo form_close() ?>
               <div id="message"></div>
               
           </div>
@@ -207,18 +207,18 @@
               </div>
               <!-- /.tab-pane -->
 
-              <div class="tab-pane" id="avatar">
+             <!-- <div class="tab-pane" id="avatar">
                     <ul id="listAvatar">                      
-                      <?php for ($i=1; $i <=33 ; $i++) {                          
-                          $avatar = 'avatar'.$i.'.png';
-                          if ($this->session->userdata("avatar") == $avatar){ ?>
-                              <li><img id="<?php echo $i ?>" src="<?php echo base_url().'assets/img/avatar/'.$avatar ?>" class="img-responsive img-thumbnail imgAvatar selected" title="<?php echo $avatar ?>"></li>
-                          <?php }else{ ?>  
-                              <li><img id="<?php echo $i ?>" src="<?php echo base_url().'assets/img/avatar/'.$avatar ?>" class="img-responsive img-thumbnail imgAvatar" title="<?php echo $avatar ?>"></li>
-                          <?php } ?>
-                        <?php } ?>
+                      <?php #for ($i=1; $i <=33 ; $i++) {                          
+                          #$avatar = 'avatar'.$i.'.png';
+                          #if ($this->session->userdata("avatar") == $avatar){ ?>
+                              <li><img id="<?php# echo $i ?>" src="<?php# echo base_url().'assets/img/avatar/'.$avatar ?>" class="img-responsive img-thumbnail imgAvatar selected" title="<?php# echo $avatar ?>"></li>
+                          <?php #}else{ ?>  
+                              <li><img id="<?php #echo $i ?>" src="<?php# echo base_url().'assets/img/avatar/'.$avatar ?>" class="img-responsive img-thumbnail imgAvatar" title="<?php #echo $avatar ?>"></li>
+                          <?php #} ?>
+                        <?php #} ?>
                     </ul>
-              </div>
+              </div>-->
 			  
 			  
 

@@ -84,6 +84,105 @@ public function is_password_strong($senha)
    }
    return FALSE;
 }
+public function recuperaSenha(){	
+$open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
+        
+        $this->load->view('include/openDoc',$open);
+
+        
+        $this->load->view('paginas/usuarios/recuperar-senha.php');
+		$login       = $this->input->post('login');
+		
+		if (empty($login)){
+			$mensagem[] = 'o campo <b>LOGIN</b> é obrigatório';
+		}
+		
+		if (count($mensagem) > 0) {		
+			$this->session->set_flashdata('mensagem',$mensagem);	
+			#redirect(base_url() . 'AlterarSenha/recuperaSenha','refresh');				
+		}
+        else{
+			$data['login']      = $login;
+       
+		}
+        $footer['assetsJsBower'] = 'moment/min/moment.min.js,select2/dist/js/select2.full.min.js,bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+        $footer['pluginJS'] = 'input-mask/jquery.inputmask.js';
+        $footer['assetsJs'] = 'usuarios/usuarios-cadastro.js';
+
+		$this->load->view('include/footer',$footer);
+        
+		
+		
+		 
+        
+	}
+	public function recuperaSenha2(){
+     
+     	 
+       	#$senha       = ($this->input->post('senha'));
+		$id          = ($this->input->post('id'));
+		$login = ($this->input->post('login'));
+		$login_atual = $this->usuariosDao_model->login_disponivel($login);	
+		$mensagem = array();
+		
+		#$loginUsuario = $this->input->post('loginUsuario');		
+		#$login_atual = $this->usuariosDao_model->login_disponivel($loginUsuario);		
+		if (count($login_atual) < 1) {
+			
+			$mensagem[] = 'Login não existente';
+		}
+		
+		if (empty($login)){
+			$mensagem[] = 'o campo <b>LOGIN</b> é obrigatório';
+		}
+		
+		if (count($mensagem) > 0) {		
+			$this->session->set_flashdata('mensagem',$mensagem);	
+			redirect(base_url() . 'AlterarSenha/recuperaSenha','refresh');				
+		}
+		else{
+		$email = $login_atual[0]->email;
+		$id = $login_atual[0]->id;
+		$nome = $login_atual[0]->nome;
+		$chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuwxyz0123456789";
+		$size=8;
+		$randomString = '';
 	
+			for($i = 0; $i < $size; $i = $i+1){
+			$randomString .= $chars[mt_rand(0,60)];
+			$senhacri= md5($randomString);
+			}
+			
+		
+		}	
+        
+		$dadosAtuais = $this->usuariosDao_model->selectUsuarioById($id);
+		$mensagem = array();
+
+			$this->load->library('email');
+                $this->email->from("intranetcoopas@gmail.com", 'SENHA PROVISORIA ');
+				$this->email->subject(" COOPAS");
+				$this->email->to($email);		
+				#$this->email->message("Olá, $nome. O arquivo $descricao está disponível e pode ser acessado em  http://intranet.coopas.tv.br");
+				$this->email->message("Olá, $nome, sua senha foi alterada provisoriamente para <span style='color:red;'>$randomString</span> e deverá ser redefinida após o primeiro login.");
+				$this->email->send();	
+			
+		
+			$data['senha']      = $senhacri;
+			$data['id'] = $id;
+			$data['password_alterado'] = 'N';
+
+            if($this->LoginDao_model->updateUsuario($data)){
+				$this->session->set_flashdata('resultado_ok','Uma senha provisória foi enviada para o seu e-mail.');
+				redirect(base_url().'Login','refresh');
+							
+				#
+			}
+			
+        
+
+    
+		
+	}	
 
 }
