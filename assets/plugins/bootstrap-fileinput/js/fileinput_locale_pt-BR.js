@@ -7,6 +7,8 @@
  * @see http://github.com/kartik-v/bootstrap-fileinput
  *
  * NOTE: this file must be saved in UTF-8 encoding.
+ * 
+ * uploadLabel: Alterado de 'Enviar' para 'Anexar
  */
 (function ($) {
     "use strict";
@@ -19,7 +21,7 @@
         removeTitle: 'Remover arquivos selecionados',
         cancelLabel: 'Cancelar',
         cancelTitle: 'Interromper envio em andamento',
-        uploadLabel: 'Enviar',
+        uploadLabel: 'Anexar',
         uploadTitle: 'Enviar arquivos selecionados',
         msgZoomTitle: 'Ver detalhes',
         msgZoomModalHeading: 'Pré-visualização detalhada',
