@@ -136,6 +136,26 @@
             <li <?php echo (isset($subMainNav) && $subMainNav == 'envio')? 'class="active"':'' ?>><a href="<?php echo base_url('EnvioController/viewLista') ?>"><i class="fa fa-circle-o"></i> Arquivos Enviados</a></li>           
           </ul>
         </li>
+        <li <?php echo (isset($mainNav) && $mainNav == 'imagens')?'class="active treeview"':'class="treeview"' ?>>
+          <a href="#">
+            <i class="fa fa-picture-o"></i> <span>Banco de imagens</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li <?php echo (isset($mainNavSub) && $mainNavSub == 'imagens')?'class="active treeview"':'class="treeview"' ?>>
+              <a href="#"><i class="fa fa-circle-o text-yellow"></i> Imagens                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                 <li <?php echo (isset($subMainNav) && $subMainNav == 'cadastroImagens')? 'class="active"':'' ?>><a href="<?php echo base_url('ImagensController/viewCadastro') ?>"><i class="fa fa-circle-o"></i> Cadastro de Imagens</a></li>
+                 <li <?php echo (isset($subMainNav) && $subMainNav == 'listaImagens')? 'class="active"':'' ?>><a href="<?php echo base_url('ImagensController/viewLista') ?>"><i class="fa fa-circle-o"></i> lista de Imagens</a></li>
+              </ul>
+            </li>            
+          </ul>
+        </li>
 		 <li <?php echo (isset($mainNav) && $mainNav == 'perfil')? 'class="active"':'' ?>>
           <a href="https://coopas.tv.br/acessorestrito/assets/arquivos/Manual Intranet COOPAS.pdf" target="_blank">
             <i class="fa fa-book"></i> <span>Manual do Usuário</span>
@@ -146,58 +166,6 @@
         <br>
         <br>
         <br>
-          <!--<li class="header">Redes Sociais</li>
-        <!--<li <?php# echo (isset($mainNav) && $mainNav == 'producaoAudioVisual')?'class="active treeview"':'class="treeview"' ?>>
-          <a href="#">
-            <i class="fa fa-sitemap text-green"></i>
-            <span>Produção AudioVisual</span>
-            <span class="pull-right-container">
-            <i class="fa fa-angle-left pull-left"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <!--<li>
-              <a href="http://157.86.124.178/nova_intranet" target="_blank">
-                <i class="fa fa-circle-o text-red"></i> <span>Fluxo de Produção</span>
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-green">novo</small>
-                </span>
-              </a>
-            </li> -->
-          <!--<li <?php #echo (isset($mainNavSub) && $mainNavSub == 'sistemasMidias')?'class="active treeview"':'class="treeview"' ?>>
-              <a href="#"><i class="fa fa-circle-o text-blue"></i> Sistema de Mídias
-                <span class="pull-right-container">
-                <small class="label pull-right bg-green">novo</small><i class="fa fa-angle-left pull-right"></i>
-                </span>
-              </a>
-              <ul class="treeview-menu">
-                 <!--<li <?php #echo (isset($subMainNav) && $subMainNav == 'listarProgramas')? 'class="active"':'' ?>><a href="<?php #echo base_url('midiasController/viewLista') ?>"><i class="fa fa-circle-o text-red"></i> Programas Casa</a></li>-->
-                <!-- <li <?php# echo (isset($subMainNav) && $subMainNav == 'listarProgramasParceiros')? 'class="active"':'' ?>><a href="<?php# echo base_url('midiasParceirosController/viewProgramasParceiros') ?>"><i class="fa fa-circle-o text-red"></i> Programas Parceiros</a></li>
-              </ul>
-	    </li>-->
-
-           <!-- <li>
-            <a href="<?php echo base_url('Plataformas') ?>" target="_blank">
-              <i class="fa fa-circle-o text-yellow"></i> <span>Fluxo</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-red">antigo</small>
-              </span>
-            </a>
-          </li>-->
+          
           </ul>
-        </li>
-
-     
-
-        
-
-
-       
-       
-
-
-        
-    <!-- /.sidebar -->
-
-
-  </aside>
+        </li>  </aside>
