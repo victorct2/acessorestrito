@@ -41,10 +41,10 @@ for($i=0; $i < count($filenames); $i++){
     $ext = explode('.', basename($filenames[$i]));
     //$target = "uploads" . DIRECTORY_SEPARATOR . md5(uniqid()) . "." . array_pop($ext);
     $nomeId = md5(uniqid()) . "." . array_pop($ext);
-    $target = '/var/www/acessorestrito/uploadImagens/arquivos/' . $nomeId;
+    $target = $_SERVER['DOCUMENT_ROOT'] . '/acessorestrito/uploadImagens/arquivos/' . $nomeId;
 	//$targetPath = $_SERVER['DOCUMENT_ROOT'] . '/fundicaocamilo/upload/arquivos/'.basename($filenames[$i]);
 	//$targetFile =  str_replace('//','/',$targetPath);
-	$urlUpload = "/var/www/acessorestrito/uploadImagens/arquivos/" . $nomeId;
+	$urlUpload = $_SERVER['DOCUMENT_ROOT'] . '/acessorestrito/uploadImagens/arquivos/' . $nomeId;
 
 	/*echo $target . '<br>';
 	echo basename($filenames[$i]). '<br>';

@@ -143,7 +143,6 @@ class ImagensController extends CI_Controller {
 					copy('uploadImagens/arquivos/resized/'.$novo_nome_imagem, 'assets/img/imagens/'.$novo_nome_imagem);
 					chmod('assets/img/imagens/'.$novo_nome_imagem, 0777);
 					unlink('uploadImagens/arquivos/resized/'.$novo_nome_imagem);
-					unlink('uploadImagens/arquivos/'.$novo_nome_imagem);
 					
 				}
 
