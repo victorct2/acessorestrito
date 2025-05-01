@@ -34,33 +34,45 @@ class UploadController extends CI_Controller {
 	
 			// Carregar a biblioteca de manipulação de imagem
 			$this->load->library('image_lib');
+
+			 // Array com os diferentes tamanhos e seus diretórios
+			 $sizes = [
+				'small' => ['width' => 150, 'height' => 150, 'path' => './uploadImagens/arquivos/small/'],
+				'medium' => ['width' => 400, 'height' => 300, 'path' => './uploadImagens/arquivos/medium/'],
+				'large' => ['width' => 800, 'height' => 600, 'path' => './uploadImagens/arquivos/large/'],
+			];
+
+			foreach ($sizes as $label => $size) {
+				// Verifica e cria o diretório se necessário
+				if (!is_dir($size['path'])) {
+					mkdir($size['path'], 0755, true); // Cria com permissão 755 e recursivamente
+				}
 	
 			// Configurações para redimensionar a imagem
-			$config['image_library'] = 'gd2'; // Ou 'imagemagick', dependendo do seu servidor
-			$config['source_image'] = './uploadImagens/arquivos/' . $image_file;
-			$config['new_image'] = './uploadImagens/arquivos/resized/'; // Caminho de saída para a imagem redimensionada
-			$config['maintain_ratio'] = TRUE; // Manter a proporção
-			$config['width'] = 800; // Largura desejada
-			$config['height'] = 600; // Altura desejada
+			$config['image_library'] = 'gd2';
+            $config['source_image'] = './uploadImagens/arquivos/' . $image_file;
+            $config['new_image'] = $size['path'] . $image_file;
+            $config['maintain_ratio'] = TRUE;
+            $config['width'] = $size['width'];
+            $config['height'] = $size['height'];
 	
 			$this->image_lib->initialize($config);
 	
 			if (!$this->image_lib->resize()) {
-				$msg .= $this->image_lib->display_errors(); // Se houver erro no redimensionamento
-			} else {
-				$msg .= "<p>Imagem redimensionada com sucesso!</p>";
-			}
-	
-			// Limpa a configuração da biblioteca de imagem
-			$this->image_lib->clear();
-	
-			//$this->data_models->update($this->data->INFO, array("image" => $image_file));
-		} else {
-			$msg = $this->upload->display_errors();
-		}
-	
-		echo json_encode(['result' => $successful, 'message' => $msg, 'file_name' => $fileName]);
-	}
+                $msg .= "<p>Erro ao redimensionar ({$label}): " . $this->image_lib->display_errors() . "</p>";
+            } else {
+                $msg .= "<p>Imagem {$label} criada com sucesso!</p>";
+            }
+
+            $this->image_lib->clear();
+        }
+
+    } else {
+        $msg = $this->upload->display_errors();
+    }
+
+    echo json_encode(['result' => $successful, 'message' => $msg, 'file_name' => $fileName]);
+}
 
 	function uploadImagensMultiple(){
 

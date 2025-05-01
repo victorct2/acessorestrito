@@ -122,41 +122,89 @@ class ImagensController extends CI_Controller {
 		}
 		else{
 
-			chmod('uploadImagens/arquivos/resized/'.$imagens[0], 0777);
-			$novo_nome_imagem = $friendly_url . '.' . @end(explode(".",$imagens[0]));
-			rename( 'uploadImagens/arquivos/resized/'.$imagens[0],  'uploadImagens/arquivos/resized/'.$novo_nome_imagem);
+		$extensao = pathinfo($imagens[0], PATHINFO_EXTENSION);
+        $novo_nome_imagem = $friendly_url . '.' . $extensao;
 
-			/*
-			** Armazenando dados do formulário no Array $data
-			*/
-			$data['id'] = null;
-			$data['nome'] = $nome;
-			$data['imagem'] = $novo_nome_imagem;
-			$data['url'] = IMAGEM_IMAGENS.$novo_nome_imagem;
-			$data['ativo'] = $situacao;
-			
+        // Lista de tamanhos que foram criados
+        $pastas = ['small', 'medium', 'large'];
 
+        foreach ($pastas as $pasta) {
+            $origem = "uploadImagens/arquivos/{$pasta}/" . $imagens[0];
+            $destino = "uploadImagens/arquivos/{$pasta}/" . $novo_nome_imagem;
 
-			if($this->imagensDao_model->insertImagens($data)){
+            if (file_exists($origem)) {
+                chmod($origem, 0777);
+                rename($origem, $destino);
+            }
+        }
 
-				if(!empty($novo_nome_imagem)){
-					copy('uploadImagens/arquivos/resized/'.$novo_nome_imagem, 'assets/img/imagens/'.$novo_nome_imagem);
-					chmod('assets/img/imagens/'.$novo_nome_imagem, 0777);
-					unlink('uploadImagens/arquivos/resized/'.$novo_nome_imagem);
-					
-				}
+        
 
-				$this->session->set_flashdata('resultado_ok','Imagem <b>'.$nome.'</b> foi cadastrado com sucesso!');
-				redirect(base_url() . 'ImagensController/viewLista','refresh');
-			}
-			else {
+            // Copia a versão "large" para uso principal (ex: assets/img/imagens)
+            $caminho_large = 'uploadImagens/arquivos/large/' .  $novo_nome_imagem;
+			$dim = 'large_';
+            if (file_exists($caminho_large)) {
+                copy($caminho_large, 'assets/img/imagens/' . $dim . $novo_nome_imagem);
+                chmod('assets/img/imagens/' . $dim . $novo_nome_imagem, 0777);
+                unlink($caminho_large); // Remove do temp
+				$data['id'] = null;
+        		$data['nome'] = $dim .$nome;
+        		$data['imagem'] = $dim .$novo_nome_imagem;
+        		$data['url'] = IMAGEM_IMAGENS . $dim .$novo_nome_imagem;
+        		$data['ativo'] = $situacao;
 
-				$this->session->set_flashdata('resultado_error','Erro ao cadastrar a Imagem!');
-				redirect(base_url() . 'ImagensController/viewLista','refresh');
-			}
-
+        if ($this->imagensDao_model->insertImagens($data)) {
+            }
 		}
+			  // Copia a versão "medium" para uso principal (ex: assets/img/imagens)
+			  $caminho_medium = 'uploadImagens/arquivos/medium/' . $novo_nome_imagem;
+			  $dim = 'medium_';
+			  if (file_exists($caminho_medium)) {
+				  copy($caminho_medium, 'assets/img/imagens/' . $dim . $novo_nome_imagem);
+				  chmod('assets/img/imagens/' . $dim . $novo_nome_imagem, 0777);
+				  unlink($caminho_medium); // Remove do temp
+				  $data['id'] = null;
+        		  $data['nome'] = $dim .$nome;
+        		  $data['imagem'] = $dim .$novo_nome_imagem;
+        		  $data['url'] = IMAGEM_IMAGENS . $dim .$novo_nome_imagem;
+        		  $data['ativo'] = $situacao;
+
+        if ($this->imagensDao_model->insertImagens($data)) {
+			  }
+			  
+
+			 // Copia a versão "small" para uso principal (ex: assets/img/imagens)
+			 $caminho_small = 'uploadImagens/arquivos/small/' . $novo_nome_imagem;
+			 $dim = 'small_';
+			 if (file_exists($caminho_small)) {
+				 copy($caminho_small, 'assets/img/imagens/' . $dim . $novo_nome_imagem);
+				 chmod('assets/img/imagens/' . $dim . $novo_nome_imagem, 0777);
+				 unlink($caminho_small); // Remove do temp
+				 $data['id'] = null;
+                 $data['nome'] = $dim .$nome;
+                 $data['imagem'] = $dim .$novo_nome_imagem;
+                 $data['url'] = IMAGEM_IMAGENS . $dim .$novo_nome_imagem;
+                 $data['ativo'] = $situacao;
+
+        if ($this->imagensDao_model->insertImagens($data)) {
+            }
+			 }
+
+            // Remove a original da pasta raiz (opcional)
+            $caminho_original = 'uploadImagens/arquivos/' . $imagens[0];
+            if (file_exists($caminho_original)) {
+                unlink($caminho_original);
+            }
+
+            $this->session->set_flashdata('resultado_ok', 'Imagem <b>' . $nome . '</b> foi cadastrada com sucesso!');
+            redirect(base_url() . 'ImagensController/viewLista', 'refresh');
+
+        } else {
+            $this->session->set_flashdata('resultado_error', 'Erro ao cadastrar a Imagem!');
+            redirect(base_url() . 'ImagensController/viewLista', 'refresh');
+        }
     }
+}
 
 	public function viewAlterar($id){
 
