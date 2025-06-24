@@ -714,6 +714,23 @@ class RestritoController extends CI_Controller {
  
   
  }
+ 
+ public function registrar_download() {
+	log_message('debug', 'Método registrar_download() chamado');
+
+    if ($this->input->is_ajax_request()) {
+        $id_arquivo = (int)$this->input->post('id_arquivo');
+        #$id_user = $this->session->userdata('id_user');
+		$id_user = $this->input->post('id_user');
+		log_message('debug', "ID_ARQUIVO: $id_arquivo | ID_USER: $id_user");
+      if ($id_arquivo && $id_user) {
+            $this->load->model('RestritoDao_model');
+			$this->RestritoDao_model->marcar_como_visto($id_arquivo, $id_user);
+        }else {
+            log_message('error', 'ID de usuário ou arquivo ausente');
+        }
+    }
+}
 
  function fetch_data()
  {

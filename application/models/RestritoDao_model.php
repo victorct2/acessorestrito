@@ -323,13 +323,14 @@ function make_datatablesTipoArquivo(){
  function make_query_descr($descricao,$id_user)
  {
 	 $gruposArray = $this->session->userdata('grupos');
+	 
 	
 		
 		if(!in_array("50",$gruposArray)){
 			
 		
   $query = "
-   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
+   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user, visto, id_arquivo, nome, DATE_FORMAT(datavisto,'%d/%m/%Y') as datavisto FROM tipo_arquivo 
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
   left join usuarios on cooperado_arquivo.id_user = usuarios.id
@@ -342,7 +343,7 @@ function make_datatablesTipoArquivo(){
 	else{
 		
 	$query = "
-  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
+  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user, visto, id_arquivo, nome, DATE_FORMAT(datavisto,'%d/%m/%Y') as datavisto FROM tipo_arquivo 
   inner join arquivo_upload on arquivo_upload.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo on cooperado_arquivo.id_arquivo = arquivo_upload.id
   left join usuarios on cooperado_arquivo.id_user = usuarios.id
@@ -386,21 +387,28 @@ function make_datatablesTipoArquivo(){
   $output = '';
   if($data->num_rows() > 0)
   {
-   foreach($data->result_array() as $row)
-   {
-    $output .= '
+  foreach($data->result_array() as $row) {
+    $visto = ($row['visto'] === 'S' )   ? '<span style="color: green;">✅ Visualizado</span> por ' . $row['nome'] . ' em '. $row['datavisto'] .'' : '';
+	$output .= '
     <div class="col-sm-4 col-lg-3 col-md-3">
-     <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
-            <p align="center"><strong><a href="#"><b>'. $row['descricao'] .'</b></a></strong></p>
-            Tipo de Arquivo : <b>'. $row['descricao'] .' </b><br />      
-      Nome do Arquivo : <b>'. $row['nome_arquivo'] .' </b></p>
-     <a target=_blank href="'.base_url().RESTRITO_UPLOAD.$row['arquivo'].'">Download</a></strong></p>
-      Cadastro : <b>'. $row['Data_cadastro'] .' </b></p>
-	  <!--Excluir : <b>'. $row['id_user'] .' </b></p>-->
-      </div>
+        <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
+            <p align="center"><strong><b>' . $row['descricao'] . '</b></strong></p>
+            Tipo de Arquivo : <b>' . $row['descricao'] . '</b><br />      
+            Nome do Arquivo : <b>' . $row['nome_arquivo'] . '</b><br />
+			Cadastro : <b>' . $row['Data_cadastro'] . '</b><br />
+            <a href="#" class="download-link" 
+			data-id="' . $row['id_arquivo'] . '"
+			data-arquivo="' . base_url(RESTRITO_UPLOAD . $row['arquivo']) . '" 
+			data-visto="' . $row['visto'] . '"> Download</a><br>   
+            ' . $visto . '</b><br />
+            
+        </div>
     </div>
     ';
-   }
+	
+	
+}
+
   }
   else
   {
@@ -408,7 +416,48 @@ function make_datatablesTipoArquivo(){
   }
   return $output;
  }
+ 
 
+function marcar_como_visto($id_arquivo, $id_user) {
+$uslog = $this->session->userdata("idUsuario");
+    $this->db->where([
+        'id_arquivo' => $id_arquivo,
+        'id_user' => $id_user,
+        'visto !=' => 'S'
+    ]);
+    $existe = $this->db->get('cooperado_arquivo');
+
+    if ($existe->num_rows() > 0) {
+        $this->db->where([
+            'id_arquivo' => $id_arquivo,
+            'id_user' => $id_user
+        ]);
+		if ($id_user == $uslog){
+        $this->db->update('cooperado_arquivo', [
+            'visto' => 'S',
+            'datavisto' => date('Y-m-d'),
+            'ip' => $this->input->ip_address()
+        ]);
+		if (!$this->db->affected_rows()) {
+    log_message('error', 'NENHUM REGISTRO INSERIDO/ATUALIZADO');
+    log_message('error', 'Erro DB: ' . $this->db->last_query());
 }
+		}
+	#}else {
+        // Se não existe, insere novo registro
+     #   $this->db->insert('cooperado_arquivo', [
+      #      'id_user' => $id_user,
+       #     'id_arquivo' => $id_arquivo,
+        #    'visto' => 'S',
+         #   'datavisto' => date('Y-m-d'),
+          #  'ip' => $this->input->ip_address()
+        #]);
+    }
+}
+}
+
+
+
+
 
 ?>
