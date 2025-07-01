@@ -4,7 +4,7 @@
     $("#arquivos").fileinput({
   		language: "pt-BR",
         uploadUrl: CI_ROOT + 'uploadArquivos/uploadify.php', 
-        allowedFileExtensions : ['pdf','PDF','csv','CSV','XLSX','xlsx','TXT','txt'],
+        allowedFileExtensions : ['pdf','PDF','csv','CSV','XLSX','xlsx','TXT','txt','doc','docx','jpg','JPG','jpeg','JPEG','png','PNG'],
         /*overwriteInitial: false,*/
         uploadAsync: false,
         maxFileSize: 100000,
