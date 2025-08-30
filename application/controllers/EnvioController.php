@@ -109,27 +109,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
      public function viewAlterar($id){
-
         //$open['assetsBower'] = 'bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css,select2/dist/css/select2.min.css';
-
          $open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
-
          $open['pluginCSS'] = 'fancybox/source/jquery.fancybox.css?v=2.1.7,jqueryUi/jquery-ui.min.css';
-
          $open['assetsCSS'] = 'usuarios/usuarios-list.css';       
-
          $this->load->view('include/openDoc',$open);
-
-
-
         $data['mainNav'] = 'envio';
-
-        $data['listGrupos'] = $this->gruposDao_model->listarGrupos();       
-
+        $data['listGrupos'] = $this->gruposDao_model->listarGrupos();
         $data['usuario'] = $this->usuariosDao_model->selectUsuarioById($id);
-
         $data['id'] = $id;
-
         $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
 
         $this->load->view('paginas/envio/alterar',$data);$data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
@@ -208,25 +196,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       public function listaArquivoDataTables($id){
 
         $fetch_data = $this->EnvioDao_model->make_datatables2($id);
-
-
-
         $data = array();
 
         foreach($fetch_data as $row){
-
             $sub_array = array();
-
-            $sub_array[] = $row->nome;
-
+            $sub_array[] = $row->descr;
             $sub_array[] = $row->nome_arquivo;
-
             $sub_array[] = "<a target=_blank href=".base_url().RESTRITO_UPLOAD.$row->arquivo.">$row->arquivo</a>";
-
             $sub_array[] =  $row->Data_cadastro;
-
             $sub_array[] = '<a href="'.base_url('EnvioController/excluirArquivo/'.$row->id_arquivo).'" class="btn btn-app"><i class="fa fa-trash"></i> Excluir Arquivo</a>
-
                             ';
 
             $data[] = $sub_array;
@@ -338,46 +316,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     public function cadastrarEnvio(){            
 
         $descricao   = $this->input->post('descricao');
-
-        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;;
-
+        $arquivos = is_array($this->input->post('listaArquivo'))? $this->input->post('listaArquivo') : null;
         $idCooperado   = $this->session->userdata("idUsuario");
-
 		$nome = $this->session->userdata("nomeUsuario");
+        $TipoArquivo = $this->input->post('TipoArquivo');
 
         $mensagem = array();
 		
 		if(empty($descricao)){
-
             $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
-
         }
-
-        
-
         if(empty($arquivos)){
-
             $arquivos[] = 'O <b>arquivo</b> é Obrigatório.';
-
+        }
+        
+        if(empty($TipoArquivo)){
+            $mensagem[] = 'O <b>Tipo</b> de arquivo é Obrigatório.';
         }
         if (count($mensagem) > 0) {     
 
             $this->session->set_flashdata('mensagem',$mensagem);    
-
-            redirect(base_url() . 'EnvioController/viewCadastro','refresh');         
-
+            redirect(base_url() . 'EnvioController/viewCadastro','refresh'); 
         }       
 
         else{  
 			/*
-
             ** Armazenando dados do formulário no Array $data
-
             */      
 
             $data['id'] = null;
-
-            $data['descricao'] = $descricao;    
+            $data['descricao'] = $descricao;
+            $data['tipo_arquivo']=$TipoArquivo ;    
 
             if($this->EnvioDao_model->insertArquivo($data)){ #aqui o correto é só adicionar a referência da outra tabela (arquivo_upload)
 
@@ -397,62 +366,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 */
 
                 $searchString = " ";
-
                 $replaceString = "";
-
                 $originalString =$descricao;
 				$trataString=$outputString = str_replace($searchString, $replaceString, $originalString);
 
-                
-
-                $trataString=$outputString = str_replace($searchString, $replaceString, $originalString);
-
-                
-
                 $nome_arquivo= $descricao;  
-
                 $ext = @end(explode(".",$arquivos[0]));
-
                 $arquivo = md5($idCooperado.$trataString.$id).'.'.$ext;
 
                 //die($arquivo);                
 
-                
-
                 if($this->EnvioDao_model->completar_cadastro($nome_arquivo,$arquivo,$id)){
-
                     chmod('uploadArquivos/arquivos/'.$arquivos[0], 0777);
-
                     rename('uploadArquivos/arquivos/'.$arquivos[0],  'uploadArquivos/arquivos/'.$arquivo);
-
-                    chmod('uploadArquivos/arquivos/'.$arquivo, 0777);                     
-
+                    chmod('uploadArquivos/arquivos/'.$arquivo, 0777);                 
                     copy('uploadArquivos/arquivos/'.$arquivo, 'assets/arquivos/restrito/'.$arquivo);
-
                     unlink('uploadArquivos/arquivos/'.$arquivo);
-
-
-
                 }                               
 
-                 $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');   
-
+                 $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');  
 				$this->load->library('email');
-
                 $this->email->from("intranetcoopas@gmail.com", 'Atenção!');
-
 				$this->email->subject(" COOPAS");
-
-				$this->email->to('coopasvideo@terra.com.br');		
-
+				$this->email->to('coopasvideo@terra.com.br');	
 				$this->email->message("Olá, $nome. Inseriu um arquivo na Intranet");
-
-				$this->email->send();	
-
-                
-
-                $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');            
-
+				$this->email->send();
+                $this->session->set_flashdata('resultado_ok','Arquivo cadastrado com sucesso!');   
                 redirect(base_url() . 'EnvioController/viewCadastro','refresh'); 
 
             }
@@ -472,21 +411,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
      public function cadastrarTipoArquivo(){
-
-
-
-        
-
         $descricao = $this->input->post('descricao');
-
         $status = $this->input->post('status');
-
-        
-
         $mensagem = array();
-
-        
-
         if(empty($descricao)){
 
         $mensagem[] = "A<b>Descrição</b> é obrigatório.";
@@ -494,38 +421,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
 
         
-
         if(empty($status)){
 
         $mensagem[]="O campo <b>STATUS</b> é obrigatório.";
 
-        }
-
-        
+        }        
 
         if(count($mensagem)>0){        
 
-            $this->session->set_flashdata('mensagem',$mensagem);    
-
+            $this->session->set_flashdata('mensagem',$mensagem); 
             redirect(base_url() . 'RestritoController/viewCadastro','refresh');       
 
         }
 
         else{
-
-        
-
-            /**
-
-            * Armazenando os valores para serem gravados no BANCO
-
-            */
-
             $data['descricao'] = $descricao;
-
             $data['ativa'] = $status;
-
-            
 
             if($this->RestritoDao_model->insertTipoArquivo($data)){            
 
@@ -913,10 +824,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
     }
-
-    
-
-
-
-
-

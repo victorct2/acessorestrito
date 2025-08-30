@@ -37,13 +37,7 @@ return $this->db->get()->result();
 		$this->db->where('id', $id);
 		return $this->db->get('usuarios')->result();	
     }
-	/*
-	** Adicionar Figurino
-    */
 
-    /*function insertArquivo($data){	
-		return $this->db->insert('arquivo_upload',$data);	
-	}*/
 	
 	function insertArquivo($data){	
 		return $this->db->insert('arquivo_upload_usuario',$data);	
@@ -157,21 +151,29 @@ return $this->db->get()->result();
 		return $this->db->count_all_results();  
     }
     function selectArquivoUsuario($id=0){
-		$order_column = array("nome as descr","arquivo_upload_usuario.nome_arquivo","arquivo_upload_usuario.arquivo","arquivo_upload_usuario.Data_cadastro");
+		#$order_column = array("nome as descr","arquivo_upload_usuario.nome_arquivo","arquivo_upload_usuario.arquivo","arquivo_upload_usuario.Data_cadastro");
+		$order_column = array("tipo_arquivo.descricao as descr","arquivo_upload.nome_arquivo","arquivo_upload.arquivo","arquivo_upload.Data_cadastro");
+		
 		$this->db->select('nome, login, id_user,id_arquivo,nome_arquivo, arquivo, arquivo_upload_usuario.Descricao, Data_cadastro, tipo_arquivo.descricao as descr, tipo_arquivo.id as  id');
 		$this->db->from('cooperado_arquivo_envio');
 		$this->db->order_by('Data_cadastro','desc');
 		$this->db->join('usuarios','cooperado_arquivo_envio.id_user = usuarios.id');
 		$this->db->join('arquivo_upload_usuario','cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id');
 		$this->db->join('tipo_arquivo','arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id','left');
+		
 		$gruposArray = $this->session->userdata('grupos');
+		
 		if(!in_array("50",$gruposArray)){
 			$id_user = $this->session->userdata('idUsuario');
 			$this->db->where('usuarios.id',$id_user);
 		}else{			$this->db->where('cooperado_arquivo_envio.id_user',$id);
 		}
+		
+		#if(!empty($_POST['columns'][1]["search"]["value"])){
+		#	$this->db->like("nome", $_POST['columns'][1]["search"]["value"]);  
+		#}
 		if(!empty($_POST['columns'][1]["search"]["value"])){
-			$this->db->like("nome", $_POST['columns'][1]["search"]["value"]);  
+			$this->db->like("tipo_arquivo.descricao", $_POST['columns'][1]["search"]["value"]);  
 		}
 		if(!empty($_POST['columns'][2]["search"]["value"])){
 			$this->db->like("nome_arquivo", $_POST['columns'][2]["search"]["value"]);

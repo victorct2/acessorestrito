@@ -60,11 +60,32 @@
               <!--<button type="submit" class="btn btn-primary">Cadastrar</button>-->
 
             </div>
+            <div class="col-md-6">
+               
+            
+
+              <div class="form-group">
+                <label>Tipo de Arquivo</label>
+                <select name="TipoArquivo" class="form-control select2" style="width: 100%;">                  
+                  <?php foreach ($listTipoArquivo as $TipoArquivo) { ?>
+                      <option value="<?php echo $TipoArquivo->id ?>" ><?php echo $TipoArquivo->descricao ?></option>
+                  <?php } ?>                  
+                </select>
+              </div>
+
+          
+
+              <!--<button type="submit" class="btn btn-primary">Cadastrar</button>-->
+
+            </div>
             <!-- /.col -->
           </div>
           <!-- /.row -->
+           
         </div>
+        
         <!-- /.box-body -->
+         
         
       </div>
       <!-- /.box -->
