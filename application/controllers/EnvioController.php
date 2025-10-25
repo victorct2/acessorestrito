@@ -27,20 +27,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
    public function viewLista(){
+        //$open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css';
         $open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
         $open['pluginCSS'] = 'fancybox/source/jquery.fancybox.css?v=2.1.7,jqueryUi/jquery-ui.min.css';
         $open['assetsCSS'] = 'usuarios/usuarios-list.css';
         $this->load->view('include/openDoc',$open);
+
         $data['mainNav'] = 'envio';      
-        $data['listGrupos'] = $this->EnvioDao_model->listarGrupos();		
+        $data['listGrupos'] = $this->EnvioDao_model->listarGrupos();
+        
         $this->load->view('paginas/envio/lista',$data);
+
+      
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
         $footer['assetsJs'] = 'envio/usuarios-home.js';
         $this->load->view('include/footer',$footer);
-
     }
-
+    
+    
    public function viewCadastroArquivo(){
     if(!$this->session->userdata('logged_in')){
 
@@ -98,7 +103,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $data['id'] = $id;
         $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
 
-        $this->load->view('paginas/envio/alterar',$data);$data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
+        $this->load->view('paginas/envio/alterar',$data);
+        $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
 
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
@@ -123,7 +129,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $sub_array[] = $row->nome;
             $sub_array[] = $row->login;
             $sub_array[] = $row->email;
-            $sub_array[] = '<a href="'.base_url('EnvioController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+            #$sub_array[] = '<a href="'.base_url('EnvioController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
+            $sub_array[] = '<a href="'.base_url('EnvioController/index/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
 
                             ';
 
@@ -430,7 +437,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $data['usuario'] = $this->EnvioDao_model->selectUsuarioById($id);
         $data['id'] = $id;
       
-        $this->load->view('paginas/envio/alterar',$data);
+        #$this->load->view('paginas/envio/alterar',$data);
+        ###Novo
+        $this->load->view('paginas/envio/product_filter', $data);
+        ###
         $footer['assetsJs'] = 'envio/usuarios-list.js';
         $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
  }
@@ -475,4 +485,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     echo json_encode($output);
     }
+    public function registrar_download() {
+	log_message('debug', 'Método registrar_download() chamado');
+
+    if ($this->input->is_ajax_request()) {
+        $id_arquivo = (int)$this->input->post('id_arquivo');
+        #$id_user = $this->session->userdata('id_user');
+		$id_user = $this->input->post('id_user');
+		log_message('debug', "ID_ARQUIVO: $id_arquivo | ID_USER: $id_user");
+      if ($id_arquivo && $id_user) {
+            $this->load->model('RestritoDao_model');
+			$this->RestritoDao_model->marcar_como_visto($id_arquivo, $id_user);
+        }else {
+            log_message('error', 'ID de usuário ou arquivo ausente');
+        }
     }
+    }
+    }
+
+    
+
+
+
+
+
