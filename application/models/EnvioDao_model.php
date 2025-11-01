@@ -328,15 +328,15 @@ function make_datatablesTipoArquivo(){
    $query .= "
    
     AND tipo_arquivo.descricao in('".$descricao_filter."')
-	ORDER BY cooperado_arquivo_envio.id desc
+	
 	
 	
    ";
   }
-
-  
+  $query .= "
+  ORDER BY cooperado_arquivo_envio.id desc ";
   return $query;
- }
+}
 
  
  function count_all($descricao,$id_user )
