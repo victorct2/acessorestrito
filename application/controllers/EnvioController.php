@@ -231,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
         }
         if(empty($arquivos)){
-            $arquivos[] = 'O <b>arquivo</b> é Obrigatório.';
+            $mensagem[] = 'O <b>arquivo</b> é Obrigatório.';
         }
         
         if(empty($TipoArquivo)){
@@ -485,6 +485,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     echo json_encode($output);
     }
+    public function ocultar_arquivo($id_arquivo)
+{
+    // Atualiza o status para N (oculto)
+    $this->db->where('id_arquivo', $id_arquivo);
+    $this->db->update('cooperado_arquivo_envio', [
+        'statusArquivo' => 'N'
+    ]);
+
+    // Mensagem de sucesso
+    $this->session->set_flashdata('msg',
+        '<div class="alert alert-warning">Arquivo ocultado com sucesso!</div>'
+    );
+
+    // Retornar para a página anterior
+    if(isset($_SERVER['HTTP_REFERER'])) {
+        redirect($_SERVER['HTTP_REFERER']);
+    } else {
+        redirect(base_url("EnvioController"));
+    }
+}
+
     public function registrar_download() {
 	log_message('debug', 'Método registrar_download() chamado');
 
@@ -502,10 +523,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
     }
     }
-
-    
-
-
-
-
-

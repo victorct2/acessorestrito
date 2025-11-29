@@ -61,7 +61,9 @@
             filter_data(1);
 
             function filter_data(page) {
-                $('.filter_data').html('<div id="loading" style=""></div>');
+                $('.filter_data')
+                .css('opacity', '0.3')
+                .html('<div id="loading"></div>');
                 var action = 'fetch_data';
                 var descricao = get_filter('descricao');
                 var id = $("#id_usuario").val();
@@ -72,7 +74,8 @@
                     dataType: "JSON",
                     data: { action: action, descricao: descricao, id: id },
                     success: function(data) {
-                        $('.filter_data').html(data.product_list);
+                        $('.filter_data').css('opacity', '1').html(data.product_list);
+
                         $('#pagination_link').html(data.pagination_link);
                     }
                 });
@@ -86,11 +89,17 @@
                 return filter;
             }
 
-            $(document).on('click', '.pagination li a', function(event) {
-                event.preventDefault();
-                var page = $(this).data('ci-pagination-page');
-                filter_data(page);
+           $(document).on('click', '.pagination li a', function(event) {
+             event.preventDefault();
+            var page = $(this).data('ci-pagination-page');
+
+            if (!page || page === '') return;
+
+            $("html, body").animate({ scrollTop: 0 }, 200); // sobe a tela
+
+            filter_data(page);
             });
+
 
             $('.common_selector').click(function() {
                 filter_data(1);
@@ -134,5 +143,51 @@
             });
         });
     </script>
+<style>
+    /* Container centralizado */
+    #pagination_link .pagination {
+    justify-content: center !important;
+    margin: 20px auto;
+}
+
+    /* Padrão de paginação moderno */
+    .pagination li {
+        display: inline-block;
+        margin: 0 3px;
+    }
+
+    .pagination li a, .pagination li span {
+        border-radius: 6px !important;
+        padding: 8px 14px;
+        text-decoration: none !important;
+        border: 1px solid #ddd;
+        color: #0056b3;
+        background: #fff;
+        transition: 0.2s;
+        font-size: 14px;
+    }
+
+    /* Hover */
+    .pagination li a:hover {
+        background: #e8f1ff;
+        border-color: #b8d6ff;
+    }
+
+    /* Página ativa */
+    .pagination li.active span {
+        background: #0056b3;
+        border-color: #003f80;
+        color: white !important;
+        font-weight: bold;
+    }
+
+    /* Desabilitados */
+    .pagination li.disabled span {
+        color: #999 !important;
+        border-color: #ddd !important;
+        background: #f8f8f8 !important;
+    }
+</style>
+
 
 </div> <!-- /wrapper -->

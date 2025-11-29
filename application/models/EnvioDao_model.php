@@ -300,11 +300,11 @@ function make_datatablesTipoArquivo(){
 			
 		
   $query = "
-   SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
+   SELECT tipo_arquivo.descricao, arquivo_upload_usuario.id AS id_arquivo,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user, statusArquivo FROM tipo_arquivo 
   inner join arquivo_upload_usuario on arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo_envio on cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id
   left join usuarios on cooperado_arquivo_envio.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo_envio.id_user in('".$this->session->userdata("idUsuario")."', 0  )
+  WHERE ativa = 'S'  and statusArquivo='S'   and cooperado_arquivo_envio.id_user in('".$this->session->userdata("idUsuario")."', 0  )
   
   ";
 
@@ -313,11 +313,11 @@ function make_datatablesTipoArquivo(){
 	else{
 		
 	$query = "
-  SELECT tipo_arquivo.descricao,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user FROM tipo_arquivo 
+  SELECT tipo_arquivo.descricao, arquivo_upload_usuario.id AS id_arquivo,tipo_arquivo.id,nome_arquivo, arquivo, ativa, DATE_FORMAT(Data_cadastro,'%d/%m/%Y') as Data_cadastro, id_user, statusArquivo FROM tipo_arquivo 
   inner join arquivo_upload_usuario on arquivo_upload_usuario.tipo_arquivo = tipo_arquivo.id
   inner join cooperado_arquivo_envio on cooperado_arquivo_envio.id_arquivo = arquivo_upload_usuario.id
   left join usuarios on cooperado_arquivo_envio.id_user = usuarios.id
-  WHERE ativa = 'S'    and cooperado_arquivo_envio.id_user in ('".$id_user."',0)  ";
+  WHERE ativa = 'S' and statusArquivo='S'    and cooperado_arquivo_envio.id_user in ('".$id_user."',0)  ";
 		
 		
 	}
@@ -346,40 +346,56 @@ function make_datatablesTipoArquivo(){
   return $data->num_rows();
  }
 
- function fetch_data($limit, $start, $descricao,$id_user)
- {
-  $query = $this->make_query_descr($descricao,$id_user );
+function fetch_data($limit, $start, $descricao, $id_user)
+{
+    $query = $this->make_query_descr($descricao, $id_user);
+    $query .= ' LIMIT '.$start.', ' . $limit;
 
-  $query .= ' LIMIT '.$start.', ' . $limit;
+    $data = $this->db->query($query);
+    $output = '';
 
-  $data = $this->db->query($query);
+    if ($data->num_rows() > 0)
+    {
+        foreach ($data->result_array() as $row)
+        {
+            // só exibe quando statusArquivo = 'S'
+            if (!isset($row['statusArquivo'])) {
+                continue;
+            }
 
-  $output = '';
-  if($data->num_rows() > 0)
-  {
-   foreach($data->result_array() as $row)
-   {
-    $output .= '
-    <div class="col-sm-4 col-lg-3 col-md-3">
-     <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
-            <p align="center"><strong><a href="#"><b>'. $row['descricao'] .'</b></a></strong></p>
-            Tipo de Arquivo : <b>'. $row['descricao'] .' </b><br />      
-      Nome do Arquivo : <b>'. $row['nome_arquivo'] .' </b></p>
-     <a target=_blank href="'.base_url().RESTRITO_UPLOAD.$row['arquivo'].'">Download</a></strong></p>
-      Cadastro : <b>'. $row['Data_cadastro'] .' </b></p>
-	  Cadastro : <b>'. $row['id_user'] .' </b></p>
-      </div>
-    </div>
-    ';
-   }
-  }
-  else
-  {
-   $output = '<h3>Tipo de arquivo não encontrado</h3>';
-  }
-  return $output;
- }
+            // usar id_arquivo (id real do arquivo) no link de ocultar
+            $id_arquivo = isset($row['id_arquivo']) ? $row['id_arquivo'] : $row['id'];
+
+            $output .= '
+            <div class="col-sm-4 col-lg-3 col-md-3">
+                <div style="border:1px solid #ccc; border-radius:5px; padding:16px; margin-bottom:16px; height:450px;">
+                    <p align="center"><strong><a href="#"><b>'. $row['descricao'] .'</b></a></strong></p>
+                    Tipo de Arquivo : <b>'. $row['descricao'] .' </b><br />
+                    Nome do Arquivo : <b>'. $row['nome_arquivo'] .' </b><br/><br/>
+                    <a target="_blank" href="'. base_url().RESTRITO_UPLOAD.$row['arquivo'] .'">Download</a><br/><br/>
+                    Cadastro : <b>'. $row['Data_cadastro'] .' </b><br/>
+                    Usuário : <b>'. $row['id_user'] .' </b><br/><br/>
+
+                    <!-- BOTÃO DE OCULTAR -->
+                    <a href="'. base_url("EnvioController/ocultar_arquivo/".$id_arquivo) .'"
+                       onclick="return confirm(\'Deseja excluir este arquivo?\');"
+                       class="btn btn-warning btn-sm"
+                       style="width: 100%; font-weight: bold;">
+                        Excluir arquivo
+                    </a>
+                </div>
+            </div>
+            ';
+        }
+    }
+    else
+    {
+        $output = '<h3>Tipo de arquivo não encontrado</h3>';
+    }
+
+    return $output;
+}
+
 
 }
 
-?>
