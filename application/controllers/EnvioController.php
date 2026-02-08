@@ -27,25 +27,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     }
 
    public function viewLista(){
-        //$open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css';
         $open['assetsBower'] = 'datatables.net-bs/css/dataTables.bootstrap.min.css,select2/dist/css/select2.min.css';
         $open['pluginCSS'] = 'fancybox/source/jquery.fancybox.css?v=2.1.7,jqueryUi/jquery-ui.min.css';
         $open['assetsCSS'] = 'usuarios/usuarios-list.css';
         $this->load->view('include/openDoc',$open);
-
         $data['mainNav'] = 'envio';      
-        $data['listGrupos'] = $this->EnvioDao_model->listarGrupos();
-        
+        $data['listGrupos'] = $this->EnvioDao_model->listarGrupos();		
         $this->load->view('paginas/envio/lista',$data);
-
-      
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
         $footer['assetsJs'] = 'envio/usuarios-home.js';
         $this->load->view('include/footer',$footer);
+
     }
-    
-    
+
    public function viewCadastroArquivo(){
     if(!$this->session->userdata('logged_in')){
 
@@ -103,8 +98,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $data['id'] = $id;
         $data['listTipoArquivo'] = $this->EnvioDao_model->listarSituacao();
 
-        $this->load->view('paginas/envio/alterar',$data);
-        $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
+        $this->load->view('paginas/envio/alterar',$data);$data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
         $footer['assetsJsBower'] = 'moment/min/moment.min.js,datatables.net/js/jquery.dataTables.min.js,datatables.net-bs/js/dataTables.bootstrap.min.js,select2/dist/js/select2.full.min.js';
 
         $footer['pluginJS'] = 'fancybox/source/jquery.fancybox.pack.js?v=2.1.7,fancybox/source/helpers/jquery.fancybox-media.js?v=1.0.6,jqueryUi/jquery-ui.min.js';
@@ -129,7 +123,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $sub_array[] = $row->nome;
             $sub_array[] = $row->login;
             $sub_array[] = $row->email;
-            #$sub_array[] = '<a href="'.base_url('EnvioController/viewAlterar/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
             $sub_array[] = '<a href="'.base_url('EnvioController/index/'.$row->id).'" class="btn btn-app"><i class="fa fa-file"></i> Listar Arquivos</a>
 
                             ';
@@ -231,7 +224,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $mensagem[] = 'A <b>DESCRIÇÃO</b> do arquivo é Obrigatória.';
         }
         if(empty($arquivos)){
-            $mensagem[] = 'O <b>arquivo</b> é Obrigatório.';
+            $mensagem[] = 'O <b>arquivo</b> é Obrigatório. Após selecionar o arquivo, é <b>necessário clicar no botão ANEXAR</b>.';
         }
         
         if(empty($TipoArquivo)){
@@ -437,10 +430,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $data['usuario'] = $this->EnvioDao_model->selectUsuarioById($id);
         $data['id'] = $id;
       
-        #$this->load->view('paginas/envio/alterar',$data);
-        ###Novo
-        $this->load->view('paginas/envio/product_filter', $data);
-        ###
+        $this->load->view('paginas/envio/product_filter',$data);
         $footer['assetsJs'] = 'envio/usuarios-list.js';
         $data['listArquivoUsuario'] = $this->EnvioDao_model->selectArquivoUsuario($id);
  }
@@ -485,7 +475,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     echo json_encode($output);
     }
-    public function ocultar_arquivo($id_arquivo)
+	public function ocultar_arquivo($id_arquivo)
 {
     // Atualiza o status para N (oculto)
     $this->db->where('id_arquivo', $id_arquivo);
@@ -505,8 +495,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         redirect(base_url("EnvioController"));
     }
 }
-
-    public function registrar_download() {
+	public function registrar_download() {
 	log_message('debug', 'Método registrar_download() chamado');
 
     if ($this->input->is_ajax_request()) {
@@ -522,4 +511,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
     }
     }
+	
     }

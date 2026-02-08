@@ -20,6 +20,7 @@ class RestritoController extends CI_Controller {
         $this->load->model('usuariosDao_model');
         $this->load->model('gruposDao_model');
         $this->load->model('programasDao_model');
+		
 
 
     }
@@ -44,6 +45,7 @@ class RestritoController extends CI_Controller {
         $footer['assetsJs'] = 'restrito/usuarios-home.js';
         $this->load->view('include/footer',$footer);
     }
+    
    public function viewCadastroArquivo(){
     if(!$this->session->userdata('logged_in')){
             redirect(base_url() . 'Login', 'refresh');
@@ -249,7 +251,7 @@ class RestritoController extends CI_Controller {
         }
         
         if(empty($arquivos)){
-            $arquivos[] = 'O <b>arquivo</b> é Obrigatório.';
+            $mensagem[] = 'O <b>arquivo</b> é Obrigatório. Após selecionar o arquivo, é <b>necessário clicar no botão ANEXAR</b>.';
         }
         
         
@@ -714,8 +716,7 @@ class RestritoController extends CI_Controller {
  
   
  }
- 
- public function registrar_download() {
+public function registrar_download() {
 	log_message('debug', 'Método registrar_download() chamado');
 
     if ($this->input->is_ajax_request()) {
@@ -773,8 +774,26 @@ class RestritoController extends CI_Controller {
   );
   echo json_encode($output);
  }
+ public function ocultar_arquivo($id_arquivo)
+{
+    // Atualiza o status para N (oculto)
+    $this->db->where('id_arquivo', $id_arquivo);
+    $this->db->update('cooperado_arquivo', [
+        'statusArquivo' => 'N'
+    ]);
+
+    // Mensagem de sucesso
+    $this->session->set_flashdata('msg',
+        '<div class="alert alert-warning">Arquivo ocultado com sucesso!</div>'
+    );
+
+    // Retornar para a página anterior
+    if(isset($_SERVER['HTTP_REFERER'])) {
+        redirect($_SERVER['HTTP_REFERER']);
+    } else {
+        redirect(base_url("RestritoController"));
+    }
+}
 
     }
     
-
-
