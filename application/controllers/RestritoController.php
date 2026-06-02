@@ -328,7 +328,7 @@ class RestritoController extends CI_Controller {
 				$this->email->subject(" COOPAS");
 				$this->email->to($email);		
 				#$this->email->message("Olá, $nome. O arquivo $descricao está disponível e pode ser acessado em  http://intranet.coopas.tv.br");
-				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://intranet.coopas.tv.br. Através do menu 'Acesso Restrito -> Lista'");
+				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://coopas.tv.br/acessorestrito/. Através do menu 'Acesso Restrito -> Lista'");
 				$this->email->send();	
 				
 				
@@ -420,7 +420,7 @@ class RestritoController extends CI_Controller {
 				$this->email->subject(" COOPAS");
 				$this->email->to($email);		
 				#$this->email->message("Olá, $nome. O arquivo $descricao está disponível e pode ser acessado em  http://intranet.coopas.tv.br");
-				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://intranet.coopas.tv.br. Através do menu 'Acesso Restrito -> Lista'");
+				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://coopas.tv.br/acessorestrito/. Através do menu 'Acesso Restrito -> Lista'");
 				$this->email->send();		
 				
 				#if ( ! $this->email->send()) {
@@ -532,7 +532,7 @@ class RestritoController extends CI_Controller {
 				$this->email->subject(" COOPAS");
 				$this->email->to($email);		
 				#$this->email->message("Olá, $nome. O arquivo $descricao está disponível e pode ser acessado em  http://intranet.coopas.tv.br");
-				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://intranet.coopas.tv.br. Através do menu 'Acesso Restrito -> Lista'");
+				$this->email->message("Olá, $nome. $descricao  pode ser acessado em  https://coopas.tv.br/acessorestrito/. Através do menu 'Acesso Restrito -> Lista'");
 				$this->email->send();	
 				
 				
